@@ -265,6 +265,12 @@ button.setting-help:hover,button.setting-help:focus-visible{background:#b5e6ef;c
         <select id="printLayer"><option value="all">Görünür katmanları birleştir</option></select>
         <small class="note print-note" id="printLayerNote" hidden></small>
         <div class="print-field"><span class="setting-name"><label for="printWidth">SVG tuval genişliği</label><button id="help-printWidth" type="button" class="setting-help" data-setting-help="printWidth" aria-label="SVG tuval genişliği hakkında yardım" aria-description="Tuvalin tamamının milimetre karşılığıdır. Logo tuvalin içindeyse daha küçük olabilir. Dolgunun boyutu satırından gerçek logo genişliğine bakın.">?</button></span><span class="print-number"><input type="number" id="printWidth" value="100" min="1" max="1000" step="0.1">mm</span></div>
+        <div class="print-row">
+          <div class="print-field"><span class="setting-name"><label for="printProfile">3D baskı profili</label></span><select id="printProfile"><option value="custom">Özel</option><option value="fdm04" selected>FDM 0.4 mm nozzle</option><option value="fdm06">FDM 0.6 mm nozzle</option><option value="detail">Detay baskı</option><option value="preserve">Şekli koru</option></select></div>
+          <div class="print-field"><span class="setting-name"><label for="printNozzle">Nozzle çapı</label></span><span class="print-number"><input type="number" id="printNozzle" value="0.4" min="0.2" max="1.2" step="0.05">mm</span></div>
+        </div>
+        <span class="setting-name check-setting"><label class="check"><input type="checkbox" id="printHoleGuard" checked>İç delikleri ve ince boşlukları koru</label></span>
+        <span class="setting-name check-setting"><label class="check"><input type="checkbox" id="printOverlap" checked>Çakışan katmanları otomatik birleştir</label></span>
         <div class="setting-name print-preserve-row"><button id="printPreserve" type="button" aria-pressed="false">Baskıda şekli koru</button><button id="help-printPreserve" type="button" class="setting-help" data-setting-help="printPreserve" aria-label="Baskıda şekli koru hakkında yardım" aria-description="Her iki onarımı Sadece ölç yapar ve küçük ada filtresini 0’a indirir. Uygun tek katmanda mevcut vektör eğrilerini korur. Birleştirme veya kırpma gerekiyorsa yüksek çözünürlükte kontur üretir.">?</button></div>
         <div>
           <div class="print-field"><span class="setting-name"><label for="printWall">Minimum et kalınlığı</label><button id="help-printWall" type="button" class="setting-help" data-setting-help="printWall" aria-label="Minimum et kalınlığı hakkında yardım" aria-description="Bu genişliğin altındaki dolu bölgeler ince kabul edilir. Kontur boyunca kalınlaştır seçilirse bu bölgeler genişletilir. Değeri dilimleyicideki çizgi genişliğine göre belirleyin.">?</button></span><span class="print-number"><input type="number" id="printWall" value="0.8" min="0.1" max="20" step="0.05">mm</span></div>
@@ -1232,6 +1238,7 @@ function originalPrintPaths(layers,w,h){
 function preparePrint({drawingWidth,drawingHeight,layerWidth,layers,options}){
   const widest=Math.max(drawingWidth,drawingHeight);
   const detail=Math.min(options.wall,options.gap||Infinity);
+  if(options.holeGuard)options.gapAction='none';
   const preserve=preservesPrintShape(options.wallAction,options.gapAction,options.island);
   const originalVectors=preserve?originalPrintPaths(layers,layerWidth,drawingHeight):null;
   const target=Math.min(2400,Math.max(420,widest*(preserve&&!originalVectors?2:1),Math.ceil(options.width*7/detail*widest/drawingWidth)));
@@ -1486,7 +1493,9 @@ function printSpec(){
   const read=id=>clamp(Number($(id).value||$(id).getAttribute('value')),Number($(id).min),Number($(id).max));
   const options={
     width:read('printWidth'),wall:read('printWall'),gap:read('printGap'),island:read('printIsland'),
-    wallAction:$('printWallAction').value,gapAction:$('printGapAction').value
+    wallAction:$('printWallAction').value,gapAction:$('printGapAction').value,
+    nozzle:read('printNozzle'),holeGuard:$('printHoleGuard').checked,overlap:$('printOverlap').checked,
+    profile:$('printProfile').value
   };
   return {drawingWidth:printDrawingWidth(),drawingHeight:model.h,layerWidth:model.w,layers,options};
 }
@@ -1555,8 +1564,9 @@ function serializePrint(p){
   if(!p?.paths.length)return '';
   return [
     '<?xml version="1.0" encoding="UTF-8"?>',
-    '<svg xmlns="http://www.w3.org/2000/svg" width="'+fmt(p.widthMm)+'mm" height="'+fmt(p.heightMm)+'mm" viewBox="0 0 '+p.w+' '+p.h+'">',
-    ...p.paths.map(path=>'  <path fill="#000000" fill-rule="nonzero" d="'+path+'"/>'),
+    '<!-- VektorStudyo 3D baski: kapali kontur, union/onluk temizleme, mm olcek -->',
+    '<svg xmlns="http://www.w3.org/2000/svg" width="'+fmt(p.widthMm)+'mm" height="'+fmt(p.heightMm)+'mm" viewBox="0 0 '+p.w+' '+p.h+'" shape-rendering="geometricPrecision">',
+    ...p.paths.map(path=>'  <path fill="#000000" fill-rule="evenodd" d="'+path+'"/>'),
     '</svg>',''
   ].join('\n');
 }
@@ -1625,7 +1635,8 @@ function goToWorkflow(step){
   workflowStep=step;
   if(step===4&&!outputVisited){
     outputVisited=true;
-    $('printPreserve').click();
+    $('printProfile').value='fdm04';
+    applyPrintProfile('fdm04');
   }
   if(printEnabled()!==(step===4)){
     $('printMode').checked=step===4;$('printMode').onchange();
@@ -2587,8 +2598,41 @@ function printSettingsChanged(){
   $('printPreserve').setAttribute('aria-pressed',String(preserve));
   resetPrint();busy();scheduleRender();
 }
+$('printProfile').onchange=()=>applyPrintProfile($('printProfile').value);
+$('printNozzle').oninput=()=>{
+  const nozzle=clamp(Number($('printNozzle').value||0.4),0.2,1.2);
+  if($('printProfile').value!=='custom'){
+    $('printProfile').value='custom';
+  }
+  $('printWall').value=(nozzle*2).toFixed(2);
+  $('printGap').value=(nozzle*1.5).toFixed(2);
+  printSettingsChanged();
+};
+$('printHoleGuard').onchange=printSettingsChanged;
+$('printOverlap').onchange=printSettingsChanged;
+function applyPrintProfile(profile){
+  const preset={
+    fdm04:{nozzle:.4,wall:.8,gap:.6,island:.05,wallAction:'grow',gapAction:'close',holeGuard:true,overlap:true},
+    fdm06:{nozzle:.6,wall:1.2,gap:.8,island:.08,wallAction:'grow',gapAction:'close',holeGuard:true,overlap:true},
+    detail:{nozzle:.4,wall:.6,gap:.4,island:.02,wallAction:'grow',gapAction:'close',holeGuard:true,overlap:true},
+    preserve:{nozzle:.4,wall:.8,gap:.6,island:0,wallAction:'none',gapAction:'none',holeGuard:true,overlap:true},
+    custom:null
+  }[profile];
+  if(!preset)return printSettingsChanged();
+  $('printNozzle').value=preset.nozzle;
+  $('printWall').value=preset.wall;
+  $('printGap').value=preset.gap;
+  $('printIsland').value=preset.island;
+  $('printWallAction').value=preset.wallAction;
+  $('printGapAction').value=preset.gapAction;
+  $('printHoleGuard').checked=preset.holeGuard;
+  $('printOverlap').checked=preset.overlap;
+  printSettingsChanged();
+}
 $('printPreserve').onclick=()=>{
+  $('printProfile').value='preserve';
   $('printWallAction').value='none';$('printGapAction').value='none';$('printIsland').value='0';
+  $('printHoleGuard').checked=true;
   printSettingsChanged();
 };
 $('printMode').onchange=()=>{
@@ -2603,7 +2647,7 @@ $('printMode').onchange=()=>{
   document.querySelectorAll('button[data-tool]').forEach(btn=>{btn.disabled=enabled&&btn.dataset.tool!=='v';});
   camera={zoom:1,center:null};printSettingsChanged();
 };
-for(const id of ['printLayer','printWidth','printWall','printGap','printIsland','printWallAction','printGapAction']){
+for(const id of ['printLayer','printWidth','printWall','printGap','printIsland','printWallAction','printGapAction','printNozzle']){
   const el=$(id);
   el.addEventListener(el.tagName.toLowerCase()==='select'?'change':'input',printSettingsChanged);
   if(el.tagName.toLowerCase()!=='select')el.addEventListener('change',()=>{
