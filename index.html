@@ -1,0 +1,2699 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; img-src blob: data:; worker-src blob:; connect-src 'none'; base-uri 'none'; form-action 'none'">
+<title>VektörStüdyo — Fotoğraftan SVG’ye</title>
+<style>
+:root{color-scheme:dark;--body:#131519;--panel:#191b20;--line:#2b2e36;--muted:#a9aeba;--text:#f4f5f7;--green:#d3fa77;--ink:#161911;--accent:#c7ee6e;font:14px/1.45 system-ui,-apple-system,"Segoe UI",sans-serif}
+*{box-sizing:border-box}body{margin:0;background:var(--body);color:var(--text);min-width:300px}button,input,select{font:inherit}button,select{color:inherit;border:1px solid var(--line);background:#22252c;border-radius:7px;padding:7px 10px}button{cursor:pointer;white-space:nowrap}button:hover,select:hover{border-color:#626975;background:#30343d}button:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid var(--green);outline-offset:2px}button:disabled{opacity:.38;cursor:default}.primary{background:var(--green);color:var(--ink);border-color:var(--green);font-weight:750}.primary:hover{background:#e3ffad;color:var(--ink);border-color:#e3ffad}button[aria-pressed=true]{background:#303927;border-color:#687749;color:#e0ff9e}button svg,.symbol svg{height:17px;width:17px;vertical-align:middle;flex:none}button{display:inline-flex;align-items:center;justify-content:center;gap:7px}select{min-width:0}input[type=checkbox],input[type=range]{accent-color:var(--accent)}input[type=range]{margin:0;width:100%;height:17px;cursor:pointer}input[type=color]{width:34px;height:26px;border:1px solid #515661;padding:2px;background:none;border-radius:5px;cursor:pointer}[hidden]{display:none!important}
+header{height:70px;display:flex;align-items:center;justify-content:space-between;gap:18px;padding:0 24px;border-bottom:1px solid var(--line);background:#17191d}.brand,.header-actions,.row{display:flex;align-items:center;gap:9px}.brand{gap:12px}.brand-mark{border-radius:10px;width:38px;height:38px;color:#222a15;background:var(--green);display:grid;place-items:center}.brand-mark svg{width:23px;height:23px}.brand strong{font-size:19px;letter-spacing:-.45px;display:block;line-height:1.1}.brand small{font-size:11px;color:var(--muted)}
+main{display:grid;grid-template-columns:344px minmax(0,1fr);height:calc(100dvh - 70px);min-height:570px}.sidebar{min-width:0;overflow:auto;background:var(--panel);border-right:1px solid var(--line);scrollbar-width:thin}.section{padding:17px 17px 16px;border-bottom:1px solid var(--line)}.section h2{font-size:13px;margin:0 0 13px;font-weight:740;display:flex;align-items:center;gap:8px}.section h2 .symbol{color:var(--accent)}.drop{display:grid;justify-items:center;text-align:center;gap:4px;padding:12px 8px 10px;border:1px dashed #4d5361;border-radius:9px;background:#202229}.drop.drag-active{background:#2b3224;border-color:var(--green)}.drop .symbol{color:var(--accent);margin-bottom:1px}.drop small,.note{color:var(--muted);font-size:11px}.drop strong{font-size:12px}.drop .row{margin-top:6px}.drop button{font-size:11px;padding:5px 8px}.file{display:block;margin-top:8px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.section select{width:100%}.range{display:grid;grid-template-columns:1fr auto;gap:3px 8px;margin:8px 0 0;font-size:12px}.range input{grid-column:1/-1}.range output{font-size:11px;color:#e1e6ed;background:#292d35;padding:1px 6px;min-width:33px;text-align:center;border-radius:4px;font-variant-numeric:tabular-nums}.check{display:flex;align-items:flex-start;gap:6px;margin:8px 0;font-size:12px}.check input{margin:3px 2px 0 0}.label{margin-top:11px;font-size:12px;display:block}.label select{margin-top:4px}.palette{margin:5px 0;display:flex;align-items:center;gap:6px;flex-wrap:wrap}.swatch{border-radius:50%;width:20px;height:20px;padding:0;background:var(--swatch);border:1px solid #68707d}.swatch:hover,.swatch[aria-pressed=true]{background:var(--swatch);border-color:white;outline:1px solid var(--green);outline-offset:1px}.chip{font-size:11px;padding:4px 6px;gap:5px}.chip[aria-pressed=false]{opacity:.55;text-decoration:line-through}.dot{height:10px;width:10px;border-radius:2px;background:var(--swatch);border:1px solid #a0a4a9}.action-section{position:sticky;bottom:0;background:var(--panel);box-shadow:0 -8px 14px #14161a80}.action-section button{width:100%}.action-section .note{display:block;margin-top:6px}
+.studio{display:grid;grid-template-rows:auto auto minmax(150px,1fr) auto;min-width:0;min-height:0}.bar{display:flex;align-items:center;flex-wrap:wrap;gap:6px;padding:9px 14px;background:#1c1e24;border-bottom:1px solid var(--line);min-height:47px}.bar button,.bar select{font-size:12px;padding:5px 8px}.bar .icon{min-width:29px;padding:4px 6px}.bar .viewtitle{font-size:13px;margin-right:9px}.spacer{flex:1}.divider{height:20px;width:1px;background:#3a3e48;margin:0 3px}kbd{font:10px system-ui;color:#c7cbd3;background:#353944;border-radius:3px;min-width:14px;padding:1px 3px}.zoom{min-width:49px;text-align:center;font-variant-numeric:tabular-nums}.brush-size{display:flex;align-items:center;gap:5px;font-size:11px}.brush-size input{width:75px}.stage{display:flex;min-height:0;position:relative;overflow:hidden;background:#23262e}.stage.drag-active{outline:2px dashed var(--green);outline-offset:-5px}.pane{position:relative;flex:1;min-width:0;overflow:hidden;background-color:#252830}.pane.grid{background-image:radial-gradient(#454a56 1px,transparent 1px);background-size:19px 19px}.pane.dark{background:#101217}.pane.light{background:#cdd0d8}.pane+.pane{border-left:1px solid #545967}.canvas{width:100%;height:100%;display:block;touch-action:none;user-select:none;outline:none}.canvas[data-tool=v],#original{cursor:grab}.canvas[data-tool=s]{cursor:move}.canvas[data-tool=a],.canvas[data-tool=b],.canvas[data-tool=e]{cursor:crosshair}.canvas.dragging,#original.dragging{cursor:grabbing}.canvas .node,.canvas .handle{cursor:grab}.paper{filter:drop-shadow(0 10px 16px #08090c85)}.caption{position:absolute;left:13px;top:12px;background:#191b21ed;border:1px solid #424752;color:#f4f5f7;border-radius:6px;padding:4px 8px;font-size:11px;font-weight:650;pointer-events:none}.caption .dot{display:inline-block;margin-right:6px;height:7px;width:7px;background:var(--green);border:0;border-radius:50%}.canvas-label{position:absolute;bottom:12px;left:14px;font-size:11px;color:#e1e5ee;background:#191b21ed;border-radius:5px;padding:3px 7px;pointer-events:none}.help{position:absolute;bottom:13px;right:14px;max-width:55%;padding:5px 8px;border-radius:5px;background:#191b21ed;color:#dce0e8;font-size:11px;pointer-events:none;text-align:right}.empty{position:absolute;inset:0;margin:auto;width:max-content;max-width:80%;height:max-content;text-align:center;padding:15px 20px;background:#191b21;border:1px solid #414652;border-radius:9px;pointer-events:none}.statusbar{display:flex;align-items:center;gap:16px;flex-wrap:wrap;padding:9px 14px;background:#1c1e24;border-top:1px solid var(--line);font-size:11px;color:#cbd0da;min-height:41px}.statusbar strong{color:white;font-variant-numeric:tabular-nums;margin-left:4px}.statusbar .indicator{width:7px;height:7px;border-radius:50%;display:inline-block;margin-right:6px;background:var(--green)}body[aria-busy=true] .indicator{background:#ffc36d}.statusbar .current{margin-left:auto}.panel-status{min-height:1.4em}.error{color:#ffb7a6!important}.clipboard{padding:18px;background:#202229;color:var(--text);border:1px solid #4d5361;border-radius:10px;width:min(650px,92vw)}.clipboard::backdrop{background:#0009}.clipboard textarea{width:100%;height:220px;margin:8px 0;background:#111317;color:white;border:1px solid var(--line);resize:vertical}
+@media(max-width:1000px){main{grid-template-columns:306px minmax(0,1fr)}.section{padding-left:13px;padding-right:13px}.bar{padding-inline:9px}.bar .viewtitle{display:none}.header-actions{gap:5px}.tool button{gap:4px}}
+@media(max-width:730px){header{height:auto;min-height:65px;padding:10px 12px;flex-wrap:wrap}.header-actions{flex-wrap:wrap}.header-actions button{font-size:11px}.brand strong{font-size:17px}main{height:auto;min-height:0;display:flex;flex-direction:column}.studio{order:-1;height:570px;max-height:none}.sidebar{display:grid;overflow:visible;grid-template-columns:repeat(auto-fit,minmax(205px,1fr));border-right:0}.action-section{position:static}.statusbar .current{margin-left:0}.statusbar{gap:8px 12px}}
+
+:root{--mint:#a9edcd;--quiet:#b2bcc9}.sidebar{background:linear-gradient(155deg,#1c222b 0,#181c23 36%,#191b20 85%);scrollbar-color:#505a64 #191b20}
+.geometry-section{padding-top:16px;background:radial-gradient(ellipse at 5% 0%,#28473c70,transparent 50%)}.geo-heading{display:flex;justify-content:space-between;align-items:flex-start;gap:8px;margin:0 0 12px}.geometry-section .geo-heading h2{margin:0;font-size:15px;letter-spacing:-.12px;gap:7px}.geo-heading .symbol{display:grid;place-items:center;color:var(--mint);width:29px;height:29px;border-radius:8px;background:#273b35;border:1px solid #426254}.geo-heading .geo-reset{padding:4px 6px;font-size:10px;color:#d9e5e3;background:#23312d}.geo-reset svg{width:13px;height:13px}
+.profile-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px}.profile-grid button{display:grid;grid-template-columns:auto 1fr;column-gap:7px;row-gap:1px;text-align:left;justify-items:start;padding:7px;white-space:normal;line-height:1.21;background:#202831;border-color:#35414d}.profile-grid button svg{grid-row:span 2;align-self:center;color:#91b1ae;width:15px;height:15px}.profile-grid strong{font-size:11px}.profile-grid small{font-size:10px;color:var(--quiet)}.profile-grid button[aria-pressed=true]{background:#2b3c31;color:#e1f8df;border-color:#638b66}.profile-grid button[aria-pressed=true] svg{color:var(--mint)}
+.geo-preview{display:grid;grid-template-columns:auto minmax(0,1fr);align-items:center;gap:7px;margin:10px 0;padding:7px 8px;background:#141c23;border:1px solid #303d48;border-radius:8px}.geo-preview .check{font-size:11px;margin:0;white-space:nowrap}.geo-preview .check input{accent-color:var(--mint)}.geo-preview-state{justify-self:end;text-align:right;font-size:10px;color:var(--quiet)}.geo-preview[data-state=pending] .geo-preview-state{color:#ffd28d}.geo-preview[data-state=ready] .geo-preview-state{color:var(--mint)}
+.geo-cards{display:grid;grid-template-columns:1fr .75fr 1.23fr;gap:1px;border:1px solid #34414c;border-radius:8px;overflow:hidden;background:#34414c;margin-bottom:10px}.geo-cards>div{min-width:0;padding:7px;background:#202932}.geo-cards small{display:block;color:#abb9c4;font-size:9px}.geo-cards strong{display:block;color:#e0f5ec;font:bold 12px/1.35 ui-monospace,Consolas,monospace;overflow-wrap:anywhere}.geo-delta{display:block;min-height:1.2em;margin:0 0 7px;color:var(--quiet);font-size:10px}
+.geo-group{border:1px solid #35414b;border-radius:9px;background:#1b222a;overflow:hidden;margin:7px 0 0}.geo-group summary{list-style:none;cursor:pointer;display:flex;align-items:center;gap:7px;padding:8px 9px;color:#eaf2f1;font-weight:700;font-size:11px}.geo-group summary::-webkit-details-marker{display:none}.geo-group summary::before{content:'';width:6px;height:6px;border:solid #a6c6b9;border-width:0 1.5px 1.5px 0;transform:rotate(-45deg);margin:0 2px 0 1px}.geo-group[open] summary::before{transform:rotate(45deg);margin-top:-3px}.geo-group summary small{margin-left:auto;color:#a6b5c0;text-align:right;font-weight:450;font-size:9px}.geo-group[open] summary{background:#25313a;border-bottom:1px solid #33434c}.geo-group summary:focus-visible{outline:2px solid var(--mint);outline-offset:-2px}.geo-group>div{padding:0 9px 8px}
+.geo-control{display:grid;grid-template-columns:1fr auto;align-items:center;column-gap:6px;margin-top:8px}.geo-control label{font-size:11px;color:#f0f4f6;font-weight:650}.geo-control .geo-slider{grid-column:1/-1;accent-color:var(--mint);height:17px;margin-top:2px}.geo-control p{grid-column:1/-1;margin:0;font-size:10px;line-height:1.3;color:var(--quiet)}.geo-val{display:flex;align-items:center;gap:3px;padding:2px 5px 2px 2px;background:#13191f;border:1px solid #485965;border-radius:5px;color:#c6d9d6;font-size:10px}.geo-val input{width:51px;background:transparent;color:#f2f6f6;text-align:right;border:0;padding:1px 2px;border-radius:3px;font-family:ui-monospace,Consolas,monospace;font-size:11px}.geo-val input:disabled,.geo-slider:disabled{opacity:.43;cursor:default}.geo-unit{white-space:nowrap}.geo-shortcut{width:100%;margin-top:8px;padding:5px;white-space:normal;font-size:10px;border-color:#485e60;background:#273536}.action-section{z-index:2;background:#1b232a}header{background:linear-gradient(100deg,#192129,#191b21 62%)}.studio .bar:first-child{background:#21272f}.stage{background:#232a33}.pane.grid{background-color:#252d38;background-image:radial-gradient(#4d5969 1px,transparent 1px),radial-gradient(ellipse at 50% 40%,#34404d,transparent 75%);background-size:19px 19px,100% 100%}.canvas-label,.caption,.help{border-color:#485468}
+@media(max-width:730px){.geometry-section{grid-column:1/-1}.sidebar .action-section{grid-column:1/-1;position:sticky;bottom:0}}
+@media(max-width:580px){.header-actions button#saveApp{white-space:normal;text-align:left}}
+
+.print-section{background:radial-gradient(ellipse at 14% 0%,#263f4d,transparent 82%),#1b222b}.print-heading{display:flex;align-items:center;justify-content:space-between;gap:8px}.print-section .print-heading h2{margin:0;font-size:14px}.print-section .print-heading .symbol{color:#a4dceb}.print-heading .check{margin:0;white-space:nowrap;color:#e0f4f8;font-size:11px}.print-heading .check input,.print-options .check input{accent-color:#a4dceb}.print-options{margin-top:10px;display:grid;gap:7px}.print-options>label{font-size:11px;color:#d7e3ea}.print-options select{font-size:11px;padding:5px 7px}.print-row{display:grid;grid-template-columns:1fr 1fr;gap:7px}.print-row label{font-size:11px;color:#e3edf1;min-width:0}.print-number{margin-top:3px;display:flex;align-items:center;gap:2px;min-width:0;background:#14202a;border:1px solid #455865;color:#acdbe9;border-radius:6px;padding:4px 5px;font-size:10px}.print-number input{width:100%;min-width:0;border:0;border-radius:2px;background:none;color:#f4f9fa;font:650 12px ui-monospace,Consolas,monospace}.print-options .check{margin:0}.print-note{display:block;line-height:1.4;color:#b6c9d3}.print-report{padding:7px;border-radius:7px;border:1px solid #405564;background:#18242d;display:grid;grid-template-columns:1fr 1fr;gap:4px 8px;color:#c6dae2;font-size:10px}.print-report strong{display:block;font:650 11px ui-monospace,Consolas,monospace;color:#e5f4f8;margin-top:2px}.print-summary{min-height:1.4em;font-size:11px;font-weight:700;color:#b5e6ef}.print-summary[data-level=warn]{color:#ffcf9d}.print-legend{display:flex;align-items:center;gap:10px;font-size:10px;color:#d2e3e9}.print-legend i{display:inline-block;width:8px;height:8px;border-radius:2px;margin-right:4px;background:#37a6be}.print-legend span+span i{background:#f3a157}.print-active .vector-caption .dot{background:#9fddec}.print-active .tool button[data-tool]:not([data-tool=v]){opacity:.42}
+@media(max-width:730px){.print-section{grid-column:1/-1}}
+.trace-controls{padding:6px 0 0}.trace-buttons{display:grid;grid-template-columns:2fr 1fr;gap:6px;margin-top:7px}#startTrace{margin-bottom:6px;border-color:#527968;background:#263b32;color:#dcf4e9}#traceStatus{min-height:1.35em}.trace-active .vector-caption .dot{background:#a9edcd}
+/* Compact help stays next to the setting name, including in the narrow panel. */
+.setting-name{display:inline-flex;align-items:center;gap:5px;min-width:0}
+.check-setting{display:flex;justify-content:flex-start}
+.check-setting .check{margin-right:0}
+.print-options>.setting-name{font-size:11px;color:#d7e3ea}
+.print-field{min-width:0}
+.print-preserve-row>button:first-child{flex:1;border-color:#527486;background:#243b47;padding:5px;font-size:11px;white-space:normal}
+.detail-note{font-size:11px;color:#bdcbd1;margin:8px 0 0}
+.profile-choice{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:3px;min-width:0}
+.profile-choice>button:first-child{padding:6px 4px;column-gap:4px}
+.profile-choice>button:first-child svg{width:13px;height:13px}
+button.setting-help,.profile-grid button.setting-help{
+  flex:none;display:inline-grid;place-items:center;width:16px;height:16px;min-width:16px;padding:0;
+  border:1px solid #678095;border-radius:50%;background:#21313e;color:#d2e6f2;
+  font:700 10px/1 system-ui,sans-serif;vertical-align:middle;
+}
+button.setting-help:hover,button.setting-help:focus-visible{background:#b5e6ef;color:#10232d;border-color:#b5e6ef}
+.setting-tooltip{position:fixed;z-index:1000;width:max-content;max-width:min(310px,calc(100vw - 24px));padding:9px 11px;
+  border:1px solid #627e91;border-radius:8px;background:#17262f;color:#f1f8fc;
+  box-shadow:0 8px 31px #080b1180;font-size:12px;line-height:1.43;overflow-wrap:anywhere}
+.workflow-nav{position:sticky;top:0;z-index:4;padding:10px 10px 9px;background:#161d24;border-bottom:1px solid #384550}
+.workflow-nav ol{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:5px}
+.workflow-nav button{width:100%;min-height:52px;display:grid;justify-items:center;gap:2px;padding:4px 2px;font-size:10px;line-height:1.15;white-space:normal}
+.workflow-nav button>span{display:grid;place-items:center;width:19px;height:19px;border-radius:50%;background:#344253;color:#dbe9f0;font-weight:700}
+.workflow-nav button[aria-current=step]{background:#2c3d31;border-color:#71916e;color:#e6f5e0}
+.workflow-nav button[aria-current=step]>span{background:var(--mint);color:#15332a}
+.workflow-tip{background:#1a302a;border:1px solid #45685d;border-radius:8px;padding:9px;margin:0 0 10px;color:#dbeee6;font-size:12px}
+.workflow-tip p,.workflow-description{margin:0 0 8px}.workflow-description{font-size:12px;color:var(--quiet)}
+.workflow-tip button{font-size:11px;white-space:normal;text-align:left}
+.workflow-cta{margin-top:10px;width:100%}.workflow-secondary{margin-top:8px;font-size:11px}
+#workflowReview>button{width:100%}
+@media(max-width:730px){.workflow-nav,#workflowSource,#workflowTrace,#workflowReview{grid-column:1/-1}.workflow-nav{position:static}}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+<symbol id="i-brand" viewBox="0 0 24 24"><path d="M4 19 11 5l9 14H4Z M8.5 10l6 9 M7 19l4.8-6.2 4.9 6.2"/><circle cx="11" cy="5" r="1.4"/><circle cx="4" cy="19" r="1.4"/><circle cx="20" cy="19" r="1.4"/></symbol>
+<symbol id="i-file" viewBox="0 0 24 24"><path d="M12 15V3m-4 4 4-4 4 4M5 14v6h14v-6"/></symbol>
+<symbol id="i-photo" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="8" cy="9" r="1.5"/><path d="m4 18 6-6 4 4 3-3 4 4"/></symbol>
+<symbol id="i-layers" viewBox="0 0 24 24"><path d="m3 8 9-5 9 5-9 5-9-5Zm0 4 9 5 9-5M3 16l9 5 9-5"/></symbol>
+<symbol id="i-curve" viewBox="0 0 24 24"><path d="M4 18C5 5 19 18 20 6M4 18l6-8m4 4 6-8"/><circle cx="4" cy="18" r="1.5"/><circle cx="20" cy="6" r="1.5"/></symbol>
+<symbol id="i-download" viewBox="0 0 24 24"><path d="M12 3v12m-4-4 4 4 4-4M5 16v4h14v-4"/></symbol>
+<symbol id="i-copy" viewBox="0 0 24 24"><rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 5V4H4v12h1"/></symbol>
+<symbol id="i-split" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M12 5v14"/></symbol>
+<symbol id="i-hand" viewBox="0 0 24 24"><path d="M8 13V6a1.5 1.5 0 0 1 3 0v5-7a1.5 1.5 0 0 1 3 0v7-5a1.5 1.5 0 0 1 3 0v6-3a1.5 1.5 0 0 1 3 0v6a6 6 0 0 1-6 6h-2c-2 0-3-1-4-2l-5-6a1.6 1.6 0 0 1 2-2l3 2Z"/></symbol>
+<symbol id="i-select" viewBox="0 0 24 24"><path d="M5 3v16l4-4 4 6 3-2-4-6 6-1L5 3Z"/></symbol>
+<symbol id="i-brush" viewBox="0 0 24 24"><path d="m9 13 9-10 3 3-10 9M3 20c3 0 1-5 5-5a3 3 0 0 1 0 6c-2 0-3 0-5-1Z"/></symbol>
+<symbol id="i-erase" viewBox="0 0 24 24"><path d="m4 13 9-9c1-1 2-1 3 0l4 4c1 1 1 2 0 3l-9 9H9l-5-4c-1-1-1-2 0-3ZM8 9l8 7m-5 4h10"/></symbol>
+<symbol id="i-undo" viewBox="0 0 24 24"><path d="m8 5-5 5 5 5M3 10h11a6 6 0 0 1 6 6v3"/></symbol>
+<symbol id="i-redo" viewBox="0 0 24 24"><path d="m16 5 5 5-5 5m5-5H10a6 6 0 0 0-6 6v3"/></symbol>
+<symbol id="i-fit" viewBox="0 0 24 24"><path d="M9 4H4v5m11-5h5v5M4 15v5h5m11-5v5h-5"/></symbol>
+<symbol id="i-print" viewBox="0 0 24 24"><path d="M4 3h16v18H4zM12 3v6m-3 0h6l-3 4-3-4ZM7 18h10m-9-2h8"/></symbol>
+<symbol id="i-play" viewBox="0 0 24 24"><path d="m8 4 12 8-12 8V4Z"/></symbol>
+</defs></svg>
+<header>
+  <div class="brand"><span class="brand-mark" data-icon="brand"></span><div><strong>VektörStüdyo</strong><small>Fotoğraftan SVG’ye</small></div></div>
+  <div class="header-actions">
+    <button id="saveApp" data-icon="download">Bu Uygulamayı Çevrimdışı Kaydet (.html)</button>
+    <button id="copySvg" data-icon="copy" disabled>SVG Kopyala</button>
+    <button id="downloadSvg" class="primary" data-icon="download" disabled><span id="downloadLabel">SVG İndir</span></button>
+  </div>
+</header>
+<main>
+  <aside class="sidebar" id="workflowSidebar" aria-label="Vektörleştirme adımları">
+    <nav class="workflow-nav" aria-label="İşlem sırası">
+      <ol>
+        <li><button id="stepSource" type="button" aria-current="step"><span>1</span>Görsel</button></li>
+        <li><button id="stepTrace" type="button" disabled><span>2</span>İzle</button></li>
+        <li><button id="stepReview" type="button" disabled><span>3</span>Kontrol et</button></li>
+        <li><button id="stepOutput" type="button" disabled><span>4</span>Çıktı</button></li>
+      </ol>
+    </nav>
+    <section class="section" id="workflowSource">
+      <h2><span class="symbol" data-icon="photo"></span>Görsel kaynağı</h2>
+      <div class="drop" id="drop">
+        <span class="symbol" data-icon="file"></span>
+        <strong>Görseli buraya bırakın</strong>
+        <small>PNG, JPEG, WebP · Ctrl+V</small>
+        <div class="row"><button id="chooseFile">Dosya Seç</button><button id="sample">Örnek Yükle</button></div>
+        <input id="file" type="file" accept="image/*" hidden>
+      </div>
+      <small id="fileInfo" class="file note"></small>
+      <button id="sourceNext" class="primary workflow-cta" type="button" disabled>Görseli izlemeye geç</button>
+    </section>
+    <section class="section" id="workflowTrace" hidden>
+      <h2><span class="symbol" data-icon="layers"></span>Vektörleştirme modu<button id="help-mode" type="button" class="setting-help" data-setting-help="mode" aria-label="Vektörleştirme modu hakkında yardım" aria-description="Tek geçiş, koyu çizgileri tek dolguda toplar. Turuncu gibi renklerin de kalması için Çok geçiş seçin.">?</button></h2>
+      <div class="workflow-tip" id="sourceAdvice" hidden>
+        <p id="sourceAdviceText"></p>
+        <button id="applySourceAdvice" type="button">Önerilen ayarları kullan</button>
+      </div>
+      <select id="mode" aria-label="Vektörleştirme modu"><option value="bw">Tek geçiş · Parlaklık eşiği</option><option value="color">Çok geçiş · Renk katmanları</option></select>
+      <div id="bwSettings">
+        <div class="label"><span class="setting-name"><label for="contourMethod">Kontur yöntemi</label><button id="help-contourMethod" type="button" class="setting-help" data-setting-help="contourMethod" aria-label="Kontur yöntemi hakkında yardım" aria-description="Alt piksel, komşu piksellerin parlaklığı arasından sınırı hesaplar. Piksel sınırı, kare piksel kenarlarını izler.">?</button></span><select id="contourMethod"><option value="smooth">Alt piksel · Yumuşak kontur</option><option value="grid">Piksel sınırı · Keskin maske</option></select></div>
+        <small class="note" id="maskTraceNote" hidden>Ofset uygulanırken piksel maskesi kullanılır.</small>
+        <div class="range"><span class="setting-name"><label for="threshold">Parlaklık eşiği</label><button id="help-threshold" type="button" class="setting-help" data-setting-help="threshold" aria-label="Parlaklık eşiği hakkında yardım" aria-description="Yükselttikçe daha açık pikseller de dolguda kalır, koyu çizgiler kalınlaşabilir ve açık boşluklar daralabilir. Düşürdükçe en koyu çizgiler kalır.">?</button></span><output for="threshold"></output><input id="threshold" type="range" min="0" max="255" value="134"></div>
+        <span class="setting-name check-setting"><label class="check"><input id="otsu" type="checkbox">Otomatik eşik (Otsu)</label><button id="help-otsu" type="button" class="setting-help" data-setting-help="otsu" aria-label="Otomatik eşik (Otsu) hakkında yardım" aria-description="Açık ve koyu pikselleri ayıracak eşiği otomatik seçer. Göze veya buruna yakın ayrıntılar kaybolursa kapatıp Parlaklık eşiğini elle değiştirin.">?</button></span>
+        <span class="setting-name check-setting"><label class="check"><input id="invert" type="checkbox">Maskeyi ters çevir</label><button id="help-invert" type="button" class="setting-help" data-setting-help="invert" aria-label="Maskeyi ters çevir hakkında yardım" aria-description="Açık bölgeleri dolgu, koyu bölgeleri boşluk yapar. Beyaz zeminli koyu logolarda genellikle kapalı tutulur.">?</button></span>
+        <div class="label"><span class="setting-name"><label for="ink">Ana kontur rengi</label><button id="help-ink" type="button" class="setting-help" data-setting-help="ink" aria-label="Ana kontur rengi hakkında yardım" aria-description="Çizilen vektörün görünen rengini değiştirir. İzlenen sınırı ve ayrıntıları etkilemez.">?</button></span></div>
+        <div class="palette" id="palette"><input id="ink" type="color" aria-label="Özel kontur rengi" value="#172437"></div>
+        <span class="setting-name check-setting"><label class="check"><input id="dual" type="checkbox">Ters renkli halini aynı SVG’ye ekle</label><button id="help-dual" type="button" class="setting-help" data-setting-help="dual" aria-label="Ters renkli halini aynı SVG’ye ekle hakkında yardım" aria-description="Çizimin negatifini ayrı katman olarak ekler. Tek bir 3D baskı dolgusu için Normal konturu seçebilirsiniz.">?</button></span>
+        <div id="dualSettings" hidden>
+          <div class="label"><span class="setting-name"><label for="layout">Katman yerleşimi</label><button id="help-layout" type="button" class="setting-help" data-setting-help="layout" aria-label="Katman yerleşimi hakkında yardım" aria-description="Normal ve ters/negatif çizimleri aynı konumda üst üste veya tek tuvalde yan yana yerleştirir. Yan yana, tuvali genişletir.">?</button></span><select id="layout"><option value="stack">Üst Üste (2 Katman)</option><option value="side">Yan Yana (Tek Tuval)</option></select></div>
+          <span class="setting-name check-setting"><label class="check"><input id="sync" type="checkbox" checked>Çift katman senkronu</label><button id="help-sync" type="button" class="setting-help" data-setting-help="sync" aria-label="Çift katman senkronu hakkında yardım" aria-description="Normal ve ters katmanın aynı kontur geometrisini paylaşmasını sağlar. Birini düzenleyince diğeri de güncellenir.">?</button></span>
+        </div>
+      </div>
+      <div id="colorSettings" hidden>
+        <div class="range"><span class="setting-name"><label for="colors">Renk katmanı</label><button id="help-colors" type="button" class="setting-help" data-setting-help="colors" aria-label="Renk katmanı hakkında yardım" aria-description="Renkler kaç gruba ayrılacak, onu belirler. Siyah, beyaz ve turuncu birlikte kalacaksa 4–5 katmanla başlayıp önizleyin. Daha fazlası benzer tonları bölebilir.">?</button></span><output for="colors"></output><input id="colors" type="range" min="2" max="12" value="5"></div>
+        <span class="setting-name check-setting"><label class="check"><input id="transparent" type="checkbox">Köşe rengini şeffaf yap</label><button id="help-transparent" type="button" class="setting-help" data-setting-help="transparent" aria-label="Köşe rengini şeffaf yap hakkında yardım" aria-description="Görsel köşelerinde baskın bulunan renk grubunu kaldırır. Köşelerle aynı gruptaki logo içi bölgeler de şeffaf olabilir.">?</button></span>
+        <div class="palette" id="chips" aria-label="Renk katmanları"></div>
+      </div>
+    </section>
+    <section class="section geometry-section" id="workflowGeometry" aria-labelledby="geometryTitle" hidden>
+      <div class="geo-heading">
+        <h2 id="geometryTitle"><span class="symbol" data-icon="curve"></span>Geometri ve eğriler</h2>
+        <button id="resetGeometry" type="button" class="geo-reset" data-icon="undo" title="Varsayılan geometri ayarlarına dön">Sıfırla</button>
+      </div>
+      <div class="profile-grid" aria-label="Hazır geometri ayarları">
+        <div class="profile-choice"><button id="presetBalanced" data-icon="curve" type="button" aria-pressed="true"><strong>Dengeli</strong><small>Genel kullanım</small></button><button id="help-presetBalanced" type="button" class="setting-help" data-setting-help="presetBalanced" aria-label="Dengeli hakkında yardım" aria-description="Ayrıntıyı ve düğüm sayısını dengeler.">?</button></div>
+        <div class="profile-choice"><button id="presetDetail" data-icon="fit" type="button" aria-pressed="false"><strong>Ayrıntıyı koru</strong><small>İnce çizgiler ve delikler</small></button><button id="help-presetDetail" type="button" class="setting-help" data-setting-help="presetDetail" aria-label="Ayrıntıyı koru hakkında yardım" aria-description="Küçük dolu adaları ve delikleri filtrelemez, ön yumuşatmayı kapatır, eğrileri kaynağa daha yakın tutar.">?</button></div>
+        <div class="profile-choice"><button id="presetLogo" data-icon="brand" type="button" aria-pressed="false"><strong>Logo</strong><small>Az düğüm</small></button><button id="help-presetLogo" type="button" class="setting-help" data-setting-help="presetLogo" aria-label="Logo hakkında yardım" aria-description="Daha az düğümlü, temiz bir siluet üretir. Küçük adalar ve boşluklar kaybolabilir.">?</button></div>
+        <div class="profile-choice"><button id="presetCad" data-icon="select" type="button" aria-pressed="false"><strong>CAD / Lazer</strong><small>Doğru segmentleri</small></button><button id="help-presetCad" type="button" class="setting-help" data-setting-help="presetCad" aria-label="CAD / Lazer hakkında yardım" aria-description="Çizimi düz segmentlere çevirir.">?</button></div>
+      </div>
+      <p class="detail-note">İnce çizgiler ve küçük delikler için <strong>Ayrıntıyı koru</strong> profilini kullanın.</p>
+      <div class="geo-preview" id="geometryPreview">
+        <span class="setting-name check-setting"><label class="check"><input id="liveGeometry" type="checkbox" checked>Canlı önizleme</label><button id="help-liveGeometry" type="button" class="setting-help" data-setting-help="liveGeometry" aria-label="Canlı önizleme hakkında yardım" aria-description="Geometri ayarlarını değiştirince çizimi otomatik yeniler. Kapalıyken değişiklikleri Vektörleştir düğmesiyle birlikte uygulayın.">?</button></span>
+        <span class="geo-preview-state" id="geometryState" role="status">Görsel bekleniyor</span>
+      </div>
+      <div class="geo-cards" aria-label="Uygulanan geometrinin ölçüleri">
+        <div><strong id="geoNodes">–</strong><small>Düzenleme düğümü</small></div>
+        <div><strong id="geoRings">–</strong><small>Kontur halkası</small></div>
+        <div><strong id="geoPixels">–</strong><small>İşleme boyutu</small></div>
+      </div>
+      <small id="geometryDelta" class="geo-delta">Piksel değerleri işleme boyutuna göredir.</small>
+      <details class="geo-group">
+        <summary>Görsel hazırlığı<small>Bulanıklık · çözünürlük</small></summary>
+        <div>
+        <div class="geo-control">
+          <span class="setting-name"><label for="blur">Ön yumuşatma (Box Blur)</label><button id="help-blur" type="button" class="setting-help" data-setting-help="blur" aria-label="Ön yumuşatma (Box Blur) hakkında yardım" aria-description="İzlemeden önce komşu pikselleri ortalar. Gürültüyü azaltır, ince çizgileri ve küçük delikleri de silebilir. 0 uygulamaz.">?</button></span>
+          <span class="geo-val"><input id="blurNumber" type="number" min="0" max="5" step="1" value="1" aria-label="Ön yumuşatma (Box Blur), sayısal değer" aria-describedby="blurNote"><span class="geo-unit">px</span></span>
+          <input class="geo-slider" id="blur" type="range" min="0" max="5" step="1" value="1" aria-describedby="blurNote">
+          <p id="blurNote">İşlemeden önce piksel gürültüsünü yumuşatır.</p>
+        </div>
+        <div class="geo-control">
+          <span class="setting-name"><label for="resolution">Maksimum işleme boyutu</label><button id="help-resolution" type="button" class="setting-help" data-setting-help="resolution" aria-label="Maksimum işleme boyutu hakkında yardım" aria-description="İşlenen görselin uzun kenar sınırıdır. Yüksek değer büyük görsellerde daha çok kaynak ayrıntısı bırakır. Küçük kaynağı büyütmez veya kayıp ayrıntıyı geri getirmez.">?</button></span>
+          <span class="geo-val"><input id="resolutionNumber" type="number" min="240" max="1600" step="10" value="960" aria-label="Maksimum işleme boyutu, sayısal değer" aria-describedby="resolutionNote"><span class="geo-unit">px</span></span>
+          <input class="geo-slider" id="resolution" type="range" min="240" max="1600" step="10" value="960" aria-describedby="resolutionNote">
+          <p id="resolutionNote">Uzun kenarı sınırlar. Küçük görseller büyütülmez.</p>
+        </div>
+        </div>
+      </details>
+      <details class="geo-group" open>
+        <summary>Kontur ve temizlik<small>Alan · ofset · kalınlık</small></summary>
+        <div>
+        <div class="geo-control">
+          <span class="setting-name"><label for="area">En küçük dolu alan</label><button id="help-area" type="button" class="setting-help" data-setting-help="area" aria-label="En küçük dolu alan hakkında yardım" aria-description="Eşiğin altında kalan ayrı dolu adaları siler. Yüksek değer küçük çizim parçalarını kaldırabilir. 0 bütün adaları tutar.">?</button></span>
+          <span class="geo-val"><input id="areaNumber" type="number" min="0" max="160" step="1" value="7" aria-label="En küçük dolu alan, sayısal değer" aria-describedby="areaNote"><span class="geo-unit">px²</span></span>
+          <input class="geo-slider" id="area" type="range" min="0" max="160" step="1" value="7" aria-describedby="areaNote">
+          <p id="areaNote">Bu alanın altındaki dolu adaları temizler.</p>
+        </div>
+        <div class="geo-control">
+          <span class="setting-name"><label for="holeArea">En küçük boşluk alanı</label><button id="help-holeArea" type="button" class="setting-help" data-setting-help="holeArea" aria-label="En küçük boşluk alanı hakkında yardım" aria-description="Eşiğin altında kalan kapalı boşlukları doldurur. Gözdeki küçük ışık yansımaları ve burun içi ayrıntılar için 0 kullanın.">?</button></span>
+          <span class="geo-val"><input id="holeAreaNumber" type="number" min="0" max="160" step="1" value="7" aria-label="En küçük boşluk alanı, sayısal değer" aria-describedby="holeAreaNote"><span class="geo-unit">px²</span></span>
+          <input class="geo-slider" id="holeArea" type="range" min="0" max="160" step="1" value="7" aria-describedby="holeAreaNote">
+          <p id="holeAreaNote">Bu alanın altındaki iç boşlukları doldurur.</p>
+        </div>
+        <div class="geo-control">
+          <span class="setting-name"><label for="offset">Kontur ofseti</label><button id="help-offset" type="button" class="setting-help" data-setting-help="offset" aria-label="Kontur ofseti hakkında yardım" aria-description="Pozitif değer bütün dolguyu genişletir ve delikleri daraltır. Negatif değer dolguyu küçültür ve ince çizgileri silebilir. Kaynağa yakın sonuç için 0 kullanın.">?</button></span>
+          <span class="geo-val"><input id="offsetNumber" type="number" min="-20" max="20" step="1" value="0" aria-label="Kontur ofseti, sayısal değer" aria-describedby="offsetNote"><span class="geo-unit">px</span></span>
+          <input class="geo-slider" id="offset" type="range" min="-20" max="20" step="1" value="0" aria-describedby="offsetNote">
+          <p id="offsetNote">+ dolu alanı genişletir, − daraltır. İnce çizgi düzeltmesinden önce uygulanır.</p>
+        </div>
+        <div class="geo-control">
+          <span class="setting-name"><label for="thickness">Minimum çizgi kalınlığı</label><button id="help-thickness" type="button" class="setting-help" data-setting-help="thickness" aria-label="Minimum çizgi kalınlığı hakkında yardım" aria-description="Bu piksel değerinden ince dolu şeritleri kontur boyunca genişletir. Yüksek değer göz ve burun içindeki boşlukları daraltabilir. 0 kapalı.">?</button></span>
+          <span class="geo-val"><input id="thicknessNumber" type="number" min="0" max="60" step="1" value="0" aria-label="Minimum çizgi kalınlığı, sayısal değer" aria-describedby="thicknessNote"><span class="geo-unit">px</span></span>
+          <input class="geo-slider" id="thickness" type="range" min="0" max="60" step="1" value="0" aria-describedby="thicknessNote">
+          <p id="thicknessNote">İnce dolgu şeritlerini genişletir. 0 kapalı.</p>
+        </div>
+        </div>
+      </details>
+      <details class="geo-group">
+        <summary>Düğümler ve köşeler<small>RDP · Bézier</small></summary>
+        <div>
+        <div class="geo-control">
+          <span class="setting-name"><label for="tolerance">Düğüm sadeleştirme (RDP)</label><button id="help-tolerance" type="button" class="setting-help" data-setting-help="tolerance" aria-label="Düğüm sadeleştirme (RDP) hakkında yardım" aria-description="Yükselttikçe daha az düğüm oluşur ve küçük kıvrımlar düzleşebilir. 0,50 px kaynak ayrıntısını daha yakından izler.">?</button></span>
+          <span class="geo-val"><input id="toleranceNumber" type="number" min="0.25" max="8" step="0.25" value="1.5" aria-label="Düğüm sadeleştirme (RDP), sayısal değer" aria-describedby="toleranceNote"><span class="geo-unit">px</span></span>
+          <input class="geo-slider" id="tolerance" type="range" min="0.25" max="8" step="0.25" value="1.5" aria-describedby="toleranceNote">
+          <p id="toleranceNote">Yüksek değer daha az düğüm ve daha az ayrıntı verir.</p>
+        </div>
+        <div class="geo-control">
+          <span class="setting-name"><label for="smooth">Eğri yumuşatma</label><button id="help-smooth" type="button" class="setting-help" data-setting-help="smooth" aria-label="Eğri yumuşatma hakkında yardım" aria-description="0 düz parçalar kullanır. Pozitif değer Bézier eğrileri üretir. Bézier toleransı otomatikken yüksek değer küçük dalgalanmaları ve ayrıntıları daha çok yumuşatabilir.">?</button></span>
+          <span class="geo-val"><input id="smoothNumber" type="number" min="0" max="100" step="1" value="85" aria-label="Eğri yumuşatma, sayısal değer" aria-describedby="smoothNote"><span class="geo-unit">%</span></span>
+          <input class="geo-slider" id="smooth" type="range" min="0" max="100" step="1" value="85" aria-describedby="smoothNote">
+          <p id="smoothNote">0 yalnızca doğru (L), 1–100 kübik Bézier (C).</p>
+        </div>
+        <div class="geo-control">
+          <span class="setting-name"><label for="cornerAngle">Köşe algılama açısı</label><button id="help-cornerAngle" type="button" class="setting-help" data-setting-help="cornerAngle" aria-label="Köşe algılama açısı hakkında yardım" aria-description="Düşürdükçe daha küçük yön değişimleri de köşe olarak kalır. Yükseltmek, pati veya kulak ucundaki bazı köşeleri yuvarlatabilir.">?</button></span>
+          <span class="geo-val"><input id="cornerAngleNumber" type="number" min="25" max="150" step="1" value="58" aria-label="Köşe algılama açısı, sayısal değer" aria-describedby="cornerAngleNote"><span class="geo-unit">°</span></span>
+          <input class="geo-slider" id="cornerAngle" type="range" min="25" max="150" step="1" value="58" aria-describedby="cornerAngleNote">
+          <p id="cornerAngleNote">Küçük açı daha çok yön değişimini keskin köşe olarak korur.</p>
+        </div>
+        <div class="geo-control">
+          <span class="setting-name"><label for="fitError">Bézier uyum toleransı</label><button id="help-fitError" type="button" class="setting-help" data-setting-help="fitError" aria-label="Bézier uyum toleransı hakkında yardım" aria-description="Yüksek değer, eğrinin izlenen konturdan daha fazla sapmasına izin verir. 0 otomatik değer kullanır. Ayrıntıyı koru profili, otomatik değeri düşük sadeleştirmeyle birlikte kullanır.">?</button></span>
+          <span class="geo-val"><input id="fitErrorNumber" type="number" min="0" max="8" step="1" value="0" aria-label="Bézier uyum toleransı, sayısal değer" aria-describedby="fitErrorNote"><span class="geo-unit">px</span></span>
+          <input class="geo-slider" id="fitError" type="range" min="0" max="8" step="1" value="0" aria-describedby="fitErrorNote">
+          <p id="fitErrorNote">0 otomatik. 1 px ince ayrıntı, yüksek değer daha az düğüm.</p>
+        </div>
+          <button id="geometryWire" class="geo-shortcut" data-icon="curve" type="button" aria-pressed="false">Tel kafeste denetle</button>
+        </div>
+      </details>
+    </section>
+    <section class="section action-section" id="workflowTraceActions" hidden>
+      <button id="startTrace" data-icon="curve" type="button" aria-keyshortcuts="Alt+Shift+B">İzlemeyi Önizle</button>
+      <div class="trace-controls" id="traceControls" hidden>
+        <div class="label"><span class="setting-name"><label for="traceView">Görünüm</label><button id="help-traceView" type="button" class="setting-help" data-setting-help="traceView" aria-label="Görünüm hakkında yardım" aria-description="Renkli konturu kaynak üzerine bindirerek farkları görün. Yalnızca vektör ve Yalnızca kaynak seçenekleri tek görüntüyü gösterir.">?</button></span><select id="traceView"><option value="overlay">Kaynakla üst üste</option><option value="vector">Yalnızca vektör</option><option value="source">Yalnızca kaynak</option></select></div>
+        <div class="trace-buttons"><button id="applyTrace" class="primary" type="button" disabled>İzi Uygula</button><button id="cancelTrace" type="button">Vazgeç</button></div>
+        <small id="traceStatus" class="note" role="status"></small>
+      </div>
+      <button id="convert" class="primary" data-icon="play">Vektörleştir</button>
+      <small class="note panel-status" id="settingsStatus">Geometri ayarlarını uygular.</small>
+      <button id="reviewCurrent" class="workflow-secondary" type="button" disabled>Mevcut vektörü kontrol et</button>
+    </section>
+    <section class="section" id="workflowReview" hidden>
+      <h2><span class="symbol" data-icon="split"></span>Kaynakla karşılaştır</h2>
+      <p class="workflow-description">İnce çizgileri, köşeleri ve açık kalması gereken delikleri kontrol edin. Gerekirse İzle adımına dönün veya üstteki düzenleme araçlarını kullanın.</p>
+      <button id="reviewCompare" type="button" data-icon="split" aria-pressed="false">Yan yana karşılaştır</button>
+      <button id="outputNext" class="primary workflow-cta" type="button" data-icon="print">Çıktıya geç</button>
+    </section>
+    <section class="section print-section" id="workflowOutput" aria-labelledby="printHeading" hidden>
+      <div class="print-heading">
+        <h2 id="printHeading"><span class="symbol" data-icon="print"></span>Çıktı ayarları</h2>
+        <span class="setting-name check-setting"><label class="check"><input type="checkbox" id="printMode" aria-controls="printOptions">Baskı modu</label><button id="help-printMode" type="button" class="setting-help" data-setting-help="printMode" aria-label="Baskı modu hakkında yardım" aria-description="Çizimi milimetreyle ölçer, baskı eşiğinin altında kalan yerleri işaretler ve kapalı dolgulu SVG verir. Seçilen baskı işlemleri konturu değiştirebilir.">?</button></span>
+      </div>
+      <p class="workflow-description" id="outputDescription">Önce katmanı ve fiziksel genişliği seçin. Ardından şekli koruyun veya baskı için ince hatları düzeltin.</p>
+      <div id="printOptions" class="print-options" hidden>
+        <span class="setting-name"><label for="printLayer">Baskıya alınacak katman</label><button id="help-printLayer" type="button" class="setting-help" data-setting-help="printLayer" aria-label="Baskıya alınacak katman hakkında yardım" aria-description="Hangi renk veya konturların baskı SVG’sine gireceğini belirler. Birleştir seçeneği görünür dolguları tek şekil olarak bir araya getirir.">?</button></span>
+        <select id="printLayer"><option value="all">Görünür katmanları birleştir</option></select>
+        <small class="note print-note" id="printLayerNote" hidden></small>
+        <div class="print-field"><span class="setting-name"><label for="printWidth">SVG tuval genişliği</label><button id="help-printWidth" type="button" class="setting-help" data-setting-help="printWidth" aria-label="SVG tuval genişliği hakkında yardım" aria-description="Tuvalin tamamının milimetre karşılığıdır. Logo tuvalin içindeyse daha küçük olabilir. Dolgunun boyutu satırından gerçek logo genişliğine bakın.">?</button></span><span class="print-number"><input type="number" id="printWidth" value="100" min="1" max="1000" step="0.1">mm</span></div>
+        <div class="setting-name print-preserve-row"><button id="printPreserve" type="button" aria-pressed="false">Baskıda şekli koru</button><button id="help-printPreserve" type="button" class="setting-help" data-setting-help="printPreserve" aria-label="Baskıda şekli koru hakkında yardım" aria-description="Her iki onarımı Sadece ölç yapar ve küçük ada filtresini 0’a indirir. Uygun tek katmanda mevcut vektör eğrilerini korur. Birleştirme veya kırpma gerekiyorsa yüksek çözünürlükte kontur üretir.">?</button></div>
+        <div>
+          <div class="print-field"><span class="setting-name"><label for="printWall">Minimum et kalınlığı</label><button id="help-printWall" type="button" class="setting-help" data-setting-help="printWall" aria-label="Minimum et kalınlığı hakkında yardım" aria-description="Bu genişliğin altındaki dolu bölgeler ince kabul edilir. Kontur boyunca kalınlaştır seçilirse bu bölgeler genişletilir. Değeri dilimleyicideki çizgi genişliğine göre belirleyin.">?</button></span><span class="print-number"><input type="number" id="printWall" value="0.8" min="0.1" max="20" step="0.05">mm</span></div>
+        </div>
+        <small class="note print-note">Et kalınlığını dilimleyicideki çizgi genişliğine göre girin. Örneğin 0,4 mm × 2 hat = 0,8 mm.</small>
+        <span class="setting-name"><label for="printWallAction">İnce dolu alanlar</label><button id="help-printWallAction" type="button" class="setting-help" data-setting-help="printWallAction" aria-label="İnce dolu alanlar hakkında yardım" aria-description="Kalınlaştır ince dolguları genişletir, Kaldır ince ucu veya çizgiyi kesebilir, Sadece ölç ise ince bölgeleri raporlar.">?</button></span>
+        <select id="printWallAction"><option value="grow">Kontur boyunca kalınlaştır</option><option value="trim">Kaldır</option><option value="none">Sadece ölç</option></select>
+        <div class="print-row">
+          <div class="print-field"><span class="setting-name"><label for="printGap">Minimum boşluk</label><button id="help-printGap" type="button" class="setting-help" data-setting-help="printGap" aria-label="Minimum boşluk hakkında yardım" aria-description="İki dolgu kenarı arasında veya bir delikte bu değerden küçük mesafeler dar sayılır. 0, boşluk denetimini kapatır.">?</button></span><span class="print-number"><input type="number" id="printGap" value="0.6" min="0" max="20" step="0.05">mm</span></div>
+          <div class="print-field"><span class="setting-name"><label for="printIsland">En küçük dolu ada</label><button id="help-printIsland" type="button" class="setting-help" data-setting-help="printIsland" aria-label="En küçük dolu ada hakkında yardım" aria-description="Bu mm² değerinden küçük, ayrı duran dolu parçaları siler. Nokta ve küçük süsleri korumak için 0 kullanın.">?</button></span><span class="print-number"><input type="number" id="printIsland" value="0" min="0" max="100" step="0.01">mm²</span></div>
+        </div>
+        <span class="setting-name"><label for="printGapAction">Dar boşluklar</label><button id="help-printGapAction" type="button" class="setting-help" data-setting-help="printGapAction" aria-label="Dar boşluklar hakkında yardım" aria-description="Kapat dar boşlukları doldurabilir ve komşu dolguları birleştirebilir. Genişlet, bitişik dolgu kenarından alır. Göz içi ve burun deliklerini korumak için Sadece ölç seçin.">?</button></span>
+        <select id="printGapAction"><option value="close">Kapat</option><option value="widen">Genişlet</option><option value="none">Sadece ölç</option></select>
+        <span class="setting-name check-setting"><label class="check"><input type="checkbox" id="printMarks">Onarımları ve kalan sorunları göster</label><button id="help-printMarks" type="button" class="setting-help" data-setting-help="printMarks" aria-label="Onarımları ve kalan sorunları göster hakkında yardım" aria-description="Mavi, değişen bölgeleri gösterir. Turuncu, hâlâ ince kalan dolgu veya boşlukları işaretler. İşaretler baskı SVG’sine girmez.">?</button></span>
+        <div id="printLegend" class="print-legend" hidden><span><i></i>Değişen alan</span><span><i></i>Kalan ince alan / boşluk</span></div>
+        <div class="print-summary" id="printStatus" role="status"></div>
+        <div class="print-report" id="printReport" hidden>
+          <div>İnce dolu alan<strong id="printWallReport"></strong></div>
+          <div>Dar boşluk<strong id="printGapReport"></strong></div>
+          <div>SVG tuval boyutu<strong id="printSizeReport"></strong></div>
+          <div>Dolgunun boyutu<strong id="printArtReport"></strong></div>
+          <div>Kaldırılan küçük ada<strong id="printIslandReport"></strong></div>
+        </div>
+        <small class="note print-note">Alan ölçümleri yaklaşık değerlerdir. İçe aktardıktan sonra ölçüyü ve takım yolunu dilimleyicide kontrol edin.</small>
+      </div>
+      <button id="workflowDownload" class="primary workflow-cta" type="button" data-icon="download" disabled><span id="workflowDownloadLabel">SVG indir</span></button>
+    </section>
+  </aside>
+  <section class="studio" aria-label="Vektör çalışma alanı">
+    <div class="bar" aria-label="Görünüm">
+      <strong class="viewtitle">Çalışma Alanı</strong>
+      <button id="compare" data-icon="split" aria-pressed="false">Karşılaştır</button>
+      <button id="wire" data-icon="curve" aria-pressed="false">Tel Kafes</button>
+      <span class="setting-name toolbar-setting"><select id="background" aria-label="Tuval zemini"><option value="grid">Izgara</option><option value="dark">Koyu zemin</option><option value="light">Açık zemin</option></select><button id="help-background" type="button" class="setting-help" data-setting-help="background" aria-label="Tuval zemini hakkında yardım" aria-description="Yalnızca ekrandaki arka planı değiştirir. SVG’ye arka plan eklemez.">?</button></span>
+      <span class="setting-name toolbar-setting"><select id="filter" aria-label="Katman önizleme filtresi" hidden><option value="all">Katmanlı</option><option value="normal">Sadece Normal</option><option value="inverse">Sadece Ters</option></select><button id="help-filter" type="button" class="setting-help" data-setting-help="filter" aria-label="Katman önizleme filtresi hakkında yardım" aria-description="Ekranda normal çizimi, ters çizimi veya her ikisini gösterir. Hangi baskı katmanının çıktıya gireceğini baskı panelinden seçin.">?</button></span>
+      <span class="spacer"></span>
+      <button id="zoomOut" class="icon" aria-label="Uzaklaştır" title="Uzaklaştır">−</button><span id="zoomLevel" class="zoom">%100</span><button id="zoomIn" class="icon" aria-label="Yakınlaştır" title="Yakınlaştır">+</button>
+      <button id="fit" data-icon="fit" class="icon" title="Tuvale sığdır" aria-label="Tuvale sığdır"></button>
+    </div>
+    <div class="bar tool" aria-label="Düzenleme araçları">
+      <button data-tool="v" data-icon="hand" aria-pressed="true">İncele <kbd>V</kbd></button>
+      <button data-tool="a" data-icon="curve" aria-pressed="false">Düğüm Düzenle <kbd>A</kbd></button>
+      <button data-tool="s" data-icon="select" aria-pressed="false">Kontur Seç / Taşı <kbd>S</kbd></button>
+      <button data-tool="b" data-icon="brush" aria-pressed="false">Fırça <kbd>B</kbd></button>
+      <button data-tool="e" data-icon="erase" aria-pressed="false">Silgi <kbd>E</kbd></button>
+      <div class="brush-size" hidden><span class="setting-name"><label for="brushSize">Çap</label><button id="help-brushSize" type="button" class="setting-help" data-setting-help="brushSize" aria-label="Fırça ve silgi çapı hakkında yardım" aria-description="Fırçanın eklediği ve silginin kaldırdığı alanın piksel çapıdır. Küçük çap, bir göz veya burun kenarını yerel olarak düzeltmeyi kolaylaştırır.">?</button></span><input id="brushSize" type="range" min="2" max="200" value="30"><output for="brushSize"></output></div>
+      <span class="spacer"></span>
+      <button id="undo" class="icon" data-icon="undo" aria-label="Geri Al" title="Geri Al (Ctrl+Z)" disabled></button>
+      <button id="redo" class="icon" data-icon="redo" aria-label="Yinele" title="Yinele (Ctrl+Y)" disabled></button>
+    </div>
+    <div class="stage" id="stage">
+      <div class="pane grid" id="originalPane" hidden><svg class="canvas" id="original" aria-label="Orijinal görsel"></svg><span class="caption">Orijinal</span></div>
+      <div class="pane grid" id="vectorPane"><svg class="canvas" id="vector" data-tool="v" aria-label="SVG düzenleme tuvali"></svg><span class="caption vector-caption"><span class="dot"></span><span id="previewCaption">Vektör önizleme</span></span><span class="empty" id="empty">Başlamak için bir görsel yükleyin.</span><span class="canvas-label" id="dimensions" hidden></span><span class="help" id="hint">Sürükleyerek kaydırın · Tekerlekle yakınlaştırın</span></div>
+    </div>
+    <footer class="statusbar"><span>Toplam Yol <strong id="pathCount">0</strong></span><span>Bezier Düğüm Sayısı <strong id="nodeCount">0</strong></span><span>SVG Boyutu <strong id="svgSize">0 KB</strong></span><span class="current" role="status"><span class="indicator"></span><span id="status">Hazır</span></span></footer>
+  </section>
+</main>
+<div id="settingTooltip" class="setting-tooltip" role="tooltip" hidden></div>
+<dialog id="clipboard" class="clipboard"><form method="dialog"><strong>SVG kodu</strong><textarea readonly aria-label="SVG kodu"></textarea><button>Kapat</button></form></dialog>
+<script id="geometry">
+const add=(a,b)=>[a[0]+b[0],a[1]+b[1]];
+const sub=(a,b)=>[a[0]-b[0],a[1]-b[1]];
+const mul=(v,k)=>[v[0]*k,v[1]*k];
+const dot=(a,b)=>a[0]*b[0]+a[1]*b[1];
+const cross=(a,b)=>a[0]*b[1]-a[1]*b[0];
+const len=v=>Math.hypot(v[0],v[1]);
+const unit=v=>mul(v,1/(len(v)||1));
+const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
+const lerp=(a,b,t)=>add(a,mul(sub(b,a),t));
+const dist2=(a,b)=>(a[0]-b[0])**2+(a[1]-b[1])**2;
+const segT=(p,a,b)=>clamp(dot(sub(p,a),sub(b,a))/(dist2(a,b)||1),0,1);
+const cubic=(a,b,c,d,t)=>lerp(lerp(lerp(a,b,t),lerp(b,c,t),t),lerp(lerp(b,c,t),lerp(c,d,t),t),t);
+const fmt=n=>String(+n.toFixed(6));
+const coords=p=>p.map(fmt).join(' ');
+function roundTrip(nodes){
+  if(!nodes.length)return '';
+  let data='M '+coords(nodes[0].p);
+  for(let i=0;i<nodes.length;i++){
+    const a=nodes[i], b=nodes[(i+1)%nodes.length];
+    if(a.line){if(i<nodes.length-1)data+=' L '+coords(b.p);}
+    else data+=' C '+coords(a.out)+' '+coords(b.in)+' '+coords(b.p);
+  }
+  return data+' Z';
+}
+function childrenDepth(loops){
+  if(!loops.some(l=>l.parent>=0))return loops.map(()=>0);
+  return loops.map(l=>{let d=0,p=l.parent;while(p>=0&&d<loops.length){d++;p=loops[p].parent;}return d;});
+}
+function flatAssets(loops, complement=false){
+  const depth=childrenDepth(loops), groups=[];
+  if(complement)groups.push({root:-1,rings:loops.flatMap((l,i)=>l.parent<0?[i]:[])});
+  const groupByRoot=new Map();
+  loops.forEach((l,i)=>{
+    if((depth[i]%2===1)!==complement)return;
+    const group={root:i,rings:[i]};groups.push(group);groupByRoot.set(i,group);
+  });
+  loops.forEach((l,i)=>groupByRoot.get(l.parent)?.rings.push(i));
+  return groups;
+}
+function framePath(w,h){return 'M 0 0 H '+w+' V '+h+' H 0 Z';}
+function groupPath(loops,group,w,h){
+  const paths=group.rings.map(i=>roundTrip(loops[i].nodes));
+  if(group.root<0)paths.unshift(framePath(w,h));
+  return paths.join(' ');
+}
+function splitSegment(nodes,index,t){
+  const a=nodes[index],b=nodes[(index+1)%nodes.length];
+  let n;
+  if(a.line){
+    const p=lerp(a.p,b.p,t);n={p,in:p.slice(),out:p.slice(),smooth:false,line:true};
+  }else{
+    const ab=lerp(a.p,a.out,t), bc=lerp(a.out,b.in,t), cd=lerp(b.in,b.p,t);
+    const abc=lerp(ab,bc,t), bcd=lerp(bc,cd,t), p=lerp(abc,bcd,t);
+    a.out=ab;b.in=cd;n={p,in:abc,out:bcd,smooth:true,line:false};
+  }
+  nodes.splice(index+1,0,n);
+  return n;
+}
+</script>
+<script id="workerCode" type="text/plain">
+function boxBlur(input,w,h,r){
+  if(!r)return input;
+  const temp=new Float32Array(input.length), result=new Uint8ClampedArray(input.length);
+  for(let y=0;y<h;y++){
+    const start=y*w;
+    let total=0;
+    for(let x=0;x<=Math.min(r,w-1);x++)total+=input[start+x];
+    for(let x=0;x<w;x++){
+      temp[start+x]=total/(Math.min(w-1,x+r)-Math.max(0,x-r)+1);
+      if(x>=r)total-=input[start+x-r];
+      if(x+r+1<w)total+=input[start+x+r+1];
+    }
+  }
+  for(let x=0;x<w;x++){
+    let total=0;
+    for(let y=0;y<=Math.min(r,h-1);y++)total+=temp[y*w+x];
+    for(let y=0;y<h;y++){
+      result[y*w+x]=total/(Math.min(h-1,y+r)-Math.max(0,y-r)+1);
+      if(y>=r)total-=temp[(y-r)*w+x];
+      if(y+r+1<h)total+=temp[(y+r+1)*w+x];
+    }
+  }
+  return result;
+}
+function otsu(gray,alpha){
+  const hist=new Uint32Array(256);
+  let total=0,sum=0;
+  for(let i=0;i<gray.length;i++)if(alpha[i]>=128){hist[gray[i]]++;sum+=gray[i];total++;}
+  let mass=0,left=0,best=0,first=127,last=127;
+  for(let t=0;t<255;t++){
+    mass+=hist[t];left+=hist[t]*t;
+    if(!mass||mass===total)continue;
+    const score=(left*total-sum*mass)**2/(mass*(total-mass));
+    if(score>best){best=score;first=last=t;}else if(score===best){last=t;}
+  }
+  return Math.round((first+last)/2);
+}
+function quantize(channels,alpha,w,h,k){
+  const size=w*h;
+  const samples=new Map();
+  const step=Math.max(1,Math.floor(size/22000));
+  let rng=194729;
+  const random=()=>{rng=(Math.imul(rng,1664525)+1013904223)>>>0;return rng/4294967296;};
+  const pixel=i=>[channels[0][i],channels[1][i],channels[2][i]];
+  const pack=i=>(channels[0][i]<<16)|(channels[1][i]<<8)|channels[2][i];
+  for(let i=0;i<size;i+=step){
+    const at=i+Math.floor(random()*Math.min(step,size-i));
+    if(alpha[at]<128)continue;
+    const key=pack(at);
+    let s=samples.get(key);
+    if(!s){s={rgb:pixel(at),n:0,d:Infinity};samples.set(key,s);}
+    s.n++;
+  }
+  if(!samples.size){
+    const i=alpha.findIndex(v=>v>=128);
+    if(i>=0)samples.set(pack(i),{rgb:pixel(i),n:1,d:Infinity});
+  }
+  const data=Array.from(samples.values());
+  const rgbDist=(a,b)=>(a[0]-b[0])**2+(a[1]-b[1])**2+(a[2]-b[2])**2;
+  const nearest=(p,centers)=>{
+    let index=0, min=Infinity;
+    for(let c=0;c<centers.length;c++){const v=rgbDist(p,centers[c]);if(v<min){min=v;index=c;}}
+    return index;
+  };
+  const labels=new Int8Array(size).fill(-1);
+  if(!data.length)return {labels,palette:[],background:-1};
+  const weighted=weight=>{
+    let sum=0;for(const s of data)sum+=weight(s);
+    let ticket=random()*sum;
+    for(const s of data){ticket-=weight(s);if(ticket<0)return s;}
+    return data[0];
+  };
+  const centers=[weighted(s=>s.n).rgb.slice()];
+  while(centers.length<Math.min(k,data.length)){
+    const prev=centers[centers.length-1];
+    for(const s of data)s.d=Math.min(s.d,rgbDist(prev,s.rgb));
+    centers.push(weighted(s=>s.n*s.d).rgb.slice());
+  }
+  for(let turn=0;turn<22;turn++){
+    const sums=centers.map(()=>[0,0,0,0]);
+    for(const s of data){
+      const v=sums[nearest(s.rgb,centers)];
+      for(let c=0;c<3;c++)v[c]+=s.rgb[c]*s.n;
+      v[3]+=s.n;
+    }
+    let change=0;
+    sums.forEach((v,i)=>{
+      if(!v[3])return;
+      const next=v.slice(0,3).map(c=>c/v[3]);change+=rgbDist(centers[i],next);centers[i]=next;
+    });
+    if(change<.025)break;
+  }
+  const cache=new Map();
+  for(let i=0;i<size;i++){
+    if(alpha[i]<128)continue;
+    const key=pack(i);
+    let index=cache.get(key);
+    if(index===undefined){index=nearest(pixel(i),centers);if(cache.size<65536)cache.set(key,index);}
+    labels[i]=index;
+  }
+  const votes=centers.map(()=>0);
+  let clear=0;
+  const r=Math.max(1,Math.round(Math.min(w,h)*.065));
+  for(const x of [0,w-r])for(const y of [0,h-r]){
+    for(let j=y;j<y+r;j++)for(let i=x;i<x+r;i++){
+      const index=labels[j*w+i];if(index>=0)votes[index]++;else clear++;
+    }
+  }
+  const maxVote=Math.max(...votes);
+  const palette=centers.map(rgb=>'#'+rgb.map(n=>Math.round(n).toString(16).padStart(2,'0')).join(''));
+  return {labels,palette,background:maxVote>clear?votes.indexOf(maxVote):-1};
+}
+
+// Grid edges are directed so that filled pixels always lie on the right.
+function trace(mask,w,h,minArea=0){
+  const stride=w+1, edges=new Uint8Array(stride*(h+1)), delta=[1,stride,-1,-stride];
+  for(let y=0;y<h;y++)for(let x=0;x<w;x++){
+    const p=y*w+x;if(!mask[p])continue;
+    const a=y*stride+x;
+    if(!y||!mask[p-w])edges[a]|=1;
+    if(x===w-1||!mask[p+1])edges[a+1]|=2;
+    if(y===h-1||!mask[p+w])edges[a+1+stride]|=4;
+    if(!x||!mask[p-1])edges[a+stride]|=8;
+  }
+  const rings=[];
+  let removed=false;
+  for(let start=0;start<edges.length;start++)while(edges[start]){
+    let p=start,d=31-Math.clz32(edges[p]&-edges[p]), area=0, hash=2166136261;
+    const pts=[], box=[w,h,0,0];
+    do{
+      const x=p%stride,y=Math.floor(p/stride), q=p+delta[d];
+      pts.push([x,y]); edges[p]^=1<<d;
+      hash=Math.imul(hash^p,16777619);
+      area+=d===0?-y:d===1?x:d===2?y:-x;
+      if(x<box[0])box[0]=x;if(y<box[1])box[1]=y;
+      if(x>box[2])box[2]=x;if(y>box[3])box[3]=y;
+      p=q;
+      if(p===start)break;
+      const right=(d+1)%4,left=(d+3)%4;
+      d=edges[p]&1<<right?right:edges[p]&1<<d?d:edges[p]&1<<left?left:(d+2)%4;
+    }while(edges[p]&(1<<d));
+    if(p===start&&pts.length>=4&&area){
+      if(Math.abs(area/2)<minArea)removed=true;
+      else rings.push({pts,area:area/2,box,key:start+'/'+pts.length+'/'+hash});
+    }
+  }
+  rings.removed=removed;
+  return rings;
+}
+// Trace the interpolated luminance contour between pixel centers. Each
+// marching-squares edge belongs to two cells and has one stable vertex id.
+function traceBrightness(gray,alpha,w,h,threshold,invert){
+  const stride=w+2, field=new Float32Array(stride*(h+2));
+  for(let y=0;y<h;y++)for(let x=0;x<w;x++){
+    const i=y*w+x, j=(y+1)*stride+x+1;
+    const light=(threshold+.5-gray[i])*(invert?-1:1);
+    field[j]=Math.min(light,alpha[i]-127.5);
+  }
+  for(let y=1;y<=h;y++){
+    const first=y*stride;
+    field[first]=-Math.abs(field[first+1]);field[first+w+1]=-Math.abs(field[first+w]);
+  }
+  for(let x=0;x<stride;x++){
+    field[x]=-Math.abs(field[stride+x]);field[(h+1)*stride+x]=-Math.abs(field[h*stride+x]);
+  }
+  const links=new Map(),delta=[0,1,stride,0], axis=[0,1,0,1];
+  for(let y=0;y<=h;y++)for(let x=0;x<=w;x++){
+    const at=y*stride+x,a=field[at],b=field[at+1],c=field[at+stride+1],d=field[at+stride];
+    const code=(a>0?1:0)|(b>0?2:0)|(c>0?4:0)|(d>0?8:0);
+    if(code===0||code===15)continue;
+    const signs=[a>0,b>0,c>0,d>0], entries=[], exits=[];
+    for(let e=0;e<4;e++)if(signs[e]!==signs[(e+1)%4])(signs[e]?entries:exits).push(e);
+    const vertex=e=>2*(at+delta[e])+axis[e];
+    if(entries.length===1){links.set(vertex(entries[0]),vertex(exits[0]));continue;}
+    // The bilinear saddle decides whether the two interior quadrants join.
+    const determinant=a*c-b*d;
+    const connected=code===5?determinant>0:determinant<0;
+    for(const edge of entries)links.set(vertex(edge),vertex((edge+(connected?1:3))%4));
+  }
+  const rings=[];
+  for(const start of links.keys()){
+    const pts=[], box=[w,h,0,0];
+    let key=start,area=0;
+    do{
+      const at=Math.floor(key/2),vertical=key%2, a=field[at], b=field[at+(vertical?stride:1)], t=a/(a-b);
+      const x=clamp(at%stride-.5+(vertical?0:t),0,w),p=clamp(Math.floor(at/stride)-.5+(vertical?t:0),0,h);
+      const last=pts[pts.length-1];
+      if(last)area+=last[0]*p-last[1]*x;
+      pts.push([x,p]);
+      box[0]=Math.min(box[0],x);box[1]=Math.min(box[1],p);box[2]=Math.max(box[2],x);box[3]=Math.max(box[3],p);
+      const next=links.get(key);links.delete(key);key=next;
+    }while(key!==start&&links.has(key));
+    const last=pts[pts.length-1],first=pts[0];
+    area=(area+last[0]*first[1]-last[1]*first[0])/2;
+    if(key===start&&pts.length>=3&&Math.abs(area)>1e-7)rings.push({pts,area,box});
+  }
+  return rings;
+}
+
+function contains(points,p){
+  let inside=false;
+  for(let i=0,j=points.length-1;i<points.length;j=i++){
+    const a=points[i],b=points[j];
+    if((a[1]>p[1])!==(b[1]>p[1])&&p[0]<(b[0]-a[0])*(p[1]-a[1])/(b[1]-a[1])+a[0])inside=!inside;
+  }
+  return inside;
+}
+function hierarchy(rings,w,h){
+  const span=32, cols=Math.ceil((w+1)/span), rows=Math.ceil((h+1)/span);
+  const grid=Array.from({length:cols*rows},()=>[]);
+  rings.sort((a,b)=>Math.abs(b.area)-Math.abs(a.area));
+  rings.forEach((ring,i)=>{
+    const [x0,y0,x1,y1]=ring.box, [a,b]=ring.pts, d=sub(b,a), p=add(lerp(a,b,.5),mul([-d[1],d[0]],Math.sign(ring.area)*.2));
+    const candidates=grid[clamp(Math.floor(p[1]/span),0,rows-1)*cols+clamp(Math.floor(p[0]/span),0,cols-1)];
+    ring.parent=-1;
+    for(let j=candidates.length-1;j>=0;j--){
+      const index=candidates[j], outer=rings[index], box=outer.box;
+      if(x0>=box[0]&&x1<=box[2]&&y0>=box[1]&&y1<=box[3]&&contains(outer.pts,p)){ring.parent=index;break;}
+    }
+    for(let y=Math.floor(y0/span);y<=Math.floor(y1/span);y++){
+      for(let x=Math.floor(x0/span);x<=Math.floor(x1/span);x++)grid[y*cols+x].push(i);
+    }
+  });
+  return rings;
+}
+function rdp(points,first,last,tol){
+  const kept=[first,last], pending=[[first,last]], squared=tol*tol;
+  while(pending.length){
+    const [a,b]=pending.pop();
+    let max=squared,index=-1;
+    for(let i=a+1;i<b;i++){
+      const d=dist2(points[i],lerp(points[a],points[b],segT(points[i],points[a],points[b])));
+      if(d>max){max=d;index=i;}
+    }
+    if(index>=0){kept.push(index);pending.push([a,index],[index,b]);}
+  }
+  return kept.sort((a,b)=>a-b);
+}
+function fitRing(raw,tol,smoothing,cornerAngle=58,fitError=0){
+  const count=raw.length;
+  const points=raw.concat([raw[0]]);
+  let opposite=1;
+  for(let i=2;i<count;i++)if(dist2(points[i],points[0])>dist2(points[opposite],points[0]))opposite=i;
+  let anchors=rdp(points,0,opposite,tol).slice(0,-1).concat(rdp(points,opposite,count,tol).slice(0,-1));
+  if(anchors.length<3)anchors=[0,Math.round(count/3),Math.round(2*count/3)];
+  if(!smoothing)return anchors.map(i=>({p:points[i],in:points[i],out:points[i],line:true,smooth:false}));
+  const look=Math.max(2,Math.min(12,Math.round(tol*3)));
+  const point=i=>raw[(i%count+count)%count];
+  const reach=Math.min(look,Math.max(1,Math.floor(count/5)));
+  function tangents(i,previous=reach,next=reach){
+    const p=point(i), before=unit(sub(p,point(i-previous))), after=unit(sub(point(i+next),p));
+    return [before,after];
+  }
+  const corners=[];
+  const majorTurn=Math.cos(cornerAngle*Math.PI/180), localTurn=Math.cos((cornerAngle-9)*Math.PI/180);
+  anchors.forEach((i,j)=>{
+    const previous=(i-anchors[(j+anchors.length-1)%anchors.length]+count)%count;
+    const next=(anchors[(j+1)%anchors.length]-i+count)%count;
+    const [before,after]=tangents(i,Math.min(reach,previous),Math.min(reach,next));
+    const a=point(anchors[(j+anchors.length-1)%anchors.length]),b=point(i),c=point(anchors[(j+1)%anchors.length]);
+    const largeBend=dot(unit(sub(b,a)),unit(sub(c,b)))<majorTurn;
+    if(largeBend&&dot(before,after)<localTurn)corners.push({i,in:mul(before,-1),out:after,corner:true});
+  });
+  function smoothAt(i,span=Math.max(reach,Math.min(48,Math.round(count/24)))){
+    const [before,after]=tangents(i,span,span), v=unit(add(before,after));
+    const t=len(v)>0?v:after;
+    return {i,in:mul(t,-1),out:t,corner:false};
+  }
+  const cuts=corners.length?corners:Array.from({length:Math.min(4,anchors.length)},(_,i)=>smoothAt(anchors[Math.floor(i*anchors.length/Math.min(4,anchors.length))]));
+  const tolerance=fitError||Math.max(.29,tol*(.58+smoothing*.009));
+  const tolerance2=tolerance*tolerance, segments=[];
+  // A short symmetric average estimates Euclidean arc length through grid
+  // stair steps. Fitting and all on-curve anchors still use original points.
+  const lengths=new Float64Array(2*count+1);
+  const avg=i=>{
+    const a=point(i-2), b=point(i-1), c=point(i), d=point(i+1), e=point(i+2);
+    return [(a[0]+2*b[0]+3*c[0]+2*d[0]+e[0])/9,(a[1]+2*b[1]+3*c[1]+2*d[1]+e[1])/9];
+  };
+  let last=avg(0);
+  for(let i=1;i<=lengths.length-1;i++){
+    const next=avg(i);
+    lengths[i]=lengths[i-1]+Math.max(.05,len(sub(next,last)));last=next;
+  }
+  function fit(start,end,depth=0){
+    const a=point(start.i), d=point(end.i), steps=end.i-start.i;
+    const chord=len(sub(d,a));
+    if(steps===1||depth>=26){
+      segments.push({start,end,a,b:lerp(a,d,1/3),c:lerp(a,d,2/3),d});return;
+    }
+    const parameters=new Float64Array(steps+1), origin=lengths[start.i], length=lengths[end.i]-origin;
+    for(let i=1;i<=steps;i++)parameters[i]=(lengths[start.i+i]-origin)/length;
+    const t0=start.out,t1=end.in;
+    let at=Math.floor(steps/2);
+    for(let pass=0;pass<4;pass++){
+      let s00=0,s01=0,s11=0,q0=0,q1=0;
+      for(let i=1;i<steps;i++){
+        const u=parameters[i], v=1-u, f=3*v*v*u,g=3*v*u*u;
+        const l=mul(t0,f), r=mul(t1,g);
+        const q=sub(point(start.i+i),lerp(a,d,g+u*u*u));
+        s00+=dot(l,l);s01+=dot(l,r);s11+=dot(r,r);q0+=dot(l,q);q1+=dot(r,q);
+      }
+      const det=s00*s11-s01*s01;
+      let left=det?(q0*s11-q1*s01)/det:0, right=det?(q1*s00-q0*s01)/det:0;
+      if(left<chord*.025||right<chord*.025||left>length*1.05||right>length*1.05)left=right=chord/3;
+      const b=add(a,mul(t0,left)), c=add(d,mul(t1,right));
+      const evalAt=t=>{
+        const u=1-t, s0=u*u*u,s1=3*u*u*t,s2=3*u*t*t,s3=t*t*t;
+        return [s0*a[0]+s1*b[0]+s2*c[0]+s3*d[0],s0*a[1]+s1*b[1]+s2*c[1]+s3*d[1]];
+      };
+      const velocity=[mul(sub(b,a),3),mul(sub(c,b),3),mul(sub(d,c),3)];
+      const accel=[mul(sub(velocity[1],velocity[0]),2),mul(sub(velocity[2],velocity[1]),2)];
+      let worst=0;
+      for(let i=1;i<steps;i++){
+        const p=point(start.i+i);
+        let t=parameters[i], error=dist2(evalAt(t),p);
+        if(error>.01){
+          const lo=Math.max(0,t-.17),hi=Math.min(1,t+.17);
+          for(let k=0;k<5;k++){
+            const u=1-t, q=sub(evalAt(t),p);
+            const v=add(add(mul(velocity[0],u*u),mul(velocity[1],2*u*t)),mul(velocity[2],t*t));
+            const denominator=dot(v,v)+dot(q,lerp(accel[0],accel[1],t));
+            if(denominator<=1e-9)break;
+            const next=clamp(t-dot(q,v)/denominator,lo,hi);
+            const nextError=dist2(evalAt(next),p);
+            if(nextError>=error-1e-9)break;
+            t=next;error=nextError;
+          }
+        }
+        parameters[i]=t;
+        if(error>worst){worst=error;at=i;}
+      }
+      if(worst<=tolerance2&&chord>0){segments.push({start,end,a,b,c,d});return;}
+      if(worst>Math.max(8,length*.18)**2)break;
+    }
+    const mid=smoothAt(start.i+clamp(at,Math.max(1,Math.floor(steps*.08)),Math.min(steps-1,Math.ceil(steps*.92))),Math.min(48,Math.max(reach,Math.round(steps/13))));
+    fit(start,mid,depth+1);fit(mid,end,depth+1);
+  }
+  cuts.forEach((start,j)=>{
+    const last=cuts[(j+1)%cuts.length], end=j+1===cuts.length?{...last,i:last.i+count}:last;
+    fit(start,end);
+  });
+  if(segments.length<2)return anchors.map(i=>({p:points[i],in:points[i],out:points[i],line:false,smooth:false}));
+  return segments.map((s,i)=>({p:s.a,in:segments[(i+segments.length-1)%segments.length].c,out:s.b,smooth:!s.start.corner,line:false}));
+}
+
+// DDA walks unit grid edges. Each grid crossing is an intersection with that
+// edge segment. The first filled-to-empty crossing is the opposing contour.
+function alphaBoundaries(alpha,w,h){
+  return traceBrightness(new Uint8Array(w*h),alpha,w,h,255,false);
+}
+function maskBoundaries(mask,w,h){
+  return alphaBoundaries(mask.map(value=>value*255),w,h);
+}
+function contoursToPath(rings){
+  return rings.map(({pts})=>'M '+pts.map(coords).join(' L ')+' Z').join(' ');
+}
+function sampleOutline(points,step){
+  const samples=[];
+  for(let i=0;i<points.length;i++){
+    const a=points[i], b=points[(i+1)%points.length], length=len(sub(b,a));
+    if(length<1e-6)continue;
+    const pieces=Math.ceil(length/step), tangent=unit(sub(b,a));
+    for(let j=0;j<pieces;j++)samples.push({p:lerp(a,b,j/pieces),tangent});
+  }
+  return samples;
+}
+function contourIntersections(outlines,limit){
+  const bins=new Map(),span=clamp(limit,8,28);
+  function visitBox(a,b,fn){
+    for(let y=Math.floor(Math.min(a[1],b[1])/span);y<=Math.floor(Math.max(a[1],b[1])/span);y++){
+      for(let x=Math.floor(Math.min(a[0],b[0])/span);x<=Math.floor(Math.max(a[0],b[0])/span);x++)fn(x+','+y);
+    }
+  }
+  for(const pts of outlines)for(let i=0;i<pts.length;i++){
+    const a=pts[i], b=pts[(i+1)%pts.length], v=sub(b,a), magnitude=len(v);
+    if(magnitude<1e-7)continue;
+    const edge={a,v,tangent:mul(v,1/magnitude)};
+    visitBox(a,b,key=>{
+      if(!bins.has(key))bins.set(key,[]);
+      bins.get(key).push(edge);
+    });
+  }
+  return (p,inward,tangent)=>{
+    let closest=limit, facing=false;
+    const seen=new Set();
+    let x=Math.floor(p[0]/span),y=Math.floor(p[1]/span);
+    const sx=Math.sign(inward[0]), sy=Math.sign(inward[1]);
+    const dx=sx?span/Math.abs(inward[0]):Infinity,dy=sy?span/Math.abs(inward[1]):Infinity;
+    let tx=sx?((x+(sx>0?1:0))*span-p[0])/inward[0]:Infinity;
+    let ty=sy?((y+(sy>0?1:0))*span-p[1])/inward[1]:Infinity;
+    while(true){
+      for(const edge of bins.get(x+','+y)||[]){
+        if(seen.has(edge))continue;
+        seen.add(edge);
+        const determinant=cross(inward,edge.v);
+        if(determinant<=1e-8)continue; // Only crossings out of the filled side.
+        const delta=sub(edge.a,p), distance=cross(delta,edge.v)/determinant;
+        if(distance<=.18||distance>=closest)continue;
+        const position=cross(delta,inward)/determinant;
+        if(position<0||position>1)continue;
+        closest=distance;
+        facing=dot(edge.tangent,tangent)<-.35;
+      }
+      const next=Math.min(tx,ty);
+      if(next>=closest)break;
+      if(tx<=next+1e-8){x+=sx;tx+=dx;}
+      if(ty<=next+1e-8){y+=sy;ty+=dy;}
+    }
+    return facing?closest:limit;
+  };
+}
+function taperedOffsets(samples,raw){
+  // A bounded rate of change spreads thickness changes along the contour.
+  // Averaging that envelope removes steps between adjacent measurements.
+  const n=raw.length,out=raw.slice();
+  for(const direction of [1,-1]){
+    for(let j=0;j<2*n;j++){
+      const i=(direction*j+n*2)%n,next=(i+direction+n)%n;
+      out[next]=Math.max(out[next],out[i]-.29*len(sub(samples[next].p,samples[i].p)));
+    }
+  }
+  return out.map((value,i)=>Math.max(raw[i]*.94,(out[(i+n-2)%n]+2*out[(i+n-1)%n]+3*value+2*out[(i+1)%n]+out[(i+2)%n])/9));
+}
+function offsetStrips(boundaries,target){
+  const outlines=boundaries.map(({pts})=>simplifyPrintRing(pts,.42));
+  const measure=contourIntersections(outlines,target),strips=[], shifted=[];
+  const step=clamp(target*.17,.7,3);
+  for(const [index,outline] of outlines.entries()){
+    const samples=sampleOutline(outline,step), n=samples.length;
+    if(n<3){shifted.push(boundaries[index].pts);continue;}
+    const normals=[],raw=[];
+    for(let i=0;i<n;i++){
+      const sample=samples[i],previous=samples[(i+n-1)%n],next=samples[(i+1)%n];
+      const tangent=unit(sub(next.p,previous.p));
+      const local=dot(tangent,sample.tangent)>.91?tangent:sample.tangent;
+      const inward=[-local[1],local[0]];
+      const measured=measure(sample.p,inward,local);
+      const corner=unit(add(previous.tangent,sample.tangent));
+      normals.push(len(corner)>.5?[corner[1],-corner[0]]:[local[1],-local[0]]);
+      raw.push(Math.max(0,(target-measured)/2));
+    }
+    if(!raw.some(value=>value>.08)){shifted.push(boundaries[index].pts);continue;}
+    const offsets=taperedOffsets(samples,raw);
+    const moved=samples.map((sample,i)=>add(sample.p,mul(normals[i],offsets[i])));
+    shifted.push(simplifyPrintRing(moved,.18));
+    for(let i=0;i<n;i++){
+      const j=(i+1)%n;
+      if(offsets[i]>.02||offsets[j]>.02)strips.push([samples[j].p,samples[i].p,moved[i],moved[j]]);
+    }
+  }
+  return {strips,shifted};
+}
+function expandOutline(mask,w,h,target,boundaries){
+  if(target<=1)return {mask};
+  const rings=boundaries||maskBoundaries(mask,w,h), {strips,shifted}=offsetStrips(rings,target);
+  if(!strips.length)return {mask};
+  const ctx=new OffscreenCanvas(w,h).getContext('2d',{willReadFrequently:true});
+  function readAlpha(){
+    const data=ctx.getImageData(0,0,w,h).data, alpha=new Uint8Array(w*h);
+    for(let i=0;i<alpha.length;i++)alpha[i]=data[4*i+3];
+    return alpha;
+  }
+  const within=shifted.every((pts,i)=>Math.sign(printArea(pts))===Math.sign(rings[i].area)
+    &&pts.every(([x,y])=>x>=0&&x<=w&&y>=0&&y<=h));
+  if(within&&validPrintSegments(shifted)){
+    const outlines=shifted.map(pts=>{
+      const box=[w,h,0,0];
+      for(const [x,y] of pts){
+        box[0]=Math.min(box[0],x);box[1]=Math.min(box[1],y);box[2]=Math.max(box[2],x);box[3]=Math.max(box[3],y);
+      }
+      return {pts,box,area:printArea(pts)/2};
+    });
+    ctx.fill(new Path2D(contoursToPath(outlines)),'nonzero');
+    const alpha=readAlpha();
+    if(!mask.some((value,i)=>value&&alpha[i]<128)){
+      return {mask:alpha.map(value=>value>=128?1:0),alpha,outlines};
+    }
+    ctx.clearRect(0,0,w,h);
+  }
+  // Weld crossing outline extensions where their topology changes.
+  ctx.fill(new Path2D(contoursToPath(rings)),'evenodd');
+  const additions=new Path2D();
+  for(const [a,b,c,d] of strips){
+    additions.moveTo(...a);additions.lineTo(...b);additions.lineTo(...c);additions.lineTo(...d);additions.closePath();
+  }
+  ctx.fill(additions,'nonzero');
+  const alpha=readAlpha();
+  for(let i=0;i<alpha.length;i++)if(mask[i]&&alpha[i]<128)alpha[i]=255;
+  return {mask:alpha.map(value=>value>=128?1:0),alpha};
+}
+function rasterGeometry(geometry,w,h){
+  const canvas=new OffscreenCanvas(w,h), ctx=canvas.getContext('2d',{willReadFrequently:true});
+  const path=(geometry.base?framePath(w,h)+' ':'')+geometry.loops.map(r=>roundTrip(r.nodes)).join(' ');
+  ctx.fill(new Path2D(path),'evenodd');
+  return {canvas,ctx};
+}
+// Squared Euclidean distance to the nearest pixel of the target class.
+// Padding includes the empty space just outside the image for erosion.
+function distanceField(mask,w,h,seed,exterior=0){
+  const cols=w+2,rows=h+2,side=Math.max(cols,rows),far=1e8;
+  const distances=new Int32Array(cols*rows);
+  const sites=new Int32Array(side),cuts=new Float64Array(side+1),line=new Float64Array(side);
+  distances.fill(seed===exterior?0:far);
+  for(let y=0;y<h;y++)for(let x=0;x<w;x++)distances[(y+1)*cols+x+1]=mask[y*w+x]===seed?0:far;
+  // Lower envelope of parabolas in one dimension, then the other.
+  function transform(start,stride,n){
+    for(let i=0;i<n;i++)line[i]=distances[start+i*stride];
+    let k=0;
+    sites[0]=0;cuts[0]=-Infinity;cuts[1]=Infinity;
+    for(let q=1;q<n;q++){
+      let origin=sites[k],next=(line[q]+q*q-line[origin]-origin*origin)/(2*(q-origin));
+      while(next<=cuts[k]){
+        origin=sites[--k];
+        next=(line[q]+q*q-line[origin]-origin*origin)/(2*(q-origin));
+      }
+      sites[++k]=q;cuts[k]=next;cuts[k+1]=Infinity;
+    }
+    k=0;
+    for(let q=0;q<n;q++){
+      while(cuts[k+1]<q)k++;
+      const origin=sites[k];distances[start+q*stride]=line[origin]+(q-origin)**2;
+    }
+  }
+  for(let y=0;y<rows;y++)transform(y*cols,1,cols);
+  for(let x=0;x<cols;x++)transform(x,cols,rows);
+  return {distances,cols};
+}
+function offsetMask(mask,w,h,offset,exterior=0){
+  if(!offset)return mask;
+  const seed=offset>0?1:0;
+  const {distances,cols}=distanceField(mask,w,h,seed,exterior);
+  const result=new Uint8Array(mask.length),radius2=offset*offset;
+  for(let y=0;y<h;y++)for(let x=0;x<w;x++){
+    const near=distances[(y+1)*cols+x+1]<=radius2;
+    result[y*w+x]=near===Boolean(seed)?1:0;
+  }
+  return result;
+}
+function filteredRings(mask,w,h,area,holeArea){
+  if(area===holeArea)return hierarchy(trace(mask,w,h,area),w,h);
+  return selectRings(trace(mask,w,h),w,h,area,holeArea);
+}
+function selectRings(rings,w,h,area,holeArea){
+  const all=hierarchy(rings,w,h), retained=[];
+  const remap=new Int32Array(all.length).fill(-1);
+  for(let i=0;i<all.length;i++){
+    const ring=all[i],parent=ring.parent;
+    if(Math.abs(ring.area)<(ring.area>0?area:holeArea)||parent>=0&&remap[parent]<0)continue;
+    remap[i]=retained.length;
+    retained.push({...ring,parent:parent<0?-1:remap[parent]});
+  }
+  retained.removed=retained.length!==all.length;
+  return retained;
+}
+function makeLoops(mask,w,h,settings,preserved){
+  return filteredRings(mask,w,h,settings.area,settings.holeArea??settings.area).map(r=>({
+    parent:r.parent,
+    nodes:preserved?.get(r.key)||fitRing(r.pts,settings.tolerance,settings.smooth,settings.cornerAngle,settings.fitError)
+  }));
+}
+function convertImage({pixels,w,h,settings}){
+  const rgba=new Uint8ClampedArray(pixels), size=w*h, alpha=new Uint8Array(size);
+  for(let i=0;i<size;i++)alpha[i]=rgba[4*i+3];
+  const makeLayer=(mask,fill,boundaries)=>{
+    const {area, offset=0, thickness}=settings, holeArea=settings.holeArea??area;
+    if((thickness>1||offset)&&(area>1||holeArea>1)){
+      const initial=filteredRings(mask,w,h,area,holeArea);
+      if(!initial.length){mask.fill(0);boundaries=undefined;}
+      else if(initial.removed){
+        boundaries=undefined;
+        const canvas=new OffscreenCanvas(w,h),ctx=canvas.getContext('2d',{willReadFrequently:true});
+        const path=initial.map(r=>'M'+r.pts.join('L')+'Z').join(' ');
+        ctx.fill(new Path2D(path),'evenodd');
+        const data=ctx.getImageData(0,0,w,h).data;
+        mask=mask.map((_,i)=>data[4*i+3]>=128?1:0);
+      }
+    }
+    const adjusted=offsetMask(mask,w,h,offset);
+    const grown=expandOutline(adjusted,w,h,thickness,offset?undefined:boundaries);
+    const rings=grown.alpha?alphaBoundaries(grown.alpha,w,h):offset?null:boundaries;
+    const loops=rings?selectRings(rings,w,h,area,holeArea).map(r=>({
+      parent:r.parent,nodes:fitRing(r.pts,settings.tolerance,settings.smooth,settings.cornerAngle,settings.fitError)
+    })):makeLoops(grown.mask,w,h,settings);
+    return {fill,geometry:{base:false,loops},flip:false};
+  };
+  if(settings.mode==='bw'){
+    const luminance=new Uint8ClampedArray(size);
+    for(let i=0;i<size;i++){
+      const j=4*i, a=alpha[i]/255;
+      luminance[i]=(rgba[j]*.2126+rgba[j+1]*.7152+rgba[j+2]*.0722)*a+255*(1-a);
+    }
+    const gray=boxBlur(luminance,w,h,settings.blur);
+    const threshold=settings.otsu?otsu(gray,alpha):settings.threshold;
+    const boundaries=settings.contourMethod==='smooth'&&!settings.offset
+      ?traceBrightness(gray,alpha,w,h,threshold,settings.invert):undefined;
+    const mask=new Uint8Array(size);
+    for(let i=0;i<size;i++)mask[i]=alpha[i]>=128&&((gray[i]<=threshold)!==Boolean(settings.invert))?1:0;
+    return {layers:[makeLayer(mask,settings.ink,boundaries)],threshold};
+  }
+  const channels=[0,1,2].map(c=>{
+    const channel=new Uint8ClampedArray(size);
+    for(let i=0;i<size;i++)channel[i]=alpha[i]>=128?rgba[4*i+c]:255;
+    return boxBlur(channel,w,h,settings.blur);
+  });
+  const {labels,palette,background}=quantize(channels,alpha,w,h,settings.colors);
+  const ordered=palette.map((fill,index)=>({fill,index}));
+  const coverage=new Int32Array(palette.length);
+  for(const i of labels)if(i>=0)coverage[i]++;
+  ordered.sort((a,b)=>coverage[b.index]-coverage[a.index]);
+  const layers=ordered.filter(({index})=>!(settings.transparent&&index===background)).map(({index,fill})=>{
+    const mask=new Uint8Array(size);
+    for(let i=0;i<size;i++)mask[i]=labels[i]===index?1:0;
+    return makeLayer(mask,fill);
+  });
+  return {layers,background:palette[background]};
+}
+function paint({geometry,w,h,settings,points,radius,addInk}){
+  const {ctx}=rasterGeometry(geometry,w,h);
+  const base=ctx.getImageData(0,0,w,h).data;
+  ctx.globalCompositeOperation=addInk?'source-over':'destination-out';
+  ctx.lineWidth=2*radius;ctx.lineJoin='round';ctx.lineCap='round';
+  ctx.beginPath();ctx.arc(points[0][0],points[0][1],radius,0,Math.PI*2);ctx.fill();
+  if(points.length>1){
+    ctx.beginPath();ctx.moveTo(...points[0]);for(let i=1;i<points.length;i++)ctx.lineTo(...points[i]);ctx.stroke();
+  }
+  const data=ctx.getImageData(0,0,w,h).data, mask=new Uint8Array(w*h), before=new Uint8Array(w*h);
+  let changed=false;
+  for(let i=0;i<mask.length;i++){
+    mask[i]=data[4*i+3]>=128?1:0;before[i]=base[4*i+3]>=128?1:0;
+    if(mask[i]!==before[i])changed=true;
+  }
+  if(!changed)return {geometry,changed:false};
+  if(geometry.base)for(let i=0;i<mask.length;i++){before[i]^=1;mask[i]^=1;}
+  const old=trace(before,w,h), known=new Map(), tiles=new Map(), tile=12;
+  // Compare raster bounds with exact Bezier extrema to match untouched rings.
+  function bounds(nodes){
+    const box=[Infinity,Infinity,-Infinity,-Infinity];
+    nodes.forEach((node,i)=>{
+      const next=nodes[(i+1)%nodes.length];
+      for(let k=0;k<2;k++){
+        const a=node.p[k],b=node.out[k],c=next.in[k],d=next.p[k];
+        let low=Math.min(a,d),high=Math.max(a,d);
+        if(!node.line){
+          const A=-a+3*b-3*c+d,B=2*(a-2*b+c),C=b-a;
+          const discriminant=B*B-4*A*C;
+          const zeros=Math.abs(A)<1e-9?(B?[-C/B]:[]):discriminant>=0?[(-B+Math.sqrt(discriminant))/(2*A),(-B-Math.sqrt(discriminant))/(2*A)]:[];
+          for(const t of zeros)if(t>0&&t<1){
+            const u=1-t, v=u*u*u*a+3*u*u*t*b+3*u*t*t*c+t*t*t*d;
+            low=Math.min(low,v);high=Math.max(high,v);
+          }
+        }
+        box[k]=Math.min(box[k],low);box[k+2]=Math.max(box[k+2],high);
+      }
+    });
+    return box;
+  }
+  for(const {nodes} of geometry.loops){
+    const b=bounds(nodes);
+    if(b[0]<0||b[1]<0||b[2]>w||b[3]>h)continue;
+    const key=Math.floor(b[0]/tile)+','+Math.floor(b[1]/tile);
+    if(!tiles.has(key))tiles.set(key,[]);
+    tiles.get(key).push({b,nodes});
+  }
+  for(const ring of old){
+    const x=Math.floor(ring.box[0]/tile),y=Math.floor(ring.box[1]/tile);
+    let best=null,error=Infinity,second=Infinity;
+    for(let j=y-1;j<=y+1;j++)for(let i=x-1;i<=x+1;i++){
+      for(const {b,nodes} of tiles.get(i+','+j)||[]){
+        const diff=b.reduce((v,value,k)=>v+Math.abs(value-ring.box[k]),0);
+        if(diff<error){second=error;error=diff;best=nodes;}else second=Math.min(second,diff);
+      }
+    }
+    if(best&&error<=5&&error+.5<second)known.set(ring.key,best);
+  }
+  return {geometry:{base:geometry.base,loops:makeLoops(mask,w,h,{...settings,area:0,holeArea:0},known)},changed:true};
+}
+function printOpening(mask,w,h,r,exterior){
+  if(!r)return mask;
+  return offsetMask(offsetMask(mask,w,h,-r,exterior),w,h,r,exterior);
+}
+function invertMask(mask){return mask.map(pixel=>1-pixel);}
+function countUnsupported(mask,supported){
+  let count=0;
+  for(let i=0;i<mask.length;i++)if(mask[i]&&!supported[i])count++;
+  return count;
+}
+function removePrintIslands(mask,w,h,minPixels){
+  if(minPixels<=1)return 0;
+  const seen=new Uint8Array(mask.length), queue=new Int32Array(mask.length);
+  let removed=0;
+  for(let i=0;i<mask.length;i++){
+    if(!mask[i]||seen[i])continue;
+    seen[i]=1;queue[0]=i;
+    let tail=1;
+    for(let head=0;head<tail;head++){
+      const index=queue[head], x=index%w;
+      if(x&&mask[index-1]&&!seen[index-1]){seen[index-1]=1;queue[tail++]=index-1;}
+      if(x+1<w&&mask[index+1]&&!seen[index+1]){seen[index+1]=1;queue[tail++]=index+1;}
+      if(index>=w&&mask[index-w]&&!seen[index-w]){seen[index-w]=1;queue[tail++]=index-w;}
+      if(index<(h-1)*w&&mask[index+w]&&!seen[index+w]){seen[index+w]=1;queue[tail++]=index+w;}
+    }
+    if(tail>=minPixels)continue;
+    for(let j=0;j<tail;j++)mask[queue[j]]=0;
+    removed++;
+  }
+  return removed;
+}
+function printPolygon(points,mask,w,h){
+  const ring=[];
+  function solid(x,y){return x>=0&&x<w&&y>=0&&y<h&&mask[y*w+x];}
+  for(let i=0;i<points.length;i++){
+    const p=points[i],before=points[(i+points.length-1)%points.length],after=points[(i+1)%points.length];
+    const [x,y]=p;
+    const a=!!solid(x-1,y-1),b=!!solid(x,y-1),c=!!solid(x-1,y),d=!!solid(x,y);
+    if(a===d&&b===c&&a!==b){
+      // Diagonally adjacent pixels otherwise touch at a single point, which
+      // some extrusion programs reject as non-manifold.
+      ring.push(lerp(p,before,.25),lerp(p,after,.25));
+    }else if(cross(sub(p,before),sub(after,p)))ring.push(p);
+  }
+  return ring;
+}
+function printArea(points){
+  return points.reduce((area,p,i)=>area+cross(p,points[(i+1)%points.length]),0);
+}
+function simplifyPrintRing(ring,tolerance=.68){
+  if(ring.length<6)return ring;
+  const joined=ring.concat([ring[0]]), opposite=Math.floor(ring.length/2);
+  const keep=rdp(joined,0,opposite,tolerance).slice(0,-1).concat(rdp(joined,opposite,ring.length,tolerance).slice(0,-1));
+  const simple=keep.map(i=>ring[i]);
+  if(simple.length>=3&&Math.sign(printArea(simple))===Math.sign(printArea(ring)))return simple;
+  return ring;
+}
+function validPrintSegments(rings){
+  const grid=new Map(),span=24;
+  let id=0;
+  for(const ring of rings)for(let i=0;i<ring.length;i++){
+    const a=ring[i],b=ring[(i+1)%ring.length], dir=sub(b,a), checked=new Set();
+    const segment={id:++id,ring,i,a,b};
+    for(let y=Math.floor(Math.min(a[1],b[1])/span);y<=Math.floor(Math.max(a[1],b[1])/span);y++){
+      for(let x=Math.floor(Math.min(a[0],b[0])/span);x<=Math.floor(Math.max(a[0],b[0])/span);x++){
+        const key=x+','+y;
+        let bin=grid.get(key);
+        if(!bin){bin=[];grid.set(key,bin);}
+        for(const other of bin){
+          if(checked.has(other.id))continue;
+          checked.add(other.id);
+          if(other.ring===ring&&(other.i===i-1||i===ring.length-1&&other.i===0))continue;
+          const c=other.a,d=other.b;
+          if(Math.max(a[0],b[0])<Math.min(c[0],d[0])||Math.max(c[0],d[0])<Math.min(a[0],b[0])||
+             Math.max(a[1],b[1])<Math.min(c[1],d[1])||Math.max(c[1],d[1])<Math.min(a[1],b[1]))continue;
+          const side=sub(d,c);
+          if(cross(dir,sub(c,a))*cross(dir,sub(d,a))<=0&&cross(side,sub(a,c))*cross(side,sub(b,c))<=0)return false;
+        }
+        bin.push(segment);
+      }
+    }
+  }
+  return true;
+}
+function printPaths(mask,w,h,coverage,outlines,tolerance=.8){
+  let loops=hierarchy(outlines||(coverage?alphaBoundaries(coverage,w,h):maskBoundaries(mask,w,h)),w,h);
+  let vertices=loops.map(loop=>simplifyPrintRing(loop.pts,outlines ? .18 : tolerance));
+  if(!validPrintSegments(vertices)){
+    vertices=loops.map(loop=>loop.pts);
+    if(!validPrintSegments(vertices)){
+      loops=hierarchy(trace(mask,w,h),w,h);
+      vertices=loops.map(loop=>printPolygon(loop.pts,mask,w,h));
+      if(!validPrintSegments(vertices))throw new Error('Kapalı kontur oluşturulamadı. Et kalınlığını veya boşluk ayarını değiştirin.');
+    }
+  }
+  const rings=vertices.map(points=>'M '+coords(points[0])+' L '+points.slice(1).map(coords).join(' ')+' Z');
+  const paths=flatAssets(loops).map(group=>group.rings.map(index=>rings[index]).join(' '));
+  const bounds=vertices.length?[Infinity,Infinity,-Infinity,-Infinity]:null;
+  let nodes=0;
+  for(const ring of vertices)for(const [x,y] of ring){
+    nodes++;bounds[0]=Math.min(bounds[0],x);bounds[1]=Math.min(bounds[1],y);
+    bounds[2]=Math.max(bounds[2],x);bounds[3]=Math.max(bounds[3],y);
+  }
+  return {paths,nodes,bounds};
+}
+function printOverlay(before,after,solid,empty,w,h){
+  const ratio=Math.min(1,560/Math.max(w,h)),width=Math.max(1,Math.round(w*ratio)),height=Math.max(1,Math.round(h*ratio));
+  const marks=new Uint8Array(width*height);
+  for(let y=0,i=0;y<h;y++)for(let x=0;x<w;x++,i++){
+    const issue=after[i]?!solid[i]:!empty[i], changed=before[i]!==after[i];
+    if(!issue&&!changed)continue;
+    const j=Math.floor(y*height/h)*width+Math.floor(x*width/w);
+    marks[j]=Math.max(marks[j],issue?2:1);
+  }
+  return {width,height,marks};
+}
+function preservesPrintShape(wallAction,gapAction,island){
+  return wallAction==='none'&&gapAction==='none'&&island===0;
+}
+function samplePrintLoop(nodes){
+  const points=[nodes[0].p];
+  // Sample only to check contour topology. Original curve commands are exported.
+  function appendCurve(a,b,c,d,depth){
+    const error=Math.max(dist2(b,lerp(a,d,segT(b,a,d))),dist2(c,lerp(a,d,segT(c,a,d))));
+    if(error<=.0009||depth>=15){points.push(d);return;}
+    const ab=lerp(a,b,.5),bc=lerp(b,c,.5),cd=lerp(c,d,.5);
+    const left=lerp(ab,bc,.5),right=lerp(bc,cd,.5),middle=lerp(left,right,.5);
+    appendCurve(a,ab,left,middle,depth+1);appendCurve(middle,right,cd,d,depth+1);
+  }
+  for(let i=0;i<nodes.length;i++){
+    const a=nodes[i],b=nodes[(i+1)%nodes.length];
+    if(a.line)points.push(b.p);
+    else appendCurve(a.p,a.out,b.in,b.p,0);
+  }
+  points.pop();
+  return points.filter((point,i)=>dist2(point,points[(i+points.length-1)%points.length])>1e-12);
+}
+function originalPrintPaths(layers,w,h){
+  const entry=layers.filter(layer=>layer.paths.length);
+  if(entry.length!==1||!entry[0].originalLoops||entry[0].offset!==0)return null;
+  const sourceLoops=entry[0].originalLoops;
+  const rings=[],bounds=[Infinity,Infinity,-Infinity,-Infinity];
+  let nodes=0;
+  for(const [index,loop] of sourceLoops.entries()){
+    const knots=loop.nodes;
+    if(knots.length<2||knots.some(node=>[node.p,node.in,node.out].some(([x,y])=>x<0||x>w||y<0||y>h)))return null;
+    const pts=samplePrintLoop(knots),area=printArea(pts)/2,box=[w,h,0,0];
+    if(pts.length<3||Math.abs(area)<1e-7)return null;
+    for(const [x,y] of pts){
+      box[0]=Math.min(box[0],x);box[1]=Math.min(box[1],y);box[2]=Math.max(box[2],x);box[3]=Math.max(box[3],y);
+    }
+    bounds[0]=Math.min(bounds[0],box[0]);bounds[1]=Math.min(bounds[1],box[1]);
+    bounds[2]=Math.max(bounds[2],box[2]);bounds[3]=Math.max(bounds[3],box[3]);
+    rings.push({index,pts,area,box});nodes+=knots.length;
+  }
+  if(!rings.length||!validPrintSegments(rings.map(r=>r.pts)))return null;
+  hierarchy(rings,w,h);
+  if(rings.some(r=>(rings[r.parent]?.index??-1)!==sourceLoops[r.index].parent))return null;
+  const depth=childrenDepth(rings);
+  const paths=rings.map((ring,i)=>{
+    const knots=sourceLoops[ring.index].nodes;
+    if((ring.area>0)===(depth[i]%2===0))return roundTrip(knots);
+    const reversed=knots.map((node,j)=>({...node,in:node.out,out:node.in,line:knots[(j+knots.length-1)%knots.length].line})).reverse();
+    return roundTrip(reversed);
+  });
+  return {paths:flatAssets(rings).map(group=>group.rings.map(index=>paths[index]).join(' ')),nodes,bounds,originalVectors:true};
+}
+
+function preparePrint({drawingWidth,drawingHeight,layerWidth,layers,options}){
+  const widest=Math.max(drawingWidth,drawingHeight);
+  const detail=Math.min(options.wall,options.gap||Infinity);
+  const preserve=preservesPrintShape(options.wallAction,options.gapAction,options.island);
+  const originalVectors=preserve?originalPrintPaths(layers,layerWidth,drawingHeight):null;
+  const target=Math.min(2400,Math.max(420,widest*(preserve&&!originalVectors?2:1),Math.ceil(options.width*7/detail*widest/drawingWidth)));
+  const scale=target/widest,w=Math.max(1,Math.round(drawingWidth*scale)),h=Math.max(1,Math.round(drawingHeight*scale));
+  const canvas=new OffscreenCanvas(w,h), ctx=canvas.getContext('2d',{willReadFrequently:true});
+  ctx.scale(w/drawingWidth,h/drawingHeight);
+  for(const entry of layers){
+    ctx.save();ctx.translate(entry.offset,0);
+    ctx.clip(new Path2D(framePath(layerWidth,drawingHeight)));
+    for(const d of entry.paths)ctx.fill(new Path2D(d),'evenodd');
+    ctx.restore();
+  }
+  const rgba=ctx.getImageData(0,0,w,h).data;
+  const sourceAlpha=new Uint8Array(w*h);
+  for(let i=0;i<sourceAlpha.length;i++)sourceAlpha[i]=rgba[i*4+3];
+  const original=sourceAlpha.map(value=>value>=128?1:0);
+  const mmPerPixel=options.width/w,pixelArea=mmPerPixel**2;
+  const radius=width=>clamp(Math.round((width/mmPerPixel-1)/2),1,Math.ceil(Math.hypot(w,h))+2);
+  const wallRadius=radius(options.wall),gapRadius=options.gap?radius(options.gap):0;
+  const foreground=printOpening(original,w,h,wallRadius,0);
+  const originalEmpty=invertMask(original);
+  const background=printOpening(originalEmpty,w,h,gapRadius,1);
+  const beforeWall=countUnsupported(original,foreground),beforeGap=countUnsupported(originalEmpty,background);
+  let material=preserve?original:original.slice();
+  let removed=removePrintIslands(material,w,h,options.island/pixelArea);
+  let coverage=removed?null:sourceAlpha, outlines=null;
+  if(options.wallAction==='grow'){
+    const expanded=expandOutline(material,w,h,options.wall/mmPerPixel+.85,coverage?alphaBoundaries(coverage,w,h):undefined);
+    material=expanded.mask;
+    coverage=expanded.alpha||coverage;outlines=expanded.outlines;
+  }
+  if(options.wallAction==='trim'){
+    material=removed?printOpening(material,w,h,wallRadius,0):foreground.slice();
+    coverage=null;
+  }
+  if(gapRadius&&options.gapAction!=='none'){
+    const blank=invertMask(material);
+    const expanded=options.gapAction==='widen'?expandOutline(blank,w,h,options.gap/mmPerPixel+.85,coverage?alphaBoundaries(coverage.map(value=>255-value),w,h):undefined)
+      :{mask:printOpening(blank,w,h,gapRadius,1)};
+    const adjusted=invertMask(expanded.mask);
+    if(adjusted.some((value,i)=>value!==material[i])){
+      outlines=null;coverage=expanded.alpha?expanded.alpha.map(value=>255-value):null;
+    }
+    material=adjusted;
+  }
+  const extraRemoved=removePrintIslands(material,w,h,options.island/pixelArea);
+  removed+=extraRemoved;
+  if(extraRemoved){coverage=null;outlines=null;}
+  const finalWall=preserve?foreground:printOpening(material,w,h,wallRadius,0);
+  const empty=preserve?originalEmpty:invertMask(material);
+  const finalGap=preserve?background:printOpening(empty,w,h,gapRadius,1);
+  const afterWall=countUnsupported(material,finalWall),afterGap=countUnsupported(empty,finalGap);
+  const shape=originalVectors||printPaths(material,w,h,coverage,outlines,preserve ? .35 : .8);
+  return {
+    ...shape,w:originalVectors?drawingWidth:w,h:originalVectors?drawingHeight:h,
+    widthMm:options.width,heightMm:options.width*drawingHeight/drawingWidth,removed,preserve,
+    beforeWall:beforeWall*pixelArea,beforeGap:beforeGap*pixelArea,gapChecked:gapRadius>0,
+    afterWall:afterWall*pixelArea,afterGap:afterGap*pixelArea,
+    coarse:detail/mmPerPixel<4,
+    overlay:printOverlay(original,material,finalWall,finalGap,w,h)
+  };
+}
+
+self.onmessage=({data})=>{
+  try{
+    const result=data.task==='print'?preparePrint(data):data.task==='paint'?paint(data):convertImage(data);
+    self.postMessage({id:data.id,result});
+  }catch(error){self.postMessage({id:data.id,error:error.message});}
+};
+</script>
+<script>
+'use strict';
+const $=id=>document.getElementById(id);
+const NS='http://www.w3.org/2000/svg';
+const pristine='<!doctype html>\n'+document.documentElement.outerHTML;
+function svgEl(name,attrs={},parent){
+  const el=document.createElementNS(NS,name);
+  for(const [key,value] of Object.entries(attrs))el.setAttribute(key,value);
+  if(parent)parent.append(el);
+  return el;
+}
+document.querySelectorAll('[data-icon]').forEach(el=>{
+  const icon=svgEl('svg',{'aria-hidden':'true',fill:'none',stroke:'currentColor','stroke-width':1.6,'stroke-linecap':'round','stroke-linejoin':'round'});
+  svgEl('use',{href:'#i-'+el.dataset.icon},icon);el.prepend(icon);
+});
+const settingTooltip=$('settingTooltip');
+let helpAnchor=null,helpPinned=false,helpTimer=0;
+function positionSettingHelp(){
+  if(!helpAnchor)return;
+  const anchor=helpAnchor.getBoundingClientRect(), box=settingTooltip.getBoundingClientRect();
+  const w=document.documentElement.clientWidth||window.innerWidth;
+  const h=document.documentElement.clientHeight||window.innerHeight;
+  if(anchor.bottom<0||anchor.top>h){hideSettingHelp();return;}
+  const x=clamp(anchor.left,8,Math.max(8,w-box.width-8));
+  const y=anchor.bottom+8+box.height>h?anchor.top-box.height-8:anchor.bottom+8;
+  settingTooltip.style.left=x+'px';
+  settingTooltip.style.top=clamp(y,8,Math.max(8,h-box.height-8))+'px';
+}
+function showSettingHelp(button){
+  clearTimeout(helpTimer);
+  if(helpAnchor!==button)helpPinned=false;
+  helpAnchor=button;
+  settingTooltip.textContent=button.getAttribute('aria-description');
+  settingTooltip.hidden=false;
+  positionSettingHelp();
+}
+function hideSettingHelp(){
+  clearTimeout(helpTimer);helpAnchor=null;helpPinned=false;settingTooltip.hidden=true;
+}
+function delayHelpClose(){
+  clearTimeout(helpTimer);
+  if(!helpPinned)helpTimer=setTimeout(()=>{
+    if(document.activeElement!==helpAnchor)hideSettingHelp();
+  },160);
+}
+for(const button of document.querySelectorAll('[data-setting-help]')){
+  button.addEventListener('pointerenter',event=>{if(event.pointerType!=='touch')showSettingHelp(button);});
+  button.addEventListener('pointerleave',delayHelpClose);
+  button.addEventListener('focus',()=>showSettingHelp(button));
+  button.addEventListener('blur',delayHelpClose);
+  button.onclick=()=>{
+    if(helpAnchor===button&&helpPinned)hideSettingHelp();
+    else {showSettingHelp(button);helpPinned=true;}
+  };
+}
+settingTooltip.addEventListener('pointerenter',()=>clearTimeout(helpTimer));
+settingTooltip.addEventListener('pointerleave',delayHelpClose);
+document.addEventListener('pointerdown',event=>{
+  if(helpAnchor&&!helpAnchor.contains(event.target)&&!settingTooltip.contains(event.target))hideSettingHelp();
+});
+document.addEventListener('scroll',positionSettingHelp,true);
+window.addEventListener('resize',positionSettingHelp);
+
+const ranges={threshold:'',colors:'',brushSize:' px'};
+const geometryKeys=['thickness','offset','area','holeArea','tolerance','smooth','cornerAngle','fitError','blur','resolution'];
+const geometryDefaults=Object.fromEntries(geometryKeys.map(key=>[key,Number($(key).value)]));
+const geometryPresets={
+  presetBalanced:geometryDefaults,
+  presetDetail:{...geometryDefaults,area:0,holeArea:0,tolerance:.5,smooth:55,cornerAngle:50,fitError:0,blur:0,resolution:1600},
+  presetLogo:{...geometryDefaults,area:22,holeArea:16,tolerance:2.75,smooth:92,cornerAngle:70},
+  presetCad:{...geometryDefaults,area:3,holeArea:3,tolerance:.75,smooth:0,blur:0,resolution:1600}
+};
+const readGeometry=()=>Object.fromEntries(geometryKeys.map(key=>[key,Number($(key).value)]));
+const sameGeometry=(a,b)=>!!a&&!!b&&geometryKeys.every(key=>a[key]===b[key]);
+function syncGeometry(){
+  const current=readGeometry(), linear=current.smooth===0;
+  for(const key of geometryKeys){
+    const number=$(key+'Number');
+    if(document.activeElement!==number)number.value=$(key).value;
+  }
+  for(const key of ['cornerAngle','fitError'])$(key).disabled=$(key+'Number').disabled=linear;
+  for(const [id,preset] of Object.entries(geometryPresets))$(id).setAttribute('aria-pressed',String(sameGeometry(current,preset)));
+  geometryState();
+}
+function assignGeometry(values){
+  for(const key of geometryKeys)$(key).value=String(values[key]);
+  syncGeometry();
+}
+function geometryState(){
+  const pending=!!model&&!sameGeometry(model.geometrySettings,readGeometry());
+  const waiting=loading||!!conversionOrigin;
+  const state=waiting?'working':!model?'idle':pending?'pending':'ready';
+  const message=waiting?'Hesaplanıyor…':!model?'Görsel bekleniyor':pending?'Uygulama bekliyor':'Önizleme güncel';
+  $('geometryPreview').setAttribute('data-state',state);
+  $('maskTraceNote').hidden=$('contourMethod').value!=='smooth'||!Number($('offset').value);
+  if($('geometryState').textContent!==message)$('geometryState').textContent=message;
+  $('settingsStatus').textContent=pending&&!$('liveGeometry').checked&&!waiting
+    ?'Değişiklikleri uygulamak için Vektörleştir’e basın.'
+    :'Ayarlar, işlenen görselin piksel boyutuna göredir.';
+}
+function geometryMetrics(artwork){
+  let rings=0,nodes=0;
+  const counted=new Set();
+  if(artwork)for(const layer of artwork.layers){
+    if(!layer.visible||counted.has(layer.geometry))continue;
+    counted.add(layer.geometry);rings+=layer.geometry.loops.length;
+    for(const loop of layer.geometry.loops)nodes+=loop.nodes.length;
+  }
+  return {rings,nodes};
+}
+function geometryChanged(){
+  syncGeometry();
+  if(traceSession){queueConvert(150);return;}
+  if(!$('liveGeometry').checked)return;
+  if(model&&sameGeometry(model.geometrySettings,readGeometry())){
+    if(conversionOrigin==='draft')cancelConversion();
+    return;
+  }
+  queueConvert(245,conversionOrigin==='auto'?'auto':'draft');
+}
+function updateRange(id){
+  const el=$(id), output=document.querySelector('output[for="'+id+'"]');
+  const threshold=(traceSession?.result??model)?.threshold;
+  const shown=id==='threshold'&&$('otsu').checked&&threshold!==undefined?threshold:el.value;
+  output.value=Number(shown).toLocaleString('tr-TR')+ranges[id];
+}
+const vector=$('vector'), original=$('original');
+let model=null, source=null, sourceRequest=0, selected=null, activeLayer=0, tool='v';
+let comparing=false, wire=false, camera={zoom:1,center:null}, gesture=null, pointer=null;
+let baseView=null, paintPreview=null, conversionTimer=0, conversionToken=0, conversionOrigin=null, loading=false, editBusy=false;
+let scheduledRender=0,workerURL='';
+const undoStack=[],redoStack=[],workerSlots=new Map();
+let jobId=0;
+function status(message,error=false){
+  $('status').textContent=message;$('status').classList.toggle('error',error);
+}
+let traceSession=null;
+const traceInputs={
+  contourMethod:'value',threshold:'value',colors:'value',otsu:'checked',invert:'checked',transparent:'checked'
+};
+function traceInputValues(){return Object.fromEntries(Object.entries(traceInputs).map(([id,key])=>[id,$(id)[key]]));}
+let printKey='',printTimer=0,printRevision=0,printResult=null,printLayerKey='';
+const printEnabled=()=>$('printMode').checked;
+function syncPrintLayers(){
+  if(!model)return;
+  const visible=model.layers.filter(layer=>layer.visible);
+  const signature=JSON.stringify([model.mode,visible.map(layer=>[layer.id,layer.fill])]);
+  if(printLayerKey===signature)return;
+  const select=$('printLayer'), previous=select.value;
+  const first=!printLayerKey||JSON.parse(printLayerKey)[1].length<2;
+  printLayerKey=signature;
+  const option=(value,label)=>{
+    const node=document.createElement('option');node.value=value;node.textContent=label;return node;
+  };
+  const list=visible.map(layer=>option(layer.id,layer.id==='kontur-normal'?'Normal kontur':layer.id==='kontur-ters'?'Ters kontur':layer.fill.toUpperCase()));
+  select.replaceChildren(option('all','Görünür katmanları birleştir'),...list);
+  if(first&&dualMode()){select.value='kontur-normal';return;}
+  if(first&&model.mode==='color'&&visible.length>1){
+    const lightness=layer=>{
+      const rgb=parseInt(layer.fill.slice(1),16);
+      return .2126*(rgb>>16)+.7152*((rgb>>8)&255)+.0722*(rgb&255);
+    };
+    const printable=visible.filter(layer=>layer.geometry.loops.length);
+    if(printable.length){
+      select.value=printable.reduce((darker,layer)=>lightness(layer)<lightness(darker)?layer:darker).id;
+      return;
+    }
+  }
+  select.value=previous==='all'||visible.some(layer=>layer.id===previous)?previous:'all';
+}
+function printDrawingWidth(){
+  return model.w*(sideLayout()&&$('printLayer').value==='all'?2:1);
+}
+function printSpec(){
+  const selection=$('printLayer').value,side=sideLayout()&&selection==='all';
+  const preserve=$('printWallAction').value==='none'&&$('printGapAction').value==='none'&&Number($('printIsland').value)===0;
+  const layers=model.layers.flatMap((layer,i)=>{
+    if(!layer.visible||selection!=='all'&&selection!==layer.id)return [];
+    return [{offset:side?i*model.w:0,paths:layerPaths(layer,model.w,model.h),
+      originalLoops:preserve&&!side&&!effectiveComplement(layer)?layer.geometry.loops:undefined}];
+  });
+  const read=id=>clamp(Number($(id).value||$(id).getAttribute('value')),Number($(id).min),Number($(id).max));
+  const options={
+    width:read('printWidth'),wall:read('printWall'),gap:read('printGap'),island:read('printIsland'),
+    wallAction:$('printWallAction').value,gapAction:$('printGapAction').value
+  };
+  return {drawingWidth:printDrawingWidth(),drawingHeight:model.h,layerWidth:model.w,layers,options};
+}
+function showPrintStatus(message,warning=false){
+  if($('printStatus').textContent!==message)$('printStatus').textContent=message;
+  $('printStatus').setAttribute('data-level',warning?'warn':'');
+}
+function resetPrint(){
+  clearTimeout(printTimer);printRevision++;printKey='';printResult=null;
+  if(workerSlots.get('print')?.jobs.size)stopWorkerTask('print');
+  $('printReport').hidden=true;
+}
+function preparePrintPreview(){
+  if(!model||loading||conversionOrigin){
+    showPrintStatus(model?'Vektör güncelleniyor…':'Bir görsel yükleyin.');
+    $('printReport').hidden=true;return;
+  }
+  syncPrintLayers();
+  const combined=dualMode()&&!sideLayout()&&$('printLayer').value==='all';
+  const multipleColors=model.mode==='color'&&model.layers.filter(layer=>layer.visible).length>1;
+  $('printLayerNote').hidden=!combined&&!multipleColors;
+  $('printLayerNote').textContent=combined
+    ?'Normal ve ters kontur üst üste birleşince tuvalin tamamı dolabilir.'
+    :'Belirli bir rengi basacaksanız o katmanı seçin. Tüm renkleri birleştirmek zemini de doldurabilir.';
+  const spec=printSpec(), key=JSON.stringify(spec);
+  if(key===printKey){if(printResult)updatePrintReport();return;}
+  resetPrint();printKey=key;
+  const token=printRevision;
+  if(!spec.layers.some(layer=>layer.paths.length)){
+    showPrintStatus('Seçilen katmanlarda dolgu bulunamadı.',true);busy();return;
+  }
+  showPrintStatus('Baskı geometrisi hazırlanıyor…');busy();
+  printTimer=setTimeout(async()=>{
+    try{
+      const result=await callWorker('print',spec);
+      if(token!==printRevision||!printEnabled())return;
+      printResult=result;
+      updatePrintReport();
+    }catch(error){
+      if(token===printRevision)showPrintStatus('Hazırlama hatası · '+error.message,true);
+    }finally{
+      if(token===printRevision){busy();scheduleRender();}
+    }
+  },160);
+}
+function updatePrintReport(){
+  const p=printResult;
+  if(!p)return;
+  const display=(n,digits=2)=>n.toLocaleString('tr-TR',{maximumFractionDigits:digits});
+  const change=(a,b)=>display(a)+' → '+display(b)+' mm²';
+  $('printWallReport').textContent=change(p.beforeWall,p.afterWall);
+  $('printGapReport').textContent=p.gapChecked?change(p.beforeGap,p.afterGap):'Ölçülmedi';
+  $('printSizeReport').textContent=display(p.widthMm)+' × '+display(p.heightMm)+' mm';
+  $('printIslandReport').textContent=display(p.removed,0);
+  $('printArtReport').textContent=p.bounds?display((p.bounds[2]-p.bounds[0])*p.widthMm/p.w)+' × '+display((p.bounds[3]-p.bounds[1])*p.heightMm/p.h)+' mm':'–';
+  $('printReport').hidden=false;
+  const remaining=p.afterWall>0||p.afterGap>0;
+  const message=!p.paths.length?'Bu ölçülerde dışa aktarılacak dolgu kalmadı.'
+    :p.coarse?'Çözünürlük, seçilen milimetre eşiğini doğrulamak için yetersiz.'
+    :remaining?'Kalan ince alanları ve boşlukları kontrol edin.'
+    :'Baskı SVG’si hazır.';
+  const note=!p.preserve||!p.paths.length?'':p.originalVectors?' Orijinal vektör eğrileri korundu.':' Kontur yüksek çözünürlükte yeniden oluşturuldu.';
+  showPrintStatus(message+note,p.coarse||remaining||!p.paths.length);
+}
+function serializePrint(p){
+  if(!p?.paths.length)return '';
+  return [
+    '<?xml version="1.0" encoding="UTF-8"?>',
+    '<svg xmlns="http://www.w3.org/2000/svg" width="'+fmt(p.widthMm)+'mm" height="'+fmt(p.heightMm)+'mm" viewBox="0 0 '+p.w+' '+p.h+'">',
+    ...p.paths.map(path=>'  <path fill="#000000" fill-rule="nonzero" d="'+path+'"/>'),
+    '</svg>',''
+  ].join('\n');
+}
+function printOverlayUrl(result){
+  if(result.overlayUrl)return result.overlayUrl;
+  const {width,height,marks}=result.overlay, canvas=document.createElement('canvas');
+  canvas.width=width;canvas.height=height;
+  const ctx=canvas.getContext('2d'),image=ctx.createImageData(width,height);
+  const added=[42,164,187,145], warning=[242,147,59,225];
+  for(let i=0;i<marks.length;i++){
+    if(marks[i])image.data.set(marks[i]===2?warning:added,i*4);
+  }
+  ctx.putImageData(image,0,0);
+  result.overlayUrl=canvas.toDataURL();
+  return result.overlayUrl;
+}
+function renderPrint(target,view){
+  if(!printResult||loading||conversionOrigin)return;
+  const p=printResult;
+  const group=svgEl('g',{transform:'scale('+view.w/p.w+' '+view.h/p.h+')'},target);
+  const ink=$('background').value==='dark'?'#c8e6ed':'#263248';
+  for(const d of p.paths){
+    svgEl('path',{d,fill:wire?'none':ink,'fill-rule':'nonzero',stroke:wire?'#acdcea':'none',
+      'stroke-width':1,'vector-effect':'non-scaling-stroke'},group);
+  }
+  if($('printMarks').checked&&p.paths.length){
+    svgEl('image',{href:printOverlayUrl(p),width:p.w,height:p.h,preserveAspectRatio:'none'},group);
+  }
+}
+
+const workflowSteps=['stepSource','stepTrace','stepReview','stepOutput'];
+let workflowStep=1, sourceAdvice=null, outputVisited=false;
+function hasVisibleDrawing(){
+  return !!model?.layers.some(layer=>layer.visible&&(layer.geometry.loops.length||effectiveComplement(layer)));
+}
+function updateWorkflow(){
+  const ready=hasVisibleDrawing()&&!loading&&!conversionOrigin;
+  workflowSteps.forEach((id,i)=>{
+    const step=i+1;
+    $(id).setAttribute('aria-current',step===workflowStep?'step':'false');
+    $(id).disabled=(!!traceSession&&step!==2)||(step===2&&!source)||(step>=3&&!ready);
+  });
+  $('workflowSource').hidden=workflowStep!==1;
+  for(const id of ['workflowTrace','workflowGeometry','workflowTraceActions'])$(id).hidden=workflowStep!==2;
+  $('workflowReview').hidden=workflowStep!==3;
+  $('workflowOutput').hidden=workflowStep!==4;
+  $('sourceNext').disabled=!source;
+  $('reviewCurrent').hidden=!!traceSession;
+  $('reviewCurrent').disabled=!ready;
+  $('outputNext').disabled=!ready;
+  $('workflowDownload').disabled=$('downloadSvg').disabled;
+  $('workflowDownloadLabel').textContent=printEnabled()?'Baskı SVG’sini indir':'SVG indir';
+  $('outputDescription').textContent=printEnabled()
+    ?'Önce katmanı ve fiziksel genişliği seçin. Ardından şekli koruyun veya baskı için ince hatları düzeltin.'
+    :'Standart SVG’yi indirin veya milimetre ölçüleri için Baskı modu’nu açın.';
+}
+function setComparison(enabled){
+  comparing=enabled;$('originalPane').hidden=!enabled;
+  for(const id of ['compare','reviewCompare'])$(id).setAttribute('aria-pressed',String(enabled));
+  scheduleRender();
+}
+function goToWorkflow(step){
+  if(traceSession&&step!==2||step===2&&!source
+    ||step>=3&&(!hasVisibleDrawing()||loading||conversionOrigin))return;
+  if(step!==workflowStep){$('workflowSidebar').scrollTop=0;hideSettingHelp();}
+  workflowStep=step;
+  if(step===4&&!outputVisited){
+    outputVisited=true;
+    $('printPreserve').click();
+  }
+  if(printEnabled()!==(step===4)){
+    $('printMode').checked=step===4;$('printMode').onchange();
+  }
+  if(step===3)setComparison(true);
+  updateWorkflow();
+}
+function inspectSource(image){
+  const scale=Math.min(1,144/Math.max(image.w,image.h)), canvas=document.createElement('canvas');
+  canvas.width=Math.max(1,Math.round(image.w*scale));canvas.height=Math.max(1,Math.round(image.h*scale));
+  const ctx=canvas.getContext('2d',{willReadFrequently:true});
+  ctx.drawImage(image.element,0,0,canvas.width,canvas.height);
+  const {data}=ctx.getImageData(0,0,canvas.width,canvas.height);
+  const hues=new Uint32Array(12);
+  let visible=0,colored=0;
+  for(let i=0;i<data.length;i+=4){
+    if(data[i+3]<128)continue;
+    visible++;
+    const r=data[i],g=data[i+1],b=data[i+2],max=Math.max(r,g,b),chroma=max-Math.min(r,g,b);
+    if(chroma<34||max<72)continue;
+    colored++;
+    const hue=max===r?(g-b)/chroma:max===g?2+(b-r)/chroma:4+(r-g)/chroma;
+    hues[Math.round(hue*2+12)%12]++;
+  }
+  if(!visible)return null;
+  const color=colored/visible>=.035;
+  const groups=hues.filter(count=>count>=Math.max(6,colored*.11)).length;
+  return {mode:color?'color':'bw',colors:color?clamp(3+groups,4,8):5};
+}
+function updateSourceAdvice(image){
+  sourceAdvice=inspectSource(image);
+  $('sourceAdvice').hidden=!sourceAdvice;
+  if(!sourceAdvice)return;
+  $('sourceAdviceText').textContent=sourceAdvice.mode==='color'
+    ?'Renkli alanlar algılandı. Renkleri korumak için Çok geçiş ve '+sourceAdvice.colors+' renk katmanıyla başlayın. Sadece koyu çizgiler gerekiyorsa Tek geçişi seçin.'
+    :'Koyu ve açık tonlar baskın. Tek geçiş ve Ayrıntıyı koru ile başlayın.';
+}
+function applySourceAdvice(){
+  if(!sourceAdvice)return;
+  function configure(){
+    $('mode').value=sourceAdvice.mode;
+    if(sourceAdvice.mode==='color'){
+      $('colors').value=String(sourceAdvice.colors);
+      $('transparent').checked=false;
+    }else {
+      $('contourMethod').value='smooth';
+      $('otsu').checked=true;
+      $('invert').checked=false;
+    }
+    assignGeometry(geometryPresets.presetDetail);
+    syncControls();
+  }
+  if(traceSession){configure();queueConvert(0);}
+  else startTracing(configure);
+}
+
+function busy(){
+  document.body.setAttribute('aria-busy',String(loading||editBusy));
+  $('convert').disabled=editBusy;
+  $('startTrace').disabled=!source||editBusy||!!gesture||printEnabled();
+  $('applyTrace').disabled=!!conversionOrigin||!traceSession?.result?.layers.some(layer=>layer.geometry.loops.length);
+  $('undo').disabled=!!traceSession||editBusy||!undoStack.length;
+  $('redo').disabled=!!traceSession||editBusy||!redoStack.length;
+  const blocked=editBusy||!!traceSession||!model||printEnabled()&&(loading||!!conversionOrigin||!printResult?.paths.length);
+  $('copySvg').disabled=blocked;$('downloadSvg').disabled=blocked;
+  geometryState();updateWorkflow();
+}
+function stopWorkerTask(task,error=new Error('İşlem iptal edildi.')){
+  const slot=workerSlots.get(task);
+  if(!slot)return;
+  workerSlots.delete(task);
+  slot.worker.terminate();
+  for(const pending of slot.jobs.values())pending.reject(error);
+  slot.jobs.clear();
+}
+function callWorker(task,data,transfer=[]){
+  let slot=workerSlots.get(task);
+  if(!slot){
+    if(!workerURL)workerURL=URL.createObjectURL(new Blob([$('geometry').textContent,'\n',$('workerCode').textContent],{type:'text/javascript'}));
+    const worker=new Worker(workerURL), jobs=new Map();
+    slot={worker,jobs};workerSlots.set(task,slot);
+    worker.onmessage=({data})=>{
+      const pending=jobs.get(data.id);
+      if(!pending)return;
+      jobs.delete(data.id);
+      if(data.error)pending.reject(new Error(data.error));else pending.resolve(data.result);
+    };
+    worker.onerror=event=>{
+      if(workerSlots.get(task)===slot)stopWorkerTask(task,new Error(event.message||'Arka plan işlemcisi başlatılamadı.'));
+    };
+  }
+  const id=++jobId;
+  return new Promise((resolve,reject)=>{
+    slot.jobs.set(id,{resolve,reject});
+    try{slot.worker.postMessage({task,id,...data},transfer);}catch(error){slot.jobs.delete(id);reject(error);}
+  });
+}
+function settings(geometry=readGeometry()){
+  const read=id=>Number($(id).value);
+  return {
+    mode:$('mode').value, contourMethod:$('contourMethod').value, threshold:read('threshold'), otsu:$('otsu').checked, invert:$('invert').checked, ink:$('ink').value,
+    colors:read('colors'),transparent:$('transparent').checked,
+    ...geometry
+  };
+}
+function syncControls(){
+  const color=$('mode').value==='color', dual=!color&&$('dual').checked;
+  $('bwSettings').hidden=color;$('colorSettings').hidden=!color;
+  $('dualSettings').hidden=!dual;$('filter').hidden=model?.layers.length!==2||model.mode!=='bw';
+  $('filter').parentElement.hidden=$('filter').hidden;
+  $('threshold').disabled=$('otsu').checked;
+  const current=$('ink').value;
+  document.querySelectorAll('.swatch').forEach(button=>button.setAttribute('aria-pressed',String(button.dataset.color===current)));
+  Object.keys(ranges).forEach(updateRange);
+  syncGeometry();
+}
+function checkpoint(before=structuredClone(model)){
+  if(!before)return;
+  undoStack.push(before);if(undoStack.length>40)undoStack.shift();
+  redoStack.length=0;busy();
+}
+function restore(from,to,message){
+  if(!from.length||editBusy||gesture||traceSession)return;
+  cancelConversion();
+  to.push(structuredClone(model));model=from.pop();
+  if(model.geometrySettings)assignGeometry(model.geometrySettings);
+  selected=null;activeLayer=0;
+  if(model.mode==='bw'){
+    $('ink').value=model.layers[0].fill;$('dual').checked=model.layers.length===2;
+    $('sync').checked=model.layers.length<2||model.layers[0].geometry===model.layers[1].geometry;
+  }
+  $('mode').value=model.mode;
+  for(const [id,value] of Object.entries(model.traceSettings||{}))$(id)[traceInputs[id]]=value;
+  refreshChips();syncControls();scheduleRender();status(message);busy();
+}
+function cancelConversion(){
+  clearTimeout(conversionTimer);conversionTimer=0;conversionToken++;conversionOrigin=null;
+  if(workerSlots.get('convert')?.jobs.size)stopWorkerTask('convert');
+  if(loading){loading=false;status(model?'Vektör hazır':'Hazır');}
+  busy();
+}
+function queueConvert(delay=210,origin='auto'){
+  if(!source)return;
+  if(traceSession){
+    origin='trace';traceSession.result=null;
+    $('traceStatus').textContent='İz hesaplanıyor…';
+  }
+  clearTimeout(conversionTimer);
+  const token=++conversionToken;
+  if(workerSlots.get('convert')?.jobs.size)stopWorkerTask('convert');
+  conversionOrigin=origin;
+  if(printEnabled())resetPrint();
+  if(printEnabled()||traceSession){busy();scheduleRender();}
+  else updateWorkflow();
+  conversionTimer=setTimeout(()=>runConversion(token,origin),delay);
+  geometryState();
+}
+async function runConversion(token,origin){
+  if(!source||token!==conversionToken)return;
+  if(gesture||editBusy){
+    conversionTimer=setTimeout(()=>runConversion(token,origin),120);
+    return;
+  }
+  const useDraft=!model||$('liveGeometry').checked||origin==='manual'||origin==='source'||origin==='trace';
+  const geometrySettings=useDraft?readGeometry():model.geometrySettings;
+  const cfg=settings(geometrySettings), image=source, traceSettings=traceInputValues();
+  loading=true;busy();status('Vektörleştiriliyor…');
+  try{
+    const factor=Math.min(1,cfg.resolution/Math.max(image.w,image.h));
+    const w=Math.max(1,Math.round(image.w*factor)),h=Math.max(1,Math.round(image.h*factor));
+    const canvas=document.createElement('canvas');canvas.width=w;canvas.height=h;
+    const ctx=canvas.getContext('2d',{willReadFrequently:true});ctx.imageSmoothingQuality='high';
+    ctx.drawImage(image.element,0,0,w,h);
+    const {buffer}=ctx.getImageData(0,0,w,h).data;
+    const result=await callWorker('convert',{pixels:buffer,w,h,settings:cfg},[buffer]);
+    if(token!==conversionToken||image!==source)return;
+    if(editBusy||gesture){queueConvert(120,origin);return;}
+    const artwork={w,h,mode:cfg.mode,threshold:result.threshold,layers:result.layers,geometrySettings,traceSettings,nodeDelta:null};
+    artwork.layers.forEach((layer,i)=>{layer.id=cfg.mode==='bw'?'kontur-normal':'renk-'+(i+1);layer.visible=true;});
+    if(cfg.mode==='bw'){
+      artwork.layers[0].fill=$('ink').value;
+      if($('dual').checked)addInverse(artwork);
+    }
+    if(traceSession){
+      traceSession.result=artwork;
+      const {rings,nodes}=geometryMetrics(artwork);
+      $('traceStatus').textContent=rings?rings.toLocaleString('tr-TR')+' kontur · '+nodes.toLocaleString('tr-TR')+' düğüm':'Dolgu alanı bulunamadı. Eşiği veya ters çevirmeyi değiştirin.';
+      updateRange('threshold');
+    }else commitArtwork(artwork);
+  }catch(error){
+    if(token===conversionToken){
+      status('İşleme hatası · '+error.message,true);
+      if(traceSession)$('traceStatus').textContent='İz hesaplanamadı.';
+    }
+  }finally{
+    if(token===conversionToken){loading=false;conversionOrigin=null;busy();scheduleRender();}
+  }
+}
+function commitArtwork(artwork){
+  const resized=!model||model.w!==artwork.w||model.h!==artwork.h;
+  const previousNodes=model?.mode===artwork.mode&&!sameGeometry(model.geometrySettings,artwork.geometrySettings)?geometryMetrics(model).nodes:null;
+  if(model)checkpoint();
+  model=artwork;
+  if(previousNodes!==null)model.nodeDelta=geometryMetrics(model).nodes-previousNodes;
+  if(resized)camera={zoom:1,center:null};
+  activeLayer=0;selected=null;refreshChips();syncControls();busy();scheduleRender();
+  status(model.layers.some(layer=>layer.geometry.loops.length)?'Vektör hazır':'Dolgu alanı bulunamadı');
+}
+function startTracing(configure){
+  if(!source||printEnabled()||traceSession||editBusy||gesture)return;
+  const sourceControls=['mode','contourMethod','threshold','colors','ink','otsu','invert','transparent','dual','sync'];
+  const values=sourceControls.map(id=>({id,value:$(id).value,checked:$(id).checked}));
+  changeTool('v');
+  traceSession={result:null,values,geometry:readGeometry(),camera};
+  camera={zoom:1,center:null};
+  $('traceView').value='overlay';
+  workflowStep=2;
+  if(typeof configure==='function')configure();
+  updateTraceUi();
+  queueConvert(0);
+}
+function updateTraceUi(){
+  const enabled=!!traceSession;
+  document.body.classList.toggle('trace-active',enabled);
+  $('startTrace').hidden=enabled;$('convert').hidden=enabled;$('traceControls').hidden=!enabled;
+  $('printMode').disabled=enabled;$('compare').disabled=enabled;
+  $('previewCaption').textContent=enabled?'İz önizlemesi':'Vektör önizleme';
+  $('hint').textContent=enabled?'Önizlemeyi inceleyin, ardından İzi Uygula’yı seçin.':hints.v;
+  document.querySelectorAll('button[data-tool]').forEach(btn=>{btn.disabled=enabled&&btn.dataset.tool!=='v';});
+  busy();scheduleRender();
+}
+function finishTracing(apply){
+  const current=traceSession;
+  if(!current||apply&&$('applyTrace').disabled)return;
+  traceSession=null;cancelConversion();
+  if(apply)commitArtwork(current.result);
+  else {
+    for(const {id,value,checked} of current.values){
+      $(id).value=value;
+      if($(id).type==='checkbox')$(id).checked=checked;
+    }
+    camera=current.camera;assignGeometry(current.geometry);syncControls();
+  }
+  updateTraceUi();
+  if(apply)goToWorkflow(3);
+}
+function addInverse(artwork=model){
+  const normal=artwork.layers[0];
+  artwork.layers.push({id:'kontur-ters',fill:inverseColor(normal.fill),geometry:$('sync').checked?normal.geometry:structuredClone(normal.geometry),flip:true,visible:true});
+}
+function inverseColor(color){
+  return '#'+color.slice(1).match(/../g).map(c=>(255-parseInt(c,16)).toString(16).padStart(2,'0')).join('');
+}
+function loadFile(file){
+  if(!file)return;
+  const url=URL.createObjectURL(file);
+  loadImage(url,file.name||'Panodan yapıştırılan görsel',true);
+}
+function loadImage(url,name,owned,advance=true){
+  const ticket=++sourceRequest, image=new Image();
+  image.onload=()=>{
+    if(ticket!==sourceRequest){if(owned)URL.revokeObjectURL(url);return;}
+    if(source?.owned)URL.revokeObjectURL(source.url);
+    if(traceSession)finishTracing(false);
+    source={element:image,w:image.naturalWidth,h:image.naturalHeight,url,owned,name};
+    updateSourceAdvice(source);
+    gesture=null;paintPreview=null;model=null;selected=null;printLayerKey='';resetPrint();camera={zoom:1,center:null};loading=true;
+    undoStack.length=0;redoStack.length=0;
+    $('fileInfo').textContent=name+' · '+source.w+' × '+source.h+' px';$('fileInfo').title=name;
+    if(advance)goToWorkflow(2);
+    refreshChips();syncControls();busy();scheduleRender();queueConvert(0,'source');
+  };
+  image.onerror=()=>{
+    if(owned)URL.revokeObjectURL(url);
+    if(ticket===sourceRequest)status('Görsel açılamadı. PNG, JPEG veya WebP kullanın.',true);
+  };
+  image.src=url;
+}
+function sample(advance=true){
+  const canvas=document.createElement('canvas');canvas.width=760;canvas.height=580;
+  const ctx=canvas.getContext('2d');
+  ctx.fillStyle='#f5f0e6';ctx.fillRect(0,0,760,580);
+  const navy='#172437', cream='#f5f0e6';
+  function draw(d,fill,rule='nonzero'){ctx.fillStyle=fill;ctx.fill(new Path2D(d),rule);}
+  function circle(x,y,r,fill){
+    ctx.beginPath();ctx.arc(x,y,r,0,Math.PI*2);ctx.fillStyle=fill;ctx.fill();
+  }
+  // The embedded test image includes nested holes, sharp peaks and long arcs.
+  draw('M126 291C126 166 235 70 380 70S634 166 634 291 527 512 380 512 126 415 126 291ZM139 291C139 410 239 499 380 499S621 410 621 291 521 83 380 83 139 172 139 291Z',navy,'evenodd');
+  draw('M150 291C150 178 247 94 380 94S610 178 610 291 509 488 380 488 150 404 150 291Z',navy);
+  draw('M380 114 385 136 404 143 385 151 380 174 375 151 356 143 375 136Z',cream);
+  circle(303,177,3.5,cream);circle(457,177,3.5,cream);
+  draw('M187 345 303 211Q307 206 312 212L359 265 422 188Q427 181 432 188L575 345Z',cream);
+  draw('M254 298 307 237 333 267 311 256 300 270 289 264ZM391 257 427 208 470 260 440 243 429 256 415 239Z',navy);
+  draw('M212 365C274 356 333 357 379 373 432 391 489 391 548 373 498 412 430 419 371 398 321 381 269 374 212 365Z',cream);
+  draw('M255 409C306 405 342 414 379 428 415 442 453 440 497 425 460 453 419 460 380 446 342 431 303 421 255 409Z',cream);
+  circle(380,469,3.9,cream);
+  loadImage(canvas.toDataURL(),'Örnek · Dağ pusulası',false,advance);
+}
+function effectiveComplement(layer){return layer.geometry.base!==layer.flip;}
+function groupsOf(layer){return flatAssets(layer.geometry.loops,effectiveComplement(layer));}
+function layerPaths(layer,w,h){
+  if(dualMode()){
+    const rings=layer.geometry.loops.map((_,i)=>i), complement=effectiveComplement(layer);
+    return rings.length||complement?[groupPath(layer.geometry.loops,{root:complement?-1:0,rings},w,h)]:[];
+  }
+  return groupsOf(layer).map(group=>groupPath(layer.geometry.loops,group,w,h));
+}
+function separate(){
+  if(model?.mode!=='bw'||model.layers.length!==2)return;
+  const [normal,inverse]=model.layers;
+  if($('sync').checked){
+    if(normal.geometry===inverse.geometry)return;
+    checkpoint();const master=model.layers[activeLayer]||normal;
+    normal.geometry=inverse.geometry=master.geometry;
+  }else{
+    if(normal.geometry!==inverse.geometry)return;
+    checkpoint();inverse.geometry=structuredClone(normal.geometry);
+  }
+  selected=null;scheduleRender();
+}
+function refreshChips(){
+  const chips=$('chips');chips.replaceChildren();
+  if(!model||model.mode!=='color')return;
+  model.layers.forEach((layer,i)=>{
+    const button=document.createElement('button');
+    button.className='chip';button.type='button';button.setAttribute('aria-pressed',String(layer.visible));
+    const swatch=document.createElement('span');swatch.className='dot';swatch.style.setProperty('--swatch',layer.fill);
+    button.append(swatch,layer.fill.toUpperCase());
+    button.title='Katmanı göster/gizle · '+layer.fill;
+    button.onclick=()=>{
+      if(editBusy||gesture)return;
+      checkpoint();layer.visible=!layer.visible;
+      if(layer.visible)activeLayer=i;
+      else if(activeLayer===i)activeLayer=Math.max(0,model.layers.findIndex(l=>l.visible));
+      selected=null;refreshChips();scheduleRender();
+    };
+    chips.append(button);
+  });
+}
+for(const color of ['#172437','#111111','#ffffff','#183d32','#c34439','#285eda']){
+  const button=document.createElement('button');button.className='swatch';button.dataset.color=color;
+  button.style.setProperty('--swatch',color);button.setAttribute('aria-label','Renk '+color);button.title=color;
+  button.onclick=()=>{$('ink').value=color;applyInk();};
+  $('palette').insertBefore(button,$('ink'));
+}
+function applyInk(){
+  if(traceSession){syncControls();queueConvert(120);return;}
+  if(model?.mode==='bw'&&model.layers[0].fill!==$('ink').value&&!gesture&&!editBusy){
+    checkpoint();model.layers[0].fill=$('ink').value;
+    if(model.layers[1])model.layers[1].fill=inverseColor($('ink').value);
+    scheduleRender();
+  }
+  syncControls();
+}
+function dualMode(){return model?.mode==='bw'&&model.layers.length===2;}
+function sideLayout(){return dualMode()&&$('layout').value==='side';}
+function visibleLayers(){
+  if(!model)return [];
+  const filter=dualMode()?$('filter').value:'all';
+  return model.layers.map((layer,index)=>({layer,index,offset:0})).filter(({layer,index})=>{
+    if(!layer.visible)return false;
+    return filter==='all'||(index===0&&filter==='normal')||(index===1&&filter==='inverse');
+  }).map(item=>({...item,offset:sideLayout()&&filter==='all'?item.index*model.w:0}));
+}
+function frameWidth(){
+  if(traceSession)return traceSession.result?.w||model?.w||source?.w||1;
+  if(printEnabled())return printDrawingWidth();
+  return sideLayout()&&$('filter').value==='all'?model.w*2:model.w;
+}
+function exportSvg(){
+  if(!model||traceSession)return '';
+  if(printEnabled())return loading||conversionOrigin?'':serializePrint(printResult);
+  const {w,h}=model,w2=sideLayout()?w*2:w;
+  const lines=['<?xml version="1.0" encoding="UTF-8"?>','<svg xmlns="http://www.w3.org/2000/svg" width="'+w2+'" height="'+h+'" viewBox="0 0 '+w2+' '+h+'">'];
+  lines.push('  <defs>','    <clipPath id="tuval-siniri"><rect width="'+w+'" height="'+h+'"/></clipPath>','  </defs>');
+  // Paint the inverse first, so the chosen ink remains on top in stacked mode.
+  const ordered=dualMode()?[1,0]:model.layers.map((_,i)=>i);
+  for(const i of ordered){
+    const layer=model.layers[i];if(!layer.visible)continue;
+    const offset=sideLayout()?i*w:0;
+    lines.push('  <g id="'+layer.id+'" fill="'+layer.fill+'" fill-rule="evenodd" clip-path="url(#tuval-siniri)"'+(offset?' transform="translate('+offset+' 0)"':'')+'>');
+    for(const d of layerPaths(layer,w,h))lines.push('    <path d="'+d+'"/>');
+    lines.push('  </g>');
+  }
+  lines.push('</svg>','');return lines.join('\n');
+}
+function stats(){
+  let paths=0,nodes=0;
+  if(model)for(const layer of model.layers){
+    if(!layer.visible)continue;
+    paths+=dualMode()?Number(layer.geometry.loops.length>0||effectiveComplement(layer)):groupsOf(layer).length;
+    nodes+=layer.geometry.loops.reduce((total,loop)=>total+loop.nodes.length,0);
+  }
+  if(printEnabled()){paths=printResult?.paths.length||0;nodes=printResult?.nodes||0;}
+  const geometry=geometryMetrics(model);
+  $('geoNodes').textContent=model?geometry.nodes.toLocaleString('tr-TR'):'–';
+  $('geoRings').textContent=model?geometry.rings.toLocaleString('tr-TR'):'–';
+  $('geoPixels').textContent=model?model.w+' × '+model.h:'–';
+  const delta=model?.nodeDelta;
+  $('geometryDelta').textContent=delta==null?'Düğümler, senkronlu katmanlarda bir kez sayılır.'
+    :delta===0?'Geometri güncellendi. Düğüm sayısı aynı.'
+    :'Önceki geometriye göre '+Math.abs(delta).toLocaleString('tr-TR')+' düğüm '+(delta<0?'azaldı.':'arttı.');
+  $('pathCount').textContent=paths.toLocaleString('tr-TR');
+  $('nodeCount').textContent=nodes.toLocaleString('tr-TR');
+  $('svgSize').textContent=(new TextEncoder().encode(exportSvg()).length/1024).toLocaleString('tr-TR',{maximumFractionDigits:2})+' KB';
+}
+function download(text,name,type){
+  const anchor=document.createElement('a'),url=URL.createObjectURL(new Blob([text],{type}));
+  anchor.href=url;anchor.download=name;document.body.append(anchor);anchor.click();anchor.remove();
+  setTimeout(()=>URL.revokeObjectURL(url),3000);
+}
+function svgName(){return (source?.name.replace(/\.[^.]+$/,'')||'vektor').replace(/[<>:"/\\|?*]/g,'-')+(printEnabled()?'-3d-baski':'')+'.svg';}
+async function copy(){
+  const value=exportSvg();
+  if(!value)return;
+  try{
+    if(!navigator.clipboard?.writeText)throw new Error();
+    await navigator.clipboard.writeText(value);
+    status('SVG kodu panoya kopyalandı');return;
+  }catch{
+    const dialog=$('clipboard'),field=dialog.querySelector('textarea');
+    field.value=value;
+    dialog.showModal();field.select();
+    try{
+      if(document.execCommand('copy')){dialog.close();status('SVG kodu panoya kopyalandı');return;}
+    }catch{}
+    status('SVG kodunu Ctrl+C ile kopyalayın.');
+  }
+}
+function getView(svg){
+  const pane=svg.parentElement, width=pane.clientWidth,height=pane.clientHeight;
+  const isOriginal=svg===original;
+  if(traceSession){
+    const w=frameWidth(), h=traceSession.result?.h||model?.h||source?.h||1;
+    const fit=Math.max(.00001,Math.min((width-70)/w,(height-73)/h)),scale=fit*camera.zoom;
+    const center=camera.center||[w/2,h/2];
+    return {scale,fit,x:width/2-center[0]*scale,y:height/2-center[1]*scale,w,h,width,height};
+  }
+  const w=isOriginal?(model?.w||source?.w||1):(model?frameWidth():1);
+  const h=model?.h||source?.h||1;
+  const sharedWidth=comparing&&model?frameWidth():w;
+  const otherWidth=comparing?Math.min($('vectorPane').clientWidth,$('originalPane').clientWidth):width;
+  const fit=Math.max(.00001,Math.min((otherWidth-70)/sharedWidth,(height-73)/h));
+  const scale=fit*camera.zoom;
+  const c=camera.center||[sharedWidth/2,h/2];
+  const cx=isOriginal?c[0]-(sharedWidth-w)/2:c[0];
+  return {scale,fit,x:width/2-cx*scale,y:height/2-c[1]*scale,w,h,width,height};
+}
+function pointOn(svg,ev,view=getView(svg)){
+  const rect=svg.getBoundingClientRect();
+  return [(ev.clientX-rect.left-view.x)/view.scale,(ev.clientY-rect.top-view.y)/view.scale];
+}
+function zoomAt(svg,next,x,y){
+  if(!model)return;
+  const old=getView(svg), sharedWidth=frameWidth();
+  const p=[(x-old.x)/old.scale,(y-old.y)/old.scale];
+  camera.zoom=clamp(next,.15,16);
+  const scale=old.fit*camera.zoom;
+  camera.center=[p[0]+(old.width/2-x)/scale+(svg===original?(sharedWidth-old.w)/2:0),p[1]+(old.height/2-y)/scale];
+  scheduleRender();
+}
+function zoomCenter(ratio){
+  const v=getView(vector);zoomAt(vector,camera.zoom*ratio,v.width/2,v.height/2);
+}
+function scheduleRender(){
+  if(!scheduledRender)scheduledRender=requestAnimationFrame(()=>{scheduledRender=0;render();});
+}
+const checker='#f5f0e6';
+function paper(target,v,fill){
+  return svgEl('rect',{width:v.w,height:v.h,fill,stroke:'#687181','stroke-width':.7,'vector-effect':'non-scaling-stroke',class:'paper'},target);
+}
+function overlayFor(g,view,visible){
+  if(!selected||tool!=='a')return;
+  const entry=visible.find(e=>e.index===selected.layer);
+  if(!entry)return;
+  const loops=entry.layer.geometry.loops, active=loops[selected.ring];
+  if(!active)return;
+  const layer=svgEl('g',{transform:'translate('+entry.offset+' 0)'},g);
+  svgEl('path',{d:roundTrip(active.nodes),fill:'none',stroke:'#36a9ee','stroke-width':1.5,'vector-effect':'non-scaling-stroke','pointer-events':'none'},layer);
+  const size=4.5/view.scale;
+  active.nodes.forEach((n,i)=>{
+    const sel=i===selected.node;
+    if(sel){
+      const prev=active.nodes[(i+active.nodes.length-1)%active.nodes.length];
+      for(const side of ['in','out']){
+        if((side==='in'&&prev.line)||(side==='out'&&n.line))continue;
+        const p=n[side];if(dist2(n.p,p)<1e-12)continue;
+        svgEl('path',{d:'M '+coords(n.p)+' L '+coords(p),fill:'none',stroke:'#49b8ff','stroke-width':1.2,'vector-effect':'non-scaling-stroke','pointer-events':'none'},layer);
+        svgEl('circle',{cx:p[0],cy:p[1],r:size*.78,fill:'#101924',stroke:'#75c8ff','stroke-width':1.4,'vector-effect':'non-scaling-stroke',class:'handle','data-handle':side},layer);
+      }
+    }
+    const common={fill:sel?'#d3fa77':'#eef8ff',stroke:sel?'#1e392b':'#0773b4','stroke-width':1.35,'vector-effect':'non-scaling-stroke',class:'node','data-node':i};
+    if(n.smooth)svgEl('circle',{...common,cx:n.p[0],cy:n.p[1],r:size},layer);
+    else{
+      const [x,y]=n.p;
+      svgEl('path',{...common,d:'M '+coords([x,y-size])+' L '+coords([x+size,y])+' '+coords([x,y+size])+' '+coords([x-size,y])+' Z'},layer);
+    }
+  });
+}
+function renderTrace(view){
+  $('empty').hidden=true;
+  $('dimensions').hidden=false;
+  $('dimensions').textContent=view.w+' × '+view.h+' px';
+  const artwork=traceSession.result, mode=$('traceView').value;
+  const target=svgEl('g',{transform:'translate('+view.x+' '+view.y+') scale('+view.scale+')'},vector);
+  paper(target,view,'#f5f0e6');
+  if(source&&mode!=='vector')svgEl('image',{href:source.url,width:view.w,height:view.h,opacity:mode==='overlay'?.68:1,preserveAspectRatio:'none'},target);
+  if(!artwork||mode==='source')return;
+  const layers=artwork.mode==='bw'?artwork.layers.slice(0,1):artwork.layers;
+  const clip=svgEl('clipPath',{id:'trace-clip'},vector);
+  svgEl('rect',{width:view.w,height:view.h},clip);
+  const drawing=svgEl('g',{'clip-path':'url(#trace-clip)'},target);
+  for(const layer of layers){
+    for(const group of groupsOf(layer)){
+      svgEl('path',{d:groupPath(layer.geometry.loops,group,artwork.w,artwork.h),fill:mode==='overlay'?'#008b87':layer.fill,
+        'fill-opacity':mode==='overlay'?.4:1,stroke:mode==='overlay'?'#0c625e':'none','stroke-width':1,
+        'vector-effect':'non-scaling-stroke','fill-rule':'evenodd'},drawing);
+    }
+  }
+}
+function render(){
+  updateWorkflow();
+  if(printEnabled()&&!gesture)preparePrintPreview();
+  const v=getView(vector);
+  baseView=v;
+  vector.replaceChildren();original.replaceChildren();
+  $('originalPane').hidden=!comparing||!!traceSession;
+  if(traceSession){renderTrace(v);return;}
+  if(source&&comparing){
+    const o=getView(original);
+    const grp=svgEl('g',{transform:'translate('+o.x+' '+o.y+') scale('+o.scale+')'},original);
+    paper(grp,o,'#e8e8e8');
+    svgEl('image',{href:source.url,width:o.w,height:o.h,preserveAspectRatio:'none'},grp);
+  }
+  $('empty').hidden=!!model;
+  $('empty').textContent=source?(loading?'Görsel işleniyor…':'Görselden vektör üretilemedi.'):'Başlamak için bir görsel yükleyin.';
+  $('dimensions').hidden=!model;
+  $('zoomLevel').textContent='%'+Math.round(camera.zoom*100);
+  if(!model){stats();return;}
+  const g=svgEl('g',{transform:'translate('+v.x+' '+v.y+') scale('+v.scale+')'},vector);
+  const {w,h}=model;
+  const ground={grid:'url(#render-checker)',dark:'#15181f',light:'#f6f2ea'};
+  paper(g,v,wire?'#252a34':ground[$('background').value]);
+  const defs=svgEl('defs',{},vector);
+  const pattern=svgEl('pattern',{id:'render-checker',width:24,height:24,patternUnits:'userSpaceOnUse'},defs);
+  svgEl('rect',{width:24,height:24,fill:checker},pattern);
+  svgEl('path',{d:'M0 0h12v12H0z m12 12h12v12H12z',fill:'#e8e4dc'},pattern);
+  if(printEnabled()){
+    renderPrint(g,v);
+    $('dimensions').textContent=printResult
+      ?printResult.widthMm.toLocaleString('tr-TR')+' × '+printResult.heightMm.toLocaleString('tr-TR',{maximumFractionDigits:2})+' mm'
+      :'3D baskı önizlemesi';
+    stats();return;
+  }
+  const clip=svgEl('clipPath',{id:'render-clip'},defs);svgEl('rect',{width:w,height:h},clip);
+  if(v.w>w)svgEl('path',{d:'M '+w+' 0 V '+h,stroke:'#9b9eaa','stroke-width':1,'vector-effect':'non-scaling-stroke'},g);
+  const visible=visibleLayers(), ordered=dualMode()?[...visible].reverse():visible;
+  for(const {layer,index,offset} of ordered){
+    const wrap=svgEl('g',{transform:'translate('+offset+' 0)','clip-path':'url(#render-clip)'},g);
+    if(dualMode()&&!wire){
+      for(const d of layerPaths(layer,w,h))svgEl('path',{d,fill:layer.fill,'fill-rule':'evenodd','pointer-events':'none'},wrap);
+    }
+    for(const group of groupsOf(layer)){
+      const isSelected=selected?.layer===index&&(selected.root===group.root||group.rings.includes(selected.ring));
+      svgEl('path',{
+        d:groupPath(layer.geometry.loops,group,w,h),fill:wire||dualMode()?'transparent':layer.fill,'fill-rule':'evenodd',
+        stroke:isSelected?'#39b4ff':wire?(index%2?'#ffd287':'#b7ecfe'):'none',
+        'stroke-width':isSelected?1.55:1,'vector-effect':'non-scaling-stroke','data-layer':index,'data-root':group.root
+      },wrap);
+    }
+  }
+  if(paintPreview){
+    const {layer,offset}=paintPreview.entry;
+    const changed=paintPreview.geometry;
+    if(changed){
+      const wrap=svgEl('g',{transform:'translate('+offset+' 0)','clip-path':'url(#render-clip)','pointer-events':'none'},g);
+      for(const group of groupsOf({...layer,geometry:changed})){
+        svgEl('path',{d:groupPath(changed.loops,group,w,h),fill:'none',stroke:'#459bff','stroke-width':1.75,'stroke-dasharray':'5 4','vector-effect':'non-scaling-stroke'},wrap);
+      }
+    }
+    const points=paintPreview.points.map(p=>[p[0]+offset,p[1]]);
+    const color=tool==='e'?'#ff9a82':'#b5ee4e', diameter=2*paintPreview.radius;
+    svgEl('path',{d:'M '+points.map(coords).join(' L ')+(points.length===1?' l 0.001 0':''),
+      fill:'none',stroke:color,'stroke-opacity':.33,'stroke-width':diameter,'stroke-linecap':'round','stroke-linejoin':'round','pointer-events':'none'},g);
+  }
+  overlayFor(g,v,visible);
+  if(pointer&&(tool==='b'||tool==='e')){
+    svgEl('circle',{cx:pointer[0],cy:pointer[1],r:Number($('brushSize').value)/2,fill:'none',stroke:tool==='e'?'#ff9a82':'#b5ee4e','stroke-width':1.5,'vector-effect':'non-scaling-stroke','pointer-events':'none'},g);
+  }
+  $('dimensions').textContent=v.w+' × '+h+' px'+(sideLayout()?' · Çift katman':'');
+  if(!gesture&&!editBusy)stats();
+}
+function layerPoint(p,entry){return [p[0]-entry.offset,p[1]];}
+function closestSegment(p,nodes,maxDistance){
+  let hit=null,best=maxDistance*maxDistance;
+  for(let i=0;i<nodes.length;i++){
+    const a=nodes[i],b=nodes[(i+1)%nodes.length], controls=a.line?[a.p,b.p]:[a.p,a.out,b.in,b.p];
+    if([0,1].some(k=>p[k]<Math.min(...controls.map(q=>q[k]))-maxDistance||p[k]>Math.max(...controls.map(q=>q[k]))+maxDistance))continue;
+    if(a.line){
+      const t=segT(p,a.p,b.p), q=lerp(a.p,b.p,t), d=dist2(q,p);
+      if(d<best){best=d;hit={i,t,d,q};}continue;
+    }
+    const at=t=>cubic(a.p,a.out,b.in,b.p,t);
+    const distance=t=>dist2(p,at(t));
+    const steps=clamp(Math.ceil((len(sub(a.p,a.out))+len(sub(a.out,b.in))+len(sub(b.in,b.p)))/(maxDistance*1.6)),10,112);
+    let t=0,d=distance(0);
+    for(let j=1;j<=steps;j++){const u=j/steps,error=distance(u);if(error<d){t=u;d=error;}}
+    let lo=Math.max(0,t-1/steps),hi=Math.min(1,t+1/steps);
+    for(let j=0;j<20;j++){
+      const l=(2*lo+hi)/3,r=(lo+2*hi)/3;
+      if(distance(l)<distance(r))hi=r;else lo=l;
+    }
+    const refined=(lo+hi)/2,error=distance(refined);
+    if(error<d){d=error;t=refined;}
+    if(d<best){best=d;hit={i,t,d,q:at(t)};}
+  }
+  return hit;
+}
+function entryFor(p,ev,brush=false){
+  const visible=visibleLayers();
+  const inside=visible.filter(e=>p[0]>=e.offset&&p[0]<=e.offset+model.w&&p[1]>=0&&p[1]<=model.h);
+  if(brush)return inside.find(e=>e.index===activeLayer)||inside[inside.length-1];
+  const path=ev.target.closest('[data-root]');
+  return inside.find(e=>e.index===Number(path?.dataset.layer))||inside.find(e=>e.index===activeLayer)||inside[inside.length-1];
+}
+function edgeHit(p,preferred){
+  const entries=visibleLayers().sort((a,b)=>Number(b.index===preferred?.index)-Number(a.index===preferred?.index));
+  const max=7/baseView.scale;
+  let result=null;
+  for(const entry of entries) {
+    const local=layerPoint(p,entry);
+    if(local[0]<-max||local[0]>model.w+max)continue;
+    entry.layer.geometry.loops.forEach((loop,ring)=>{
+      const hit=closestSegment(local,loop.nodes,max);
+      if(hit&&(!result||hit.d+1e-8<result.hit.d))result={entry,ring,hit};
+    });
+  }
+  return result;
+}
+function chooseRing(entry,root,p){
+  const loops=entry.layer.geometry.loops,group=groupsOf(entry.layer).find(g=>g.root===root);
+  if(!group?.rings.length)return null;
+  let ring=group.rings[0],best=Infinity;
+  for(const index of group.rings){
+    for(const node of loops[index].nodes){
+      const d=dist2(node.p,p);if(d<best){ring=index;best=d;}
+    }
+  }
+  return ring;
+}
+function pickGroup(entry,ev,p){
+  const target=ev.target.closest('[data-root]');
+  if(target&&Number(target.dataset.layer)===entry.index)return Number(target.dataset.root);
+  const hit=edgeHit(p,entry);
+  if(!hit||hit.entry.index!==entry.index)return null;
+  return groupsOf(entry.layer).find(g=>g.rings.includes(hit.ring))?.root??null;
+}
+function nodeTool(ev,p,entry){
+  const nodeAttr=ev.target.getAttribute('data-node'),handle=ev.target.getAttribute('data-handle');
+  if(selected&&selected.layer!==undefined&&(handle||nodeAttr!==null)){
+    const owner=visibleLayers().find(e=>e.index===selected.layer);
+    if(!owner)return;
+    if(nodeAttr!==null)selected.node=Number(nodeAttr);
+    const n=owner.layer.geometry.loops[selected.ring].nodes[selected.node];
+    gesture={type:handle?'handle':'node',entry:owner,node:n,side:handle,start:p,before:structuredClone(model),origin:structuredClone(n),moved:false};
+    return;
+  }
+  const edge=edgeHit(p,entry);
+  if(edge){
+    const {entry:owner,ring,hit}=edge,nodes=owner.layer.geometry.loops[ring].nodes;
+    const near=5/baseView.scale;
+    const next=(hit.i+1)%nodes.length;
+    let node;
+    if(dist2(hit.q,nodes[hit.i].p)<=near*near)node=hit.i;
+    else if(dist2(hit.q,nodes[next].p)<=near*near)node=next;
+    else {
+      checkpoint();splitSegment(nodes,hit.i,hit.t);node=hit.i+1;
+      status('Eğriye düğüm eklendi');
+    }
+    activeLayer=owner.index;selected={layer:owner.index,ring,node};return;
+  }
+  if(entry){
+    const root=pickGroup(entry,ev,p);
+    if(root!==null){
+      const ring=chooseRing(entry,root,layerPoint(p,entry));
+      if(ring!==null){selected={layer:entry.index,root,ring,node:null};activeLayer=entry.index;return;}
+    }
+  }
+  selected=null;
+}
+function selectTool(ev,p,entry){
+  if(!entry){selected=null;return;}
+  const near=edgeHit(p,entry),hitTarget=ev.target.closest('[data-root]');
+  if(!hitTarget&&near)entry=near.entry;
+  const root=pickGroup(entry,ev,p);
+  if(root===null){selected=null;return;}
+  const {layer,index}=entry;
+  const group=groupsOf(layer).find(g=>g.root===root);
+  selected={layer:index,root};activeLayer=index;
+  gesture={type:'island',entry,group,start:p,before:structuredClone(model),moved:false,base:group.rings.map(i=>structuredClone(layer.geometry.loops[i].nodes))};
+}
+function beginBrush(p,entry){
+  if(!entry)return;
+  activeLayer=entry.index;selected=null;
+  gesture={type:'brush',entry,radius:Number($('brushSize').value)/2,points:[layerPoint(p,entry)],pending:false,model,version:1};
+  paintPreview={entry,points:gesture.points,radius:gesture.radius,geometry:null};
+  preparePaint(gesture);
+}
+function paintJob(g){
+  const layer=g.entry.layer,geometry=layer.geometry;
+  const grow=tool==='b';
+  return callWorker('paint',{
+    geometry,w:g.model.w,h:g.model.h,settings:g.model.geometrySettings,
+    points:g.points.slice(),radius:g.radius,addInk:grow!==layer.flip
+  });
+}
+function preparePaint(g){
+  if(g.pending)return;
+  g.pending=true;
+  setTimeout(async()=>{
+    if(gesture!==g){g.pending=false;return;}
+    const version=g.version;
+    try{
+      const result=await paintJob(g);
+      if(gesture===g){
+        g.preview={version,result};
+        paintPreview.geometry=result.geometry;scheduleRender();
+      }
+    }catch(error){
+      if(gesture===g)status('Önizleme hatası · '+error.message,true);
+    }finally{
+      g.pending=false;
+      if(gesture===g&&g.version!==version)preparePaint(g);
+    }
+  },28);
+}
+async function finishBrush(g){
+  editBusy=true;busy();status('Kontur sadeleştiriliyor…');
+  try{
+    const result=g.preview?.version===g.version?g.preview.result:await paintJob(g);
+    if(model!==g.model)return;
+    if(result.changed){
+      checkpoint();
+      const old=g.entry.layer.geometry;
+      for(const layer of model.layers)if(layer.geometry===old)layer.geometry=result.geometry;
+      status('Kontur güncellendi');
+    }else status('Kontur değişmedi');
+  }catch(error){
+    if(model===g.model)status('Fırça işlemi başarısız · '+error.message,true);
+  }finally{
+    paintPreview=null;editBusy=false;busy();scheduleRender();
+  }
+}
+let lastNodeClick=null;
+function toggleNode(owner,ring,i){
+  const nodes=owner.layer.geometry.loops[ring].nodes,n=nodes[i];
+  const prev=nodes[(i+nodes.length-1)%nodes.length],next=nodes[(i+1)%nodes.length];
+  n.smooth=!n.smooth;
+  if(!n.smooth)return;
+  const v1=sub(n.p,n.in),v2=sub(n.out,n.p);
+  let direction=unit(add(unit(v1),unit(v2)));
+  if(!len(direction))direction=unit(sub(next.p,prev.p));
+  if(!len(direction))direction=unit(sub(next.p,n.p));
+  n.in=add(n.p,mul(direction,-(len(v1)||len(sub(n.p,prev.p))/3)));
+  n.out=add(n.p,mul(direction,len(v2)||len(sub(next.p,n.p))/3));
+  if(prev.line){prev.out=lerp(prev.p,n.p,1/3);prev.line=false;}
+  if(n.line){next.in=lerp(next.p,n.p,1/3);n.line=false;}
+}
+function moveNode(g,delta){
+  const n=g.node,o=g.origin;
+  if(g.type==='node'){
+    n.p=add(o.p,delta);n.in=add(o.in,delta);n.out=add(o.out,delta);return;
+  }
+  const side=g.side,other=side==='in'?'out':'in';
+  n[side]=add(o[side],delta);
+  if(n.smooth){
+    const d=sub(n[side],n.p);
+    if(len(d)>1e-7)n[other]=add(n.p,mul(unit(d),-(len(sub(o[other],o.p))||len(d))));
+  }
+}
+function moveIsland(g,delta){
+  const geometry=g.entry.layer.geometry;
+  if(g.group.root<0&&g.frame===undefined){
+    g.frame=geometry.loops.length;
+    const nodes=[[0,0],[model.w,0],[model.w,model.h],[0,model.h]].map(p=>({p,in:p.slice(),out:p.slice(),line:true,smooth:false}));
+    g.group.rings.forEach(i=>{geometry.loops[i].parent=g.frame;});
+    geometry.loops.push({nodes,parent:-1});geometry.base=!geometry.base;
+    g.group.rings.unshift(g.frame);g.base.unshift(structuredClone(nodes));selected.root=g.frame;
+  }
+  g.group.rings.forEach((id,i)=>{
+    const loop=geometry.loops[id];
+    loop.nodes.forEach((n,j)=>{
+      const o=g.base[i][j];
+      n.p=add(o.p,delta);n.in=add(o.in,delta);n.out=add(o.out,delta);
+    });
+  });
+}
+function eventXY(svg,ev){
+  const r=svg.getBoundingClientRect();
+  return [ev.clientX-r.left,ev.clientY-r.top];
+}
+function beginPan(svg,ev){
+  const v=getView(svg), offset=svg===original?(frameWidth()-v.w)/2:0;
+  gesture={type:'pan',svg,v,coords:eventXY(svg,ev),center:camera.center||[(v.width/2-v.x)/v.scale+offset,(v.height/2-v.y)/v.scale]};
+  svg.classList.add('dragging');
+}
+function onDown(svg,ev){
+  if(!model||editBusy||gesture||![0,1].includes(ev.button))return;
+  ev.preventDefault();
+  if(svg===original||printEnabled()||traceSession||tool==='v'||ev.button===1||ev.altKey)beginPan(svg,ev);
+  else {
+    const p=pointOn(svg,ev), entry=entryFor(p,ev,tool==='b'||tool==='e');
+    if(tool==='a')nodeTool(ev,p,entry);
+    if(tool==='s')selectTool(ev,p,entry);
+    if(tool==='b'||tool==='e')beginBrush(p,entry);
+  }
+  if(gesture){gesture.pointerId=ev.pointerId;svg.setPointerCapture(ev.pointerId);}
+  scheduleRender();
+}
+function onMove(svg,ev){
+  if(!model)return;
+  if(svg===vector&&(tool==='b'||tool==='e'))pointer=pointOn(svg,ev);
+  const g=gesture;
+  if(!g||g.pointerId!==ev.pointerId){if(pointer)scheduleRender();return;}
+  if(g.type==='pan'){
+    const delta=sub(eventXY(svg,ev),g.coords);camera.center=sub(g.center,mul(delta,1/g.v.scale));
+  }else{
+    const p=pointOn(svg,ev);
+    if(g.type==='brush'){
+      const next=layerPoint(p,g.entry);
+      if(dist2(next,g.points[g.points.length-1])>=Math.max(.2,g.radius*.08)**2){g.points.push(next);g.version++;preparePaint(g);}
+    }else{
+      const delta=sub(p,g.start);
+      if(!g.moved&&len(delta)*baseView.scale<2)return;
+      g.moved=true;
+      if(g.type==='island')moveIsland(g,delta);else moveNode(g,delta);
+    }
+  }
+  scheduleRender();
+}
+function onUp(svg,ev,cancel=false){
+  const g=gesture;
+  if(!g||g.pointerId!==ev.pointerId)return;
+  gesture=null;
+  if(svg.hasPointerCapture(ev.pointerId))svg.releasePointerCapture(ev.pointerId);
+  svg.classList.remove('dragging');
+  if(g.type==='brush'){
+    if(cancel){paintPreview=null;scheduleRender();return;}
+    const end=layerPoint(pointOn(svg,ev),g.entry);
+    if(dist2(end,g.points[g.points.length-1])>.04){g.points.push(end);g.version++;}
+    finishBrush(g);return;
+  }
+  if(g.moved){
+    if(cancel){model=g.before;selected=null;}
+    else {checkpoint(g.before);status(g.type==='island'?'Kontur taşındı':'Düğüm güncellendi');}
+    lastNodeClick=null;
+  }else if(!cancel&&g.type==='node'){
+    const now=performance.now(), key=[selected.layer,selected.ring,selected.node].join('/');
+    if(lastNodeClick?.key===key&&now-lastNodeClick.time<460){
+      checkpoint();toggleNode(g.entry,selected.ring,selected.node);lastNodeClick=null;
+      status(g.node.smooth?'Pürüzsüz düğüm':'Keskin köşe');
+    }else lastNodeClick={key,time:now};
+  }
+  scheduleRender();
+}
+function deleteSelection(){
+  if(!model||!selected||gesture||editBusy||printEnabled()||traceSession)return false;
+  const layer=model.layers[selected.layer],geom=layer.geometry;
+  if(tool==='a'&&selected.node!=null){
+    const nodes=geom.loops[selected.ring]?.nodes;
+    if(!nodes||nodes.length<=(nodes.every(n=>n.line)?3:2)){status('Kapalı kontur için yeterli düğüm kalmalı.');return true;}
+    checkpoint();
+    const i=selected.node, prev=nodes[(i+nodes.length-1)%nodes.length], current=nodes[i], next=nodes[(i+1)%nodes.length];
+    if(prev.line&&!current.line){prev.line=false;prev.out=lerp(prev.p,next.p,1/3);}
+    if(!prev.line&&current.line)next.in=lerp(prev.p,next.p,2/3);
+    nodes.splice(i,1);selected.node=null;
+    status('Düğüm silindi');
+  }else if(tool==='s'){
+    const group=groupsOf(layer).find(g=>g.root===selected.root);
+    if(!group)return false;
+    checkpoint();const removed=new Set(group.rings),lookup=new Map();
+    const original=geom.loops;
+    geom.loops=original.filter((_,i)=>!removed.has(i));
+    original.forEach((_,i)=>{if(!removed.has(i))lookup.set(i,lookup.size);});
+    geom.loops.forEach(loop=>{
+      let p=loop.parent;
+      while(removed.has(p))p=original[p].parent;
+      loop.parent=lookup.get(p)??-1;
+    });
+    if(group.root<0)geom.base=!geom.base;
+    selected=null;status('Kontur silindi');
+  }else return false;
+  scheduleRender();return true;
+}
+const hints={
+  v:'Sürükleyerek kaydırın · Tekerlekle yakınlaştırın',
+  a:'Eğriye tıklayıp düğüm ekleyin · Çift tıklayıp türü değiştirin',
+  s:'Konturu sürükleyin · Delete ile silin',
+  b:'Boyalı bölgeye dolgu ekleyin · Alt ile kaydırın',
+  e:'Boyalı bölgeden dolgu çıkarın · Alt ile kaydırın'
+};
+function changeTool(next){
+  if(gesture||editBusy||(printEnabled()||traceSession)&&next!=='v')return;
+  if(tool!==next){selected=null;lastNodeClick=null;}
+  tool=next;vector.dataset.tool=next;pointer=null;
+  document.querySelectorAll('button[data-tool]').forEach(btn=>btn.setAttribute('aria-pressed',String(btn.dataset.tool===next)));
+  $('brushSize').parentElement.hidden=!['b','e'].includes(next);
+  $('hint').textContent=hints[next];scheduleRender();
+}
+for(const svg of [vector,original]){
+  svg.addEventListener('wheel',ev=>{if(!model||gesture)return;ev.preventDefault();const [x,y]=eventXY(svg,ev);zoomAt(svg,camera.zoom*Math.exp(-ev.deltaY*(ev.deltaMode===1?.05:.0018)),x,y);},{passive:false});
+  svg.addEventListener('pointerdown',ev=>onDown(svg,ev));
+  svg.addEventListener('pointermove',ev=>onMove(svg,ev));
+  svg.addEventListener('pointerup',ev=>onUp(svg,ev));
+  svg.addEventListener('pointercancel',ev=>onUp(svg,ev,true));
+  svg.addEventListener('pointerleave',()=>{pointer=null;scheduleRender();});
+}
+document.querySelectorAll('button[data-tool]').forEach(btn=>btn.onclick=()=>changeTool(btn.dataset.tool));
+document.addEventListener('keydown',ev=>{
+  if(ev.target.closest?.('input,select,textarea,dialog,[contenteditable]'))return;
+  const key=ev.key.toLowerCase();
+  if(key==='escape'&&helpAnchor){ev.preventDefault();hideSettingHelp();return;}
+  if(ev.altKey&&ev.shiftKey&&key==='b'){ev.preventDefault();startTracing();return;}
+  if(traceSession&&key==='escape'){ev.preventDefault();finishTracing(false);return;}
+  if((ev.ctrlKey||ev.metaKey)&&['y','z'].includes(key)){
+    ev.preventDefault();if(key==='y'||ev.shiftKey)restore(redoStack,undoStack,'İşlem yinelendi');else restore(undoStack,redoStack,'İşlem geri alındı');return;
+  }
+  if(ev.ctrlKey||ev.metaKey||ev.altKey)return;
+  if(hints[key]){ev.preventDefault();changeTool(key);}
+  if((key==='delete'||key==='backspace')&&deleteSelection())ev.preventDefault();
+  if(key==='escape'&&!gesture){selected=null;scheduleRender();}
+});
+document.addEventListener('paste',ev=>{
+  if(ev.target.closest?.('textarea,input,[contenteditable]'))return;
+  const image=Array.from(ev.clipboardData?.items||[]).find(i=>i.kind==='file'&&i.type.startsWith('image/'));
+  if(image){ev.preventDefault();loadFile(image.getAsFile());}
+});
+for(const target of [$('drop'),$('stage')]){
+  target.addEventListener('dragover',ev=>{if(!Array.from(ev.dataTransfer.types).includes('Files'))return;ev.preventDefault();target.classList.add('drag-active');});
+  target.addEventListener('dragleave',ev=>{if(!target.contains(ev.relatedTarget))target.classList.remove('drag-active');});
+  target.addEventListener('drop',ev=>{ev.preventDefault();target.classList.remove('drag-active');loadFile(ev.dataTransfer.files[0]);});
+}
+document.addEventListener('dragover',ev=>{if(ev.dataTransfer?.types.includes('Files'))ev.preventDefault();});
+document.addEventListener('drop',ev=>{if(ev.dataTransfer?.files.length)ev.preventDefault();});
+$('chooseFile').onclick=()=>$('file').click();
+$('file').onchange=ev=>{loadFile(ev.target.files[0]);ev.target.value='';};
+$('sample').onclick=()=>sample();
+$('saveApp').onclick=()=>{download(pristine,'VektorStudyo-Offline.html','text/html;charset=utf-8');status('Çevrimdışı uygulama kaydedildi');};
+$('copySvg').onclick=copy;
+$('downloadSvg').onclick=()=>{
+  const value=exportSvg();
+  if(!value)return;
+  download(value,svgName(),'image/svg+xml;charset=utf-8');
+  status(printEnabled()?'3D baskı SVG’si indirildi':'SVG indirildi');
+};
+function printSettingsChanged(){
+  const preserve=$('printWallAction').value==='none'&&$('printGapAction').value==='none'&&Number($('printIsland').value)===0;
+  $('printPreserve').setAttribute('aria-pressed',String(preserve));
+  resetPrint();busy();scheduleRender();
+}
+$('printPreserve').onclick=()=>{
+  $('printWallAction').value='none';$('printGapAction').value='none';$('printIsland').value='0';
+  printSettingsChanged();
+};
+$('printMode').onchange=()=>{
+  const enabled=printEnabled();
+  if(enabled)workflowStep=4;
+  resetPrint();changeTool('v');selected=null;
+  $('printOptions').hidden=!enabled;
+  $('previewCaption').textContent=enabled?'3D baskı önizleme':'Vektör önizleme';
+  $('downloadLabel').textContent=enabled?'Baskı SVG’sini İndir':'SVG İndir';
+  $('hint').textContent=enabled?'Vektörü düzenlemek için baskı modunu kapatın.':hints.v;
+  document.body.classList.toggle('print-active',enabled);
+  document.querySelectorAll('button[data-tool]').forEach(btn=>{btn.disabled=enabled&&btn.dataset.tool!=='v';});
+  camera={zoom:1,center:null};printSettingsChanged();
+};
+for(const id of ['printLayer','printWidth','printWall','printGap','printIsland','printWallAction','printGapAction']){
+  const el=$(id);
+  el.addEventListener(el.tagName.toLowerCase()==='select'?'change':'input',printSettingsChanged);
+  if(el.tagName.toLowerCase()!=='select')el.addEventListener('change',()=>{
+    el.value=String(clamp(Number(el.value||el.getAttribute('value')),Number(el.min),Number(el.max)));
+    printSettingsChanged();
+  });
+}
+$('printLayer').addEventListener('change',()=>{camera={zoom:1,center:null};scheduleRender();});
+$('printMarks').onchange=()=>{$('printLegend').hidden=!$('printMarks').checked;scheduleRender();};
+$('startTrace').onclick=startTracing;
+$('applyTrace').onclick=()=>finishTracing(true);
+$('cancelTrace').onclick=()=>finishTracing(false);
+$('traceView').onchange=scheduleRender;
+$('convert').onclick=()=>queueConvert(0,'manual');
+$('undo').onclick=()=>restore(undoStack,redoStack,'İşlem geri alındı');
+$('redo').onclick=()=>restore(redoStack,undoStack,'İşlem yinelendi');
+$('ink').oninput=applyInk;
+$('fit').onclick=()=>{camera={zoom:1,center:null};scheduleRender();};
+$('zoomIn').onclick=()=>zoomCenter(1.26);
+$('zoomOut').onclick=()=>zoomCenter(1/1.26);
+$('compare').onclick=$('reviewCompare').onclick=()=>setComparison(!comparing);
+$('wire').onclick=()=>{
+  wire=!wire;
+  for(const id of ['wire','geometryWire'])$(id).setAttribute('aria-pressed',String(wire));
+  scheduleRender();
+};
+$('geometryWire').onclick=$('wire').onclick;
+$('liveGeometry').onchange=()=>{
+  if(traceSession||$('liveGeometry').checked){geometryChanged();return;}
+  if(model&&conversionOrigin==='draft')cancelConversion();
+  else if(model&&conversionOrigin==='auto')queueConvert(0);
+  geometryState();
+};
+for(const [id,preset] of Object.entries(geometryPresets))$(id).onclick=()=>{
+  assignGeometry(preset);geometryChanged();
+};
+$('resetGeometry').onclick=$('presetBalanced').onclick;
+for(const key of geometryKeys){
+  const slider=$(key), number=$(key+'Number');
+  slider.addEventListener('input',geometryChanged);
+  number.addEventListener('change',()=>{
+    const value=number.value.trim(), min=Number(slider.min), max=Number(slider.max),step=Number(slider.step);
+    if(value&&Number.isFinite(Number(value))){
+      const rounded=min+step*Math.round((clamp(Number(value),min,max)-min)/step);
+      slider.value=String(+rounded.toFixed(5));
+    }
+    number.value=slider.value;
+    geometryChanged();
+  });
+  number.addEventListener('keydown',ev=>{
+    if(ev.key==='Enter'){ev.preventDefault();number.blur();}
+    if(ev.key==='Escape'){number.value=slider.value;number.blur();}
+  });
+}
+$('background').onchange=()=>{for(const pane of [$('vectorPane'),$('originalPane')])pane.className='pane '+$('background').value;scheduleRender();};
+$('mode').onchange=()=>{syncControls();queueConvert(0);};
+for(const id of ['otsu','invert','transparent','contourMethod'])$(id).onchange=()=>{syncControls();queueConvert(0);};
+for(const id of Object.keys(ranges)){
+  $(id).addEventListener('input',()=>{updateRange(id);if(id!=='brushSize')queueConvert();else scheduleRender();});
+}
+$('dual').onchange=()=>{
+  if(traceSession){syncControls();queueConvert(0);return;}
+  if(model?.mode==='bw'&&!gesture&&!editBusy){
+    checkpoint();
+    if($('dual').checked&&model.layers.length===1)addInverse();
+    if(!$('dual').checked)model.layers.length=1;
+    selected=null;activeLayer=0;camera={zoom:1,center:null};
+  }else if(model?.mode==='bw')$('dual').checked=dualMode();
+  syncControls();scheduleRender();
+};
+$('sync').onchange=()=>{
+  if(traceSession){queueConvert(0);return;}
+  if(gesture||editBusy){$('sync').checked=model?.layers[0].geometry===model?.layers[1]?.geometry;return;}
+  separate();
+};
+for(const id of ['layout','filter'])$(id).onchange=()=>{
+  if(id==='filter'){
+    if($('filter').value==='normal')activeLayer=0;
+    if($('filter').value==='inverse')activeLayer=1;
+  }
+  selected=null;camera={zoom:1,center:null};scheduleRender();
+};
+new ResizeObserver(scheduleRender).observe($('stage'));
+workflowSteps.forEach((id,i)=>{$(id).onclick=()=>goToWorkflow(i+1);});
+$('sourceNext').onclick=()=>goToWorkflow(2);
+$('reviewCurrent').onclick=()=>goToWorkflow(3);
+$('outputNext').onclick=()=>goToWorkflow(4);
+$('workflowDownload').onclick=()=>$('downloadSvg').click();
+$('applySourceAdvice').onclick=applySourceAdvice;
+syncControls();busy();sample(false);
+</script>
+</body>
+</html>
