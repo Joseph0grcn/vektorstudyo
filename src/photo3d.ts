@@ -9,6 +9,10 @@ let modelSession: ort.InferenceSession | null = null;
 let modelUrl: string | null = null;
 let mesh: THREE.Mesh | null = null;
 let geometry: THREE.BufferGeometry | null = null;
+const MODEL_URL = 'https://huggingface.co/Xenova/depth-anything-small-hf/resolve/main/onnx/model_quantized.onnx';
+const MODEL_NAME = 'depth-anything-small-quantized.onnx';
+const MODEL_CACHE = 'vektorstudyo-models-v1';
+let modelDirectoryHandle: FileSystemDirectoryHandle | null = null;
 
 const viewer = $('viewer');
 const scene = new THREE.Scene();
@@ -90,6 +94,10 @@ drop.addEventListener('drop', event => {
 $<HTMLInputElement>('modelFile').onchange = async event => {
   const file = (event.target as HTMLInputElement).files?.[0];
   if (!file) return;
+  await loadModelFile(file);
+};
+
+async function loadModelFile(file: File) {
   if (modelUrl) URL.revokeObjectURL(modelUrl);
   modelUrl = URL.createObjectURL(file);
   setStatus('modelStatus', 'ONNX modeli hazırlanıyor…');
@@ -103,7 +111,92 @@ $<HTMLInputElement>('modelFile').onchange = async event => {
     modelSession = null;
     setStatus('modelStatus', `Model yüklenemedi: ${(error as Error).message}`);
   }
+}
+
+async function readOpfsModel() {
+  const root = await navigator.storage.getDirectory();
+  const cache = await root.getDirectoryHandle(MODEL_CACHE, { create: true });
+  try {
+    const handle = await cache.getFileHandle(MODEL_NAME);
+    return await handle.getFile();
+  } catch {
+    return null;
+  }
+}
+
+async function writeOpfsModel(file: File) {
+  const root = await navigator.storage.getDirectory();
+  const cache = await root.getDirectoryHandle(MODEL_CACHE, { create: true });
+  const handle = await cache.getFileHandle(MODEL_NAME, { create: true });
+  const writable = await handle.createWritable();
+  await writable.write(file);
+  await writable.close();
+}
+
+async function readFolderModel() {
+  if (!modelDirectoryHandle) return null;
+  try {
+    const handle = await modelDirectoryHandle.getFileHandle(MODEL_NAME);
+    return await handle.getFile();
+  } catch {
+    return null;
+  }
+}
+
+async function writeFolderModel(file: File) {
+  if (!modelDirectoryHandle) return;
+  const handle = await modelDirectoryHandle.getFileHandle(MODEL_NAME, { create: true });
+  const writable = await handle.createWritable();
+  await writable.write(file);
+  await writable.close();
+}
+
+$<HTMLButtonElement>('chooseModelFolder').onclick = async () => {
+  const picker = (window as unknown as {
+    showDirectoryPicker?: () => Promise<FileSystemDirectoryHandle>;
+  }).showDirectoryPicker;
+  if (!picker) {
+    setStatus('modelStatus', 'Bu tarayıcı klasör seçimini desteklemiyor. OPFS otomatik kullanılacak.');
+    return;
+  }
+  try {
+    modelDirectoryHandle = await picker.call(window);
+    setStatus('modelStatus', `Model klasörü seçildi: ${modelDirectoryHandle.name}`);
+  } catch {
+    setStatus('modelStatus', 'Model klasörü seçimi iptal edildi.');
+  }
 };
+
+$<HTMLButtonElement>('downloadModel').onclick = ensureDefaultModel;
+
+async function ensureDefaultModel() {
+  const button = $<HTMLButtonElement>('downloadModel');
+  button.disabled = true;
+  try {
+    let file = await readFolderModel();
+    if (!file) file = await readOpfsModel();
+    if (!file) {
+      setStatus('modelStatus', 'Depth Anything Small indiriliyor…');
+      const response = await fetch(MODEL_URL);
+      if (!response.ok) throw new Error(`Hugging Face HTTP ${response.status}`);
+      const blob = await response.blob();
+      file = new File([blob], MODEL_NAME, { type: 'application/octet-stream' });
+      if (file.size < 20 * 1024 * 1024) throw new Error(`Beklenenden küçük model dosyası: ${file.size} bayt`);
+      await writeOpfsModel(file);
+      await writeFolderModel(file);
+      setStatus('modelStatus', `İndirildi ve önbelleğe kaydedildi: ${(file.size / 1024 / 1024).toFixed(1)} MB`);
+    } else {
+      setStatus('modelStatus', `Model bulundu: ${(file.size / 1024 / 1024).toFixed(1)} MB`);
+    }
+    await loadModelFile(file);
+  } catch (error) {
+    setStatus('modelStatus', `Model indirilemedi: ${(error as Error).message}`);
+  } finally {
+    button.disabled = false;
+  }
+}
+
+ensureDefaultModel();
 
 for (const id of ['height', 'base', 'contrast', 'smooth']) {
   $(id).addEventListener('input', () => {
