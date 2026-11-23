@@ -215,6 +215,16 @@ function makeMesh(depth: Float32Array, width: number, height: number) {
       );
     }
   }
+  const topCount = width * height;
+  for (let y = 0; y < height; y++) {
+    for (let x = 0; x < width; x++) {
+      vertices.push(
+        (x / (width - 1) - 0.5) * physicalWidth,
+        (0.5 - y / (height - 1)) * physicalHeight,
+        0
+      );
+    }
+  }
   for (let y = 0; y < height - 1; y++) {
     for (let x = 0; x < width - 1; x++) {
       const a = y * width + x;
@@ -223,6 +233,43 @@ function makeMesh(depth: Float32Array, width: number, height: number) {
       const d = c + 1;
       indices.push(a, c, b, b, c, d);
     }
+  }
+  for (let y = 0; y < height - 1; y++) {
+    for (let x = 0; x < width - 1; x++) {
+      const a = topCount + y * width + x;
+      const b = a + 1;
+      const c = a + width;
+      const d = c + 1;
+      indices.push(a, b, c, b, d, c);
+    }
+  }
+  for (let x = 0; x < width - 1; x++) {
+    const topBackA = x;
+    const topBackB = x + 1;
+    const bottomBackA = topCount + x;
+    const bottomBackB = topCount + x + 1;
+    indices.push(topBackA, bottomBackA, topBackB, topBackB, bottomBackA, bottomBackB);
+  }
+  for (let x = 0; x < width - 1; x++) {
+    const topFrontA = (height - 1) * width + x;
+    const topFrontB = topFrontA + 1;
+    const bottomFrontA = topCount + (height - 1) * width + x;
+    const bottomFrontB = bottomFrontA + 1;
+    indices.push(topFrontA, topFrontB, bottomFrontA, bottomFrontB, bottomFrontA, topFrontB);
+  }
+  for (let y = 0; y < height - 1; y++) {
+    const topLeftA = y * width;
+    const topLeftB = (y + 1) * width;
+    const bottomLeftA = topCount + y * width;
+    const bottomLeftB = topCount + (y + 1) * width;
+    indices.push(topLeftA, topLeftB, bottomLeftA, bottomLeftB, bottomLeftA, topLeftB);
+  }
+  for (let y = 0; y < height - 1; y++) {
+    const topRightA = y * width + width - 1;
+    const topRightB = (y + 1) * width + width - 1;
+    const bottomRightA = topCount + y * width + width - 1;
+    const bottomRightB = topCount + (y + 1) * width + width - 1;
+    indices.push(topRightA, bottomRightA, topRightB, topRightB, bottomRightA, bottomRightB);
   }
 
   const positions = new Float32Array(vertices);
