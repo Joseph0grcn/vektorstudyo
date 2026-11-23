@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>VektörStüdyo — Fotoğraftan 3B</title>
+  <link rel="stylesheet" href="/src/photo3d.css">
+</head>
+<body>
+  <header>
+    <a class="brand" href="/" aria-label="VektörStüdyo ana uygulaması">
+      <span class="brand-mark">V</span>
+      <span><strong>VektörStüdyo</strong><small>Fotoğraftan 3B</small></span>
+    </a>
+    <div class="actions">
+      <button id="backButton" type="button">SVG Stüdyosu</button>
+      <button id="downloadObj" class="primary" type="button" disabled>OBJ indir</button>
+      <button id="downloadStl" class="primary" type="button" disabled>STL indir</button>
+    </div>
+  </header>
+
+  <main>
+    <aside>
+      <section>
+        <h2>Kaynak fotoğraf</h2>
+        <label class="drop" id="dropZone">
+          <input id="photoFile" type="file" accept="image/jpeg,image/png,image/webp" hidden>
+          <strong>Fotoğraf seçin veya bırakın</strong>
+          <small>PNG, JPEG, WebP</small>
+        </label>
+        <div class="source-preview"><img id="sourcePreview" alt="Seçilen kaynak"></div>
+        <span id="photoStatus" class="status">Fotoğraf bekleniyor</span>
+      </section>
+
+      <section>
+        <h2>Derinlik modeli</h2>
+        <label class="file-button">
+          <input id="modelFile" type="file" accept=".onnx" hidden>
+          ONNX model dosyası seç
+        </label>
+        <small id="modelStatus" class="status">Varsayılan: parlaklığa dayalı yerel derinlik</small>
+      </section>
+
+      <section>
+        <h2>3B ayarlar</h2>
+        <label>Mesh çözünürlüğü
+          <select id="resolution">
+            <option value="96">96 × 96 — Hızlı</option>
+            <option value="128" selected>128 × 128 — Dengeli</option>
+            <option value="192">192 × 192 — Ayrıntılı</option>
+            <option value="256">256 × 256 — Çok ayrıntılı</option>
+          </select>
+        </label>
+        <label>Yükseklik <span><output id="heightValue">35</output> mm</span>
+          <input id="height" type="range" min="3" max="100" value="35">
+        </label>
+        <label>Taban kalınlığı <span><output id="baseValue">2</output> mm</span>
+          <input id="base" type="range" min="0" max="10" step="0.5" value="2">
+        </label>
+        <label>Derinlik kontrastı <span><output id="contrastValue">1.4</output>×</span>
+          <input id="contrast" type="range" min="0.5" max="3" step="0.1" value="1.4">
+        </label>
+        <label>Yumuşatma
+          <input id="smooth" type="range" min="0" max="4" step="1" value="1">
+        </label>
+        <button id="generate" class="primary full" type="button" disabled>3B modeli oluştur</button>
+      </section>
+    </aside>
+
+    <section class="viewer-panel">
+      <div id="viewer" aria-label="3B model önizleyicisi">
+        <div id="emptyViewer">Bir fotoğraf yükleyip 3B modeli oluşturun.</div>
+      </div>
+      <footer>
+        <span id="modelStatusBar">Model bekleniyor</span>
+        <span id="meshStats"></span>
+      </footer>
+    </section>
+  </main>
+  <script type="module" src="/src/photo3d.ts"></script>
+</body>
+</html>
