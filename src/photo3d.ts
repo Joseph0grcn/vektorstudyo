@@ -177,13 +177,34 @@ async function ensureDefaultModel() {
     if (!file) file = await readOpfsModel();
     if (!file) {
       setStatus('modelStatus', 'Depth Anything Small indiriliyor…');
+      const progress = $<HTMLProgressElement>('modelProgress');
+      progress.hidden = false;
+      progress.value = 0;
       const response = await fetch(MODEL_URL);
       if (!response.ok) throw new Error(`Hugging Face HTTP ${response.status}`);
-      const blob = await response.blob();
+      const total = Number(response.headers.get('content-length') || 27524771);
+      if (!response.body) throw new Error('Tarayıcı indirme akışını desteklemiyor.');
+      const reader = response.body.getReader();
+      const chunks: BlobPart[] = [];
+      let received = 0;
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+        if (value) {
+          const chunk = new Uint8Array(value.byteLength);
+          chunk.set(value);
+          chunks.push(chunk.buffer);
+          received += value.byteLength;
+          progress.value = total ? Math.min(100, received / total * 100) : 0;
+          setStatus('modelStatus', `İndiriliyor: ${(received / 1024 / 1024).toFixed(1)} MB`);
+        }
+      }
+      const blob = new Blob(chunks, { type: 'application/octet-stream' });
       file = new File([blob], MODEL_NAME, { type: 'application/octet-stream' });
       if (file.size < 20 * 1024 * 1024) throw new Error(`Beklenenden küçük model dosyası: ${file.size} bayt`);
       await writeOpfsModel(file);
       await writeFolderModel(file);
+      progress.value = 100;
       setStatus('modelStatus', `İndirildi ve önbelleğe kaydedildi: ${(file.size / 1024 / 1024).toFixed(1)} MB`);
     } else {
       setStatus('modelStatus', `Model bulundu: ${(file.size / 1024 / 1024).toFixed(1)} MB`);
@@ -193,6 +214,9 @@ async function ensureDefaultModel() {
     setStatus('modelStatus', `Model indirilemedi: ${(error as Error).message}`);
   } finally {
     button.disabled = false;
+    setTimeout(() => {
+      $<HTMLProgressElement>('modelProgress').hidden = true;
+    }, 1200);
   }
 }
 
