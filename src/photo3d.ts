@@ -103,7 +103,7 @@ async function loadModelFile(file: File) {
   setStatus('modelStatus', 'ONNX modeli hazırlanıyor…');
   try {
     modelSession = await ort.InferenceSession.create(modelUrl, {
-      executionProviders: ['webgl', 'wasm'],
+      executionProviders: ['wasm'],
       graphOptimizationLevel: 'all'
     });
     setStatus('modelStatus', `${file.name} hazır`);
